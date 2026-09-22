@@ -1,0 +1,26 @@
+{
+  "name": "ivmova-static-reader",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "build:root": "next build",
+    "build:pages": "set NEXT_PUBLIC_BASE_PATH=/ivmova.github.io&& next build",
+    "typecheck": "tsc --noEmit",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "4.2.1",
+    "next": "16.3.4",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "tailwindcss": "4.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3"
+  }
+}

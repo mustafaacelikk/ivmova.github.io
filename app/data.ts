@@ -1,0 +1,50 @@
+export const categoryMeta = {
+  enerji: { name: "Enerji", kicker: "Enerjinin yeni yönü", description: "Elektrik, petrol, doğal gaz, yenilenebilir kaynaklar, depolama ve enerji politikalarındaki kritik gelişmeler." },
+  piyasalar: { name: "Enerji Piyasaları", kicker: "Veri ve gelişmeler", description: "Enerji fiyatları, emtia piyasaları, şirketler ve düzenlemelerin ekonomik etkileri." },
+  teknoloji: { name: "Teknoloji", kicker: "Dönüşümün altyapısı", description: "Yapay zekâ, robotik, dijitalleşme, siber güvenlik ve yeni nesil üretim teknolojileri." },
+  mobilite: { name: "Mobilite", kicker: "Ulaşım yeniden şekilleniyor", description: "Elektrikli araçlar, batarya teknolojileri, şarj ekosistemi ve yeni ulaşım modelleri." },
+  iklim: { name: "İklim", kicker: "Dönüşüm ve sürdürülebilirlik", description: "İklim politikaları, karbon piyasaları, verimlilik ve sürdürülebilirlik gündemi." },
+  analiz: { name: "Analiz", kicker: "Gelişmenin ötesi", description: "Enerji ve teknoloji dönüşümünün iş dünyasına, piyasalara ve günlük yaşama etkisini açıklayan dosyalar." },
+} as const;
+
+export type CategorySlug = keyof typeof categoryMeta;
+
+export const subcategoryMeta: Record<CategorySlug, string[]> = {
+  enerji: ["Elektrik ve Şebeke", "Güneş", "Rüzgâr", "Depolama", "Hidrojen", "Nükleer"],
+  piyasalar: ["Petrol", "Doğalgaz", "LNG", "Elektrik Piyasası", "Karbon", "Kritik Mineraller"],
+  teknoloji: ["Yapay Zekâ", "Robotik", "Dijitalleşme", "Siber Güvenlik"],
+  mobilite: ["Elektrikli Araçlar", "Şarj Ekosistemi", "Batarya", "Ticari Mobilite"],
+  iklim: ["Sürdürülebilirlik", "Karbon Düzenlemeleri", "Enerji Verimliliği", "Döngüsel Ekonomi"],
+  analiz: ["Piyasa Analizi", "Mevzuat ve Politika", "Şirketler ve İş Dünyası", "Dosya"],
+};
+
+export const legacySubcategoryLabels: Record<string, string> = {
+  "Şirket ve Yatırım": "Şirketler ve İş Dünyası",
+};
+
+export const displaySubcategory = (value: string) => legacySubcategoryLabels[value] ?? value;
+
+export type NewsItem = {
+  id: number | string; slug: string; category: CategorySlug; subcategory: string; title: string;
+  summary: string; heroTitle?: string; heroSummary?: string; image: string; imageSource?: string; time: string; published: string; updated?: string; publishedIso?: string; updatedIso?: string;
+  imageAlt?: string; imageCaption?: string; imageMethod?: string; imageAiTool?: string; contentType?: string; tags?: string[];
+  breaking?: boolean; priority: number; author: string; source: string; body: string[];
+};
+
+export const showcaseTitle = (item: Pick<NewsItem, "title" | "heroTitle">) => item.heroTitle?.trim() || item.title;
+export const showcaseSummary = (item: Pick<NewsItem, "summary" | "heroSummary">) => item.heroSummary?.trim() || item.summary;
+
+export const news: NewsItem[] = [
+  { id:1, slug:"enerji-donusumunde-yeni-donem", category:"enerji", subcategory:"Elektrik ve Şebeke", title:"Enerji dönüşümünde yeni dönem: Şebeke, depolama ve yatırım", summary:"Yenilenebilir kapasite artarken enerji sisteminin odağı esneklik, depolama ve güçlü şebeke altyapısına kayıyor.", image:"https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1600&q=85", time:"13 Temmuz 2026, 13:18", published:"13 Temmuz 2026, 13:18", updated:"13 Temmuz 2026, 13:31", breaking:false, priority:100, author:"IVMOVA Haber Merkezi", source:"IVMOVA", body:["Enerji dönüşümü artık yalnızca yeni üretim kapasitesi kurmakla sınırlı değil. Depolama, esnek tüketim ve şebeke modernizasyonu yatırımların yeni odağı hâline geliyor.","Bu demo içerik, IVMOVA'nın enerji ve teknoloji gelişmelerini sektör, ekonomi ve günlük yaşam etkileriyle birlikte ele alan yayın yaklaşımını göstermek amacıyla hazırlanmıştır.","Gerçek yayın döneminde gelişmeler birincil kaynaklarla doğrulanacak; kaynak ve güncelleme geçmişi içerik üzerinde açık biçimde gösterilecektir."] },
+  { id:2, slug:"petrol-piyasalarinda-jeopolitik-risk", category:"piyasalar", subcategory:"Petrol", title:"Petrol piyasalarında jeopolitik risk yeniden fiyatlanıyor", summary:"Arz güvenliği, navlun ve talep beklentileri enerji fiyatlarının yönünde birlikte belirleyici oluyor.", image:"https://images.unsplash.com/photo-1548337138-e87d889cc369?auto=format&fit=crop&w=1600&q=85", time:"13 Temmuz 2026, 13:06", published:"13 Temmuz 2026, 13:06", priority:94, author:"Piyasalar Servisi", source:"IVMOVA", body:["Enerji piyasaları arz ve talep verilerinin yanında jeopolitik gelişmeleri de yakından izliyor.","IVMOVA, fiyat hareketlerini tek başına rakamlarla değil; tedarik zinciri, şirketler ve tüketici üzerindeki etkileriyle ele alacak."] },
+  { id:3, slug:"yapay-zeka-enerji-sektorunu-donusturuyor", category:"teknoloji", subcategory:"Yapay Zekâ", title:"Yapay zekâ enerji sektörünü nasıl dönüştürüyor?", summary:"Talep tahmininden kestirimci bakıma kadar yapay zekâ, enerji şirketlerinin karar süreçlerine yerleşiyor.", image:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=85", time:"13 Temmuz 2026, 12:45", published:"13 Temmuz 2026, 12:45", priority:90, author:"Teknoloji Editörü", source:"IVMOVA", body:["Enerji şirketleri yapay zekâyı üretim tahmini, bakım planlama ve müşteri hizmetlerinde kullanmaya başlıyor.","Verimlilik fırsatlarının yanında veri kalitesi, siber güvenlik ve insan denetimi temel gündem maddeleri olmaya devam ediyor."] },
+  { id:4, slug:"elektrikli-otomobillerde-batarya-rekabeti", category:"mobilite", subcategory:"Elektrikli Araçlar", title:"Elektrikli otomobillerde rekabet batarya mimarisine taşındı", summary:"Menzil kadar şarj hızı, batarya ömrü ve toplam sahip olma maliyeti de satın alma kararını belirliyor.", image:"https://images.unsplash.com/photo-1597404294360-feeeda04612e?auto=format&fit=crop&w=1400&q=85", time:"13 Temmuz 2026, 12:20", published:"13 Temmuz 2026, 12:20", priority:86, author:"Mobilite Servisi", source:"IVMOVA", body:["Elektrikli araç pazarında üreticiler daha verimli ve dayanıklı batarya mimarileri üzerinde çalışıyor.","Kullanıcı açısından gerçek rekabet, laboratuvar menzilinden çok günlük kullanım kolaylığı ve toplam maliyette yaşanıyor."] },
+  { id:5, slug:"karbon-piyasalarinda-yeni-hazirlik", category:"iklim", subcategory:"Karbon Düzenlemeleri", title:"Karbon piyasalarında yeni döneme hazırlık hızlanıyor", summary:"Şirketler emisyon ölçümü, raporlama ve sınırda karbon düzenlemelerinin ticari etkilerine hazırlanıyor.", image:"https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1400&q=85", time:"13 Temmuz 2026, 12:02", published:"13 Temmuz 2026, 12:02", priority:82, author:"İklim ve Sürdürülebilirlik Servisi", source:"IVMOVA", body:["Karbon düzenlemeleri şirketlerin yalnızca çevre raporlarını değil, tedarik ve yatırım kararlarını da etkiliyor.","Doğru veri üretimi ve doğrulama kapasitesi rekabet gücünün parçalarından biri hâline geliyor."] },
+  { id:6, slug:"enerji-faturasini-ne-degistiriyor", category:"analiz", subcategory:"Piyasa Analizi", title:"Enerji faturasını gerçekte hangi unsurlar değiştiriyor?", summary:"Emtia fiyatından kura, verimlilikten düzenlemelere kadar faturanın arkasındaki zinciri sade biçimde açıklıyoruz.", image:"https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1400&q=85", time:"13 Temmuz 2026, 11:21", published:"13 Temmuz 2026, 11:21", priority:78, author:"IVMOVA Analiz", source:"IVMOVA", body:["Enerji maliyeti yalnızca tüketilen miktardan oluşmuyor. Kaynak fiyatı, kur, şebeke maliyeti ve vergiler nihai faturayı birlikte etkiliyor.","Verimlilik yatırımlarını değerlendirirken ilk maliyet kadar kullanım profili ve geri ödeme süresi de dikkate alınmalı."] },
+  { id:7, slug:"robotik-sistemler-uretimde-yayginlasiyor", category:"teknoloji", subcategory:"Robotik", title:"Robotik sistemler enerji ve üretimde yaygınlaşıyor", summary:"Saha operasyonlarında insan ve robot iş birliği güvenlik ve verimlilik odaklı yeni kullanım alanları açıyor.", image:"https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1400&q=85", time:"13 Temmuz 2026, 11:05", published:"13 Temmuz 2026, 11:05", priority:74, author:"Teknoloji Editörü", source:"IVMOVA", body:["Robotik otomasyon tekrarlı işlerin ötesinde bakım, denetim ve tehlikeli saha görevlerine yayılıyor.","Yeni dönemin odağı, güvenli insan-robot iş birliği ve sahadan üretilen verinin doğru kullanımı."] },
+  { id:8, slug:"depolama-yatirimlari-neden-kritik", category:"enerji", subcategory:"Depolama", title:"Enerji depolama yatırımları neden kritik hâle geldi?", summary:"Değişken üretimin arttığı sistemde depolama, şebeke dengesi ve arz güvenliği için stratejik rol üstleniyor.", image:"https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1400&q=85", time:"13 Temmuz 2026, 10:18", published:"13 Temmuz 2026, 10:18", priority:70, author:"IVMOVA Haber Merkezi", source:"IVMOVA", body:["Depolama sistemleri üretim ve tüketim arasındaki zaman farkını yöneterek şebekeye esneklik sağlıyor.","Yatırım değerlendirmesinde kapasite kadar çevrim ömrü, bağlantı koşulları ve gelir modeli de önem taşıyor."] },
+  { id:9, slug:"sarj-aglarinda-yeni-buyume-donemi", category:"mobilite", subcategory:"Şarj Ekosistemi", title:"Şarj ağlarında büyümenin yeni ölçütü: Erişilebilirlik", summary:"Cihaz sayısının yanında lokasyon kalitesi, çalışma oranı ve kullanıcı deneyimi rekabeti belirliyor.", image:"https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=1400&q=85", time:"13 Temmuz 2026, 09:44", published:"13 Temmuz 2026, 09:44", priority:66, author:"Mobilite Servisi", source:"IVMOVA", body:["Şarj ağlarının büyümesinde nicelik kadar hizmet sürekliliği de önem kazanıyor.","Kullanıcılar istasyonların erişilebilirliğine, ödeme kolaylığına ve gerçek çalışma oranına daha fazla dikkat ediyor."] },
+];
+
+export const navCategories = Object.entries(categoryMeta).map(([slug, meta]) => ({ slug, name: meta.name }));
+export const sortedNews = () => [...news].sort((a,b) => Number(Boolean(b.breaking))-Number(Boolean(a.breaking)) || b.priority-a.priority);

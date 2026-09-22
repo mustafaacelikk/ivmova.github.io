@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 625 112" role="img" aria-labelledby="title desc">
+  <title id="title">IVMOVA</title>
+  <desc id="desc">IVMOVA özel geometrik kelime logosu</desc>
+  <g fill="#07172d">
+    <path d="M12 10h20v92H12z"/>
+    <path d="M47 10h23l27 67 27-67h23l-39 92H86z"/>
+    <path d="M165 102V10h23l35 45 35-45h23v92h-21V42l-37 45-37-45v60z"/>
+    <rect x="300" y="20" width="100" height="72" rx="23" fill="none" stroke="#07172d" stroke-width="20"/>
+    <path d="M413 10h23l27 67 27-67h23l-39 92h-22z"/>
+    <path fill-rule="evenodd" d="M553 10h25l40 92h-23l-9-21h-43l-9 21h-22zm12 24-15 29h29z"/>
+  </g>
+  <path d="M58 27l24 10-5 12-24-10z" fill="#12b8a6"/>
+</svg>
