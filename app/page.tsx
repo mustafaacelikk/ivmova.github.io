@@ -89,8 +89,8 @@ export default function Home() {
             <p className="mt-3 max-w-3xl [overflow-wrap:anywhere] text-sm leading-6 text-slate-200 sm:mt-4 sm:text-lg">{currentHeroSummary}</p>
           </div>
 
-          <button onClick={previous} className="absolute left-6 top-1/2 z-30 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-[#07172d]/80 text-3xl text-white opacity-0 shadow-lg transition hover:bg-[#12b8a6] sm:grid sm:group-hover:opacity-100 sm:group-focus-within:opacity-100" aria-label="Önceki manşet">‹</button>
-          <button onClick={next} className="absolute right-6 top-1/2 z-30 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-[#07172d]/80 text-3xl text-white opacity-0 shadow-lg transition hover:bg-[#12b8a6] sm:grid sm:group-hover:opacity-100 sm:group-focus-within:opacity-100" aria-label="Sonraki manşet">›</button>
+          <button onClick={previous} className="absolute left-3 top-1/2 z-30 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[#07172d]/80 text-2xl text-white opacity-100 shadow-lg transition hover:bg-[#12b8a6] sm:left-6 sm:h-12 sm:w-12 sm:text-3xl sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100" aria-label="Önceki manşet">‹</button>
+          <button onClick={next} className="absolute right-3 top-1/2 z-30 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[#07172d]/80 text-2xl text-white opacity-100 shadow-lg transition hover:bg-[#12b8a6] sm:right-6 sm:h-12 sm:w-12 sm:text-3xl sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100" aria-label="Sonraki manşet">›</button>
           <div className="absolute bottom-5 right-5 z-30 flex gap-2 sm:bottom-9 sm:right-9">
             {headlines.map((item, index) => <button key={item.id} onClick={() => setSlide(index)} className={`h-2 rounded-full shadow transition-all ${index === slide ? "w-9 bg-[#12b8a6]" : "w-5 bg-white/60 hover:bg-white"}`} aria-label={`${index + 1}. manşete git`} />)}
           </div>
