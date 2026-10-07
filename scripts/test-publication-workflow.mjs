@@ -13,7 +13,16 @@ ok(validate.includes('runner.temp }}/release/out'));ok(deploy.includes('needs: v
 ok(deploy.includes('contents: read')&&deploy.includes('pages: write')&&deploy.includes('id-token: write'));ok(!/actions: (read|write)|contents: write|attestations: write/.test(deploy));
 ok(deploy.indexOf('publication-pages-runtime.mjs guard')<deploy.indexOf('actions/deploy-pages'));ok(deploy.includes('publication-pages-runtime.mjs reconcile'));
 ok(!/git (push|commit)|publication-git-ledger.mjs prepare|supabase|contents: write/.test(production));
-ok(staging.includes('      - pilot/6c2-site-consumer'));ok(staging.includes('  contents: read'));
+const normalizedStaging=staging.replace(/\r/g,'');
+// Exact event and permission blocks reject broad branches, privileged PR events and extra grants.
+const events=normalizedStaging.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
+ok(events==='  push:\n    branches:\n      - pilot/6c2-site-consumer\n  pull_request:\n    branches:\n      - main\n  workflow_dispatch:\n');
+ok(normalizedStaging.match(/^permissions:\n([\s\S]*?)^jobs:/m)?.[1]==='  contents: read\n');
+ok((normalizedStaging.match(/^\s*permissions:/gm)||[]).length===1);
+ok(!/pull_request_target|workflow_run|secrets\s*[.\[]|github\s*\.\s*token|\benvironment\s*:|\bwrite\b/i.test(staging));
+const stagingActions=[...staging.matchAll(/uses:\s*(\S+)/g)].map(match=>match[1]);
+ok(stagingActions.length===2&&stagingActions[0]==='actions/checkout@v4'&&stagingActions[1]==='actions/setup-node@v4');
+ok(staging.includes('persist-credentials: false'));
 ok(!/environment:|pages:|id-token:|attestations:|\w+: write|actions\/deploy-pages|actions\/upload-pages-artifact/.test(staging));ok(!/^  deploy:/m.test(staging));
 ok(staging.includes('publication-build-only-staging.mjs'));ok(staging.includes('fetch-depth: 0'));ok(staging.includes('publication-ledger-history-check.mjs'));ok(producer.includes('actions/attest-build-provenance'));ok(producer.includes('attestations: write')&&producer.includes('id-token: write'));
 const entry=fs.readFileSync(new URL('./publication-build-only-staging.mjs',import.meta.url),'utf8');
