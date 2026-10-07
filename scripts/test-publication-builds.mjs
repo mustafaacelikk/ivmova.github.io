@@ -1,6 +1,7 @@
 import './publication-no-network.mjs';
 import {createBundle, verifyBundle, inventory, treeHash} from './publication-release.mjs';
-import {writeRelease} from './publication-fixtures.mjs';
+import {writeRelease,uid} from './publication-fixtures.mjs';
+import {GENESIS,EMPTY_PRODUCTION,preparePromotion,materializeOutput} from './publication-git-ledger.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -9,7 +10,9 @@ import { spawnSync, spawn } from 'node:child_process';
 import assert from 'node:assert/strict';
 import { importRelease, rollback, loadCurrent, canonicalBytes, recoveryPlan, recover } from './publication-consumer.mjs';
 const repo=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'ivmova-build-test-'));const clone=path.join(tmp,'reader'),store=path.join(tmp,'store');let assertions=0;const builds=[];let httpChecks=0,serversClosed=0;const servers=[];
+const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'ivmova-build-test-'));const clone=path.join(tmp,'reader'),store=path.join(tmp,'store');let assertions=0;const builds=[];let httpChecks=0,serversClosed=0;const servers=[];const promotedOutputs=new Map();
+function protectedSnapshot(){const entries=[];function walk(dir){if(!fs.existsSync(dir))return;for(const name of fs.readdirSync(dir).sort()){const p=path.join(dir,name),s=fs.lstatSync(p);entries.push({path:path.relative(repo,p),size:s.size,mtime:s.mtimeMs,link:s.isSymbolicLink()});if(s.isDirectory()&&!s.isSymbolicLink())walk(p);}}for(const name of ['out','.next'])walk(path.join(repo,name));return canonicalBytes(entries);}
+const protectedBefore=protectedSnapshot();
 const ok=(v,m)=>{assert.ok(v,m);assertions++;};
 const eq=(a,b,m)=>{assert.deepEqual(a,b,m);assertions++;};
 function removeOwned(p) {const target=path.resolve(p);if(!target.startsWith(path.resolve(tmp)+path.sep)||fs.lstatSync(target).isSymbolicLink())throw new Error('CLEANUP_BOUNDARY');fs.rmSync(target,{recursive:true,force:true});}
@@ -18,6 +21,7 @@ function build(label,mode='publication',selectedStore=store,expectedFailure=fals
   for(const name of ['out','.next'])if(fs.existsSync(path.join(clone,name)))removeOwned(path.join(clone,name));
   console.log('BUILD_START '+label);
   const env={...process.env,NEXT_TELEMETRY_DISABLED:'1',NEXT_PUBLIC_IVMOVA_CONTENT_MODE:mode,NEXT_PUBLIC_IVMOVA_SITE_ORIGIN:'http://localhost:4173',IVMOVA_PUBLICATION_STORE:selectedStore};delete env.NEXT_PUBLIC_BASE_PATH;
+  if(label==='synthetic-production'){env.NEXT_PUBLIC_IVMOVA_SITE_ORIGIN='https://ivmova.com';env.IVMOVA_BUILD_PROFILE='reviewed-production';}
   env.NODE_OPTIONS='--import '+pathToFileURL(path.join(clone,'scripts/publication-no-network.mjs')).href;
   const r=spawnSync(process.execPath,[path.join(clone,'node_modules/next/dist/bin/next'),'build'],{cwd:clone,env,encoding:'utf8',timeout:240000,maxBuffer:8*1024*1024});
   ok(!(r.stdout+r.stderr).includes('EXTERNAL_NETWORK_BLOCKED'),label+' no external network attempt');
@@ -36,24 +40,29 @@ function build(label,mode='publication',selectedStore=store,expectedFailure=fals
     const publication=path.join(tmp,'release-input-'+label),destination=path.join(tmp,'bundle-'+label);
     const removed=current.state.fences.filter(f=>f.kind==='REMOVE').map(f=>Number(f.slug.replace('sentetik-','')));
     writeRelease(publication,{run:100+builds.length,stories:current.state.stories,removals:removed});
-    const checked=createBundle({output:out,publication,destination,siteSourceCommit:'28b22024ab16455e242a8f658607954284753e8c',buildTimestamp:'2026-10-07T09:00:00.000Z'});
+    const checked=createBundle({output:out,publication,destination,siteSourceCommit:'17cdddfcf6ef6ca281d03dc6aac7cd6bdafc097f',buildTimestamp:'2026-10-07T09:00:00.000Z'});
     eq(verifyBundle(destination).metadata,checked.metadata,label+' bundle chain');
+    const commit='17cdddfcf6ef6ca281d03dc6aac7cd6bdafc097f';
+    const plan=preparePromotion({ledger:GENESIS,bundle:destination,releaseId:uid(800+builds.length),expectedGitBase:commit,actualGitBase:commit,expectedPrevious:EMPTY_PRODUCTION,expectedGeneration:0,createdAt:'2026-10-07T09:00:00.000Z',producer:{repository:'mustafaacelikk/ivmova.github.io',workflowPath:'.github/workflows/publication-release-producer.yml',runId:'123',runAttempt:1,sourceCommit:commit,artifactId:'456',artifactDigest:'sha256:'+'a'.repeat(64),trustMode:'GITHUB_RUN_DIGEST'}});
+    const promoted=path.join(tmp,'promotion-'+label,'out');materializeOutput(destination,plan.record,promoted);promotedOutputs.set(label,promoted);
+    eq(treeHash(promoted),plan.record.deployTreeSha256,label+' marker/deploy tree chain');
     const archive=path.join(tmp,label+'-pages.tar');
-    const pack=spawnSync('tar',['-cf',archive,'-C',path.join(destination,'public'),'.'],{encoding:'utf8'});
+    const pack=spawnSync('tar',['-cf',archive,'-C',promoted,'.'],{encoding:'utf8'});
     eq(pack.status,0,label+' public artifact packaging');
     const listed=spawnSync('tar',['-tf',archive],{encoding:'utf8'});eq(listed.status,0,label+' tar inventory');
     const entries=listed.stdout.trim().split(/\r?\n/).filter(x=>!x.endsWith('/')).map(x=>x.replace(/^\.\//,'')).sort();
-    eq(entries,inventory(path.join(destination,'public')).map(x=>x.path),label+' only verified public files in package');
+    eq(entries,inventory(promoted).map(x=>x.path),label+' only verified public files in package');
     console.log('BUNDLE_PACKAGE_PASS '+label);
   }
   console.log('BUILD_PASS '+label);
 }
 async function httpStage(label, expected) {
- const out=path.join(clone,'out');const server=spawn(process.execPath,[path.join(clone,'scripts/publication-static-staging.mjs'),out],{stdio:['ignore','pipe','pipe','ipc']});servers.push(server);let log='';server.stderr.on('data',b=>log+=b);const closed=new Promise(resolve=>server.once('close',resolve));
+ const out=label==='synthetic-production'?promotedOutputs.get(label):path.join(clone,'out');const server=spawn(process.execPath,[path.join(clone,'scripts/publication-static-staging.mjs'),out],{stdio:['ignore','pipe','pipe','ipc']});servers.push(server);let log='';server.stderr.on('data',b=>log+=b);const closed=new Promise(resolve=>server.once('close',resolve));
  try {
  const port=await new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(new Error('SERVER_TIMEOUT '+log)),10000);server.stdout.once('data',b=>{clearTimeout(timeout);try{resolve(JSON.parse(String(b)).port);}catch(e){reject(e);}});server.once('error',reject);});
  const origin='http://127.0.0.1:'+port;
  async function get(route,status=200){const r=await fetch(origin+route);eq(r.status,status,label+' HTTP '+route);httpChecks++;return {text:await r.text(),cache:r.headers.get('cache-control')};}
+ if(label==='synthetic-production'){const probe=await get('/.well-known/ivmova-release.json?local_probe=1');ok(JSON.parse(probe.text).contractVersion===2,'production marker route');}
  const home=await get('/');await get('/kategori/enerji/');const sitemap=await get('/sitemap.xml');await get('/publication-placeholder.svg');await get('/does-not-exist/',404);
  ok(!home.text.includes('Enerji dönüşümünde yeni dönem'),label+' no demo HTML');ok(!sitemap.text.includes('enerji-donusumunde-yeni-donem'),label+' no demo sitemap');
  for(const [slug,status,notice] of expected){const r=await get('/haber/'+slug+'/',status);if(notice)ok(r.text.includes('Haber geri çekildi'),label+' RETRACT HTTP notice');if(status===404||notice)ok(!sitemap.text.includes('/haber/'+slug+'/'),label+' absent sitemap');}
@@ -85,8 +94,10 @@ try {
   importRelease(path.join(fixtures,'retract'),{store});build('retract');await httpStage('retract',[['sentetik-1',200,true],['sentetik-2',200,false]]);const notice=fs.readFileSync(path.join(clone,'out/haber/sentetik-1/index.html'),'utf8');ok(notice.includes('Haber geri çekildi'),'notice route');ok(!fs.readFileSync(path.join(clone,'out/sitemap.xml'),'utf8').includes('/haber/sentetik-1/'),'notice absent sitemap');ok(fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'REMOVE target exists before action');
   importRelease(path.join(fixtures,'remove'),{store});build('remove');await httpStage('remove',[['sentetik-1',200,true],['sentetik-2',404,false]]);ok(!fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'remove absent static route');ok(!fs.readFileSync(path.join(clone,'out/sitemap.xml'),'utf8').includes('/haber/sentetik-2/'),'remove absent sitemap');
   rollback({store});build('safety-rollback');await httpStage('safety-rollback',[['sentetik-1',200,true],['sentetik-2',404,false]]);ok(!fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'safe rollback no REMOVE resurrection');ok(fs.readFileSync(path.join(clone,'out/haber/sentetik-1/index.html'),'utf8').includes('Haber geri çekildi'),'safe rollback no RETRACT resurrection');
+  build('synthetic-production');await httpStage('synthetic-production',[['sentetik-1',200,true],['sentetik-2',404,false]]);
   const corrupt=path.join(store,'releases',loadCurrent(store).pointer.current,'state.json');fs.appendFileSync(corrupt,' ');build('tampered-input','publication',store,true);
   if(!actionsOnly){const emptyStore=path.join(tmp,'empty-store');importRelease(path.join(fixtures,'empty'),{store:emptyStore});build('empty','publication',emptyStore);await httpStage('empty',[['sentetik-1',404,false],['sentetik-2',404,false]]);ok(fs.readFileSync(path.join(clone,'out/index.html'),'utf8').includes('Henüz yayımlanmış haber yok'),'empty render');}
+  eq(protectedSnapshot(),protectedBefore,'user out/.next metadata inventory preserved');
   console.log(JSON.stringify({assertions,builds,httpChecks,serversClosed,expectedBuildRejections:actionsOnly?1:2,networkCalls:0,result:'PASS'}));
 } finally {
   for(const server of servers)if(server.exitCode===null)server.kill();

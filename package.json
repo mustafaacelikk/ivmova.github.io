@@ -20,7 +20,11 @@
     "test:publication-recovery": "node scripts/test-publication-recovery.mjs",
     "test:publication-release": "node scripts/test-publication-release.mjs",
     "test:publication-workflow": "node scripts/test-publication-workflow.mjs",
-    "publication:build-only": "node scripts/publication-build-only-staging.mjs"
+    "publication:build-only": "node scripts/publication-build-only-staging.mjs",
+    "test:publication-ledger": "node scripts/test-publication-git-ledger.mjs",
+    "test:pages-reconciliation": "node scripts/test-pages-reconciliation.mjs",
+    "test:publication-artifact": "node scripts/test-publication-artifact.mjs",
+    "publication:prepare": "node scripts/publication-git-ledger.mjs prepare"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.2.1",

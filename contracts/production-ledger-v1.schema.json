@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "production-ledger-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "records"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "records": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "generation",
+          "previousRecordSha256",
+          "recordSha256",
+          "releaseId",
+          "publicationRunId",
+          "publicationVersion",
+          "manifestSha256",
+          "manifestBytes",
+          "receiptSha256",
+          "provenanceSha256",
+          "publicTreeSha256",
+          "deployTreeSha256",
+          "bundleTreeSha256",
+          "markerSha256",
+          "siteSourceCommit",
+          "expectedGitBase",
+          "expectedPrevious",
+          "actionCounts",
+          "itemCount",
+          "fileCount",
+          "createdAt",
+          "releaseType",
+          "rollbackTarget",
+          "status",
+          "producer",
+          "safetyFences",
+          "evidence"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "const": 1
+          },
+          "generation": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "previousRecordSha256": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recordSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "releaseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "publicationRunId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "publicationVersion": {
+            "const": 2
+          },
+          "manifestSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "manifestBytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "receiptSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "provenanceSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "publicTreeSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "deployTreeSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "bundleTreeSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "markerSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "siteSourceCommit": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "expectedGitBase": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "expectedPrevious": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "releaseId",
+              "treeHash"
+            ],
+            "properties": {
+              "releaseId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "treeHash": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "actionCounts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "UPSERT",
+              "RETRACT",
+              "REMOVE"
+            ],
+            "properties": {
+              "UPSERT": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "RETRACT": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "REMOVE": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "itemCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "fileCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "releaseType": {
+            "enum": [
+              "RELEASE",
+              "ROLLBACK"
+            ]
+          },
+          "rollbackTarget": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "PREPARED",
+              "DEPLOYED",
+              "RECONCILED",
+              "FAILED"
+            ]
+          },
+          "producer": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "repository",
+              "workflowPath",
+              "runId",
+              "runAttempt",
+              "sourceCommit",
+              "artifactId",
+              "artifactDigest",
+              "trustMode"
+            ],
+            "properties": {
+              "repository": {
+                "const": "mustafaacelikk/ivmova.github.io"
+              },
+              "workflowPath": {
+                "const": ".github/workflows/publication-release-producer.yml"
+              },
+              "runId": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,19}$"
+              },
+              "runAttempt": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sourceCommit": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{40}$"
+              },
+              "artifactId": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,19}$"
+              },
+              "artifactDigest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "trustMode": {
+                "enum": [
+                  "GITHUB_RUN_DIGEST",
+                  "GITHUB_ATTESTATION"
+                ]
+              }
+            }
+          },
+          "safetyFences": {
+            "type": "array",
+            "maxItems": 1000,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "slug",
+                "kind",
+                "revisionNumber"
+              ],
+              "properties": {
+                "slug": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                  "maxLength": 120
+                },
+                "kind": {
+                  "enum": [
+                    "REMOVE",
+                    "RETRACT"
+                  ]
+                },
+                "revisionNumber": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "commit",
+                  "workflowRunId",
+                  "workflowRunAttempt",
+                  "pagesDeploymentId",
+                  "markerSha256",
+                  "observedAt",
+                  "outcome"
+                ],
+                "properties": {
+                  "commit": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{40}$"
+                  },
+                  "workflowRunId": {
+                    "type": "string",
+                    "pattern": "^[1-9][0-9]{0,19}$"
+                  },
+                  "workflowRunAttempt": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "pagesDeploymentId": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{40}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "markerSha256": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "observedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "outcome": {
+                    "enum": [
+                      "DEPLOYED",
+                      "RECONCILED",
+                      "NOT_DEPLOYED",
+                      "UNKNOWN"
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
