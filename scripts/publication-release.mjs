@@ -11,7 +11,7 @@ export function inventory(root) {
  root=path.resolve(root);let at=path.parse(root).root;
  for(const part of root.slice(at.length).split(path.sep).filter(Boolean)){at=path.join(at,part);if(fs.lstatSync(at).isSymbolicLink())fail('SYMLINK');}
  const result=[];let bytes=0;
- function walk(dir){for(const e of fs.readdirSync(dir).sort()){if(!/^[A-Za-z0-9_.$@()\[\]~+,%=-]+$/.test(e)||e==='.'||e==='..')fail('PATH:'+e);const p=path.join(dir,e),s=fs.lstatSync(p);if(s.isSymbolicLink()||s.nlink>1)fail('LINK');if(s.isDirectory())walk(p);else if(s.isFile()){bytes+=s.size;if(bytes>512*1024*1024||result.length>=50000)fail('LIMIT');result.push({path:path.relative(root,p).split(path.sep).join('/'),bytes:s.size,sha256:sha256(fs.readFileSync(p))});}else fail('FILE_TYPE');}}
+ function walk(dir){for(const e of fs.readdirSync(dir).sort()){if(!/^[A-Za-z0-9_.$@()\[\]~+,%=-]+$/.test(e)||e==='.'||e==='..')fail('PATH:'+e);const p=path.join(dir,e),s=fs.lstatSync(p);if(s.isSymbolicLink()||(s.isFile()&&s.nlink>1))fail('LINK');if(s.isDirectory())walk(p);else if(s.isFile()){bytes+=s.size;if(bytes>512*1024*1024||result.length>=50000)fail('LIMIT');result.push({path:path.relative(root,p).split(path.sep).join('/'),bytes:s.size,sha256:sha256(fs.readFileSync(p))});}else fail('FILE_TYPE');}}
  walk(root);return result.sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0);
 }
 export const treeHash=root=>sha256(canonicalBytes(inventory(root)));
