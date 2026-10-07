@@ -1,0 +1,13 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"IVMOVA canonical removal proof v2",
+  "type":"object","additionalProperties":false,
+  "required":["contractVersion","runId","storyId","slug","targetPath"],
+  "properties":{
+    "contractVersion":{"const":2},
+    "runId":{"type":"string","format":"uuid"},
+    "storyId":{"type":"string","format":"uuid"},
+    "slug":{"type":"string","maxLength":200,"pattern":"^[a-z0-9]+(-[a-z0-9]+)*$"},
+    "targetPath":{"type":"string","maxLength":500,"pattern":"^stories/(tr|en)/[a-z0-9]+(-[a-z0-9]+)*[.]json$"}
+  }
+}

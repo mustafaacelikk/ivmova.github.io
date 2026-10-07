@@ -1,0 +1,26 @@
+name: Synthetic build-only staging
+on:
+  push:
+    branches:
+      - pilot/6c2-site-consumer
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: node scripts/publication-ledger-history-check.mjs
+      - run: npm ci
+      - run: node scripts/publication-build-only-staging.mjs

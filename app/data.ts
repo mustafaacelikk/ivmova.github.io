@@ -28,6 +28,7 @@ export type NewsItem = {
   id: number | string; slug: string; category: CategorySlug; subcategory: string; title: string;
   summary: string; heroTitle?: string; heroSummary?: string; image: string; imageSource?: string; time: string; published: string; updated?: string; publishedIso?: string; updatedIso?: string;
   imageAlt?: string; imageCaption?: string; imageMethod?: string; imageAiTool?: string; contentType?: string; tags?: string[];
+  publicationStatus?: "PUBLISHED" | "RETRACTED"; retractedAt?: string | null; sources?: {sourceName: string; title: string; url: string; publishedAt: string | null; role: "PRIMARY" | "SUPPORTING" | "BACKGROUND"}[];
   breaking?: boolean; priority: number; author: string; source: string; body: string[];
 };
 

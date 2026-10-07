@@ -11,3 +11,9 @@ test-results/
 screenshots/
 *.tsbuildinfo
 .preview-pages-mount/
+
+# Local publication inputs/state never enter Git or public output
+.publication-local/
+app/site-news.generated.json
+.publication-staging/
+publication-releases/

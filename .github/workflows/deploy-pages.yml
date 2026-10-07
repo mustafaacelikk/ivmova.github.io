@@ -1,62 +1,100 @@
-name: Deploy GitHub Pages
-
+name: Reviewed Git-ledger Pages promotion
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
-
+    inputs:
+      expected_commit:
+        description: Current reviewed main HEAD commit
+        required: true
+        type: string
+      expected_release:
+        description: PREPARED ledger release UUID
+        required: true
+        type: string
+      expected_tree:
+        description: Expected public tree SHA-256 before marker
+        required: true
+        type: string
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
 concurrency:
-  group: pages
+  group: ivmova-production-pages
   cancel-in-progress: false
-
 jobs:
-  build:
+  validate:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      actions: read
+      pages: read
+    outputs:
+      release_record_sha256: ${{ steps.verify.outputs.release_record_sha256 }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
         with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Build static site
-        run: npm run build:root
-
-      - name: Disable Jekyll
-        run: touch out/.nojekyll
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate Git history, main fence, producer, bundle and marker output
+        id: verify
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+          EXPECTED_RELEASE: ${{ inputs.expected_release }}
+          EXPECTED_TREE: ${{ inputs.expected_tree }}
+        run: node scripts/publication-pages-runtime.mjs validate "${{ runner.temp }}/transfer" "${{ runner.temp }}/release/out"
+      - name: Upload only fully verified public output
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out
-
+          path: ${{ runner.temp }}/release/out
   deploy:
+    needs: validate
+    if: ${{ github.ref == 'refs/heads/main' && needs.validate.result == 'success' }}
     runs-on: ubuntu-latest
-    needs: build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Recheck main and previous marker after environment approval
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+          EXPECTED_RELEASE: ${{ inputs.expected_release }}
+          EXPECTED_TREE: ${{ inputs.expected_tree }}
+          EXPECTED_RECORD: ${{ needs.validate.outputs.release_record_sha256 }}
+        run: node scripts/publication-pages-runtime.mjs guard
+      - name: Deploy once
         uses: actions/deploy-pages@v4
+        id: deployment
+      - name: Reconcile Pages status and fresh HTTPS marker
+        if: ${{ always() && steps.deployment.outcome != 'skipped' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPECTED_RELEASE: ${{ inputs.expected_release }}
+          EXPECTED_RECORD: ${{ needs.validate.outputs.release_record_sha256 }}
+        run: node scripts/publication-pages-runtime.mjs reconcile "${{ runner.temp }}/deployment-outcome.json"
+      - name: Preserve metadata-only outcome for reviewed ledger status PR
+        if: ${{ always() && steps.deployment.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-outcome-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/deployment-outcome.json
+          if-no-files-found: error
+          retention-days: 30
+# Environment required reviewers / main-only rules are Dashboard settings.
+# Empty genesis has no PREPARED release and cannot pass validation.

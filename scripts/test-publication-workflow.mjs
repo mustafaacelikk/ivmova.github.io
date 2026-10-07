@@ -1,0 +1,31 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';
+let assertions=0;const ok=v=>{assert.ok(v);assertions++;};
+const read=name=>fs.readFileSync(new URL('../.github/workflows/'+name,import.meta.url),'utf8');
+const production=read('deploy-pages.yml'),staging=read('publication-build-only.yml'),producer=read('publication-release-producer.yml');
+for(const text of [production,staging,producer]){ok(!text.includes('\t'));ok(text.includes('  workflow_dispatch:'));ok(!/secrets\.|supabase|service.role/i.test(text));}
+ok(!/^  (push|pull_request|schedule):/m.test(production));ok(production.includes("github.ref == 'refs/heads/main'"));
+for(const key of ['expected_commit','expected_release','expected_tree'])ok(new RegExp('      '+key+':[\\s\\S]*?required: true').test(production));
+ok(production.includes('group: ivmova-production-pages'));ok(production.includes('cancel-in-progress: false'));
+const validate=production.split('  validate:')[1].split('  deploy:')[0],deploy=production.split('  deploy:')[1];
+ok(!/pages: write|id-token: write/.test(validate));ok(validate.includes('publication-pages-runtime.mjs validate'));
+ok(validate.indexOf('publication-pages-runtime.mjs validate')<validate.indexOf('actions/upload-pages-artifact'));
+ok(validate.includes('runner.temp }}/release/out'));ok(deploy.includes('needs: validate'));ok(deploy.includes('needs.validate.result')&&deploy.includes('name: github-pages'));
+ok(deploy.includes('contents: read')&&deploy.includes('pages: write')&&deploy.includes('id-token: write'));ok(!/actions: (read|write)|contents: write|attestations: write/.test(deploy));
+ok(deploy.indexOf('publication-pages-runtime.mjs guard')<deploy.indexOf('actions/deploy-pages'));ok(deploy.includes('publication-pages-runtime.mjs reconcile'));
+ok(!/git (push|commit)|publication-git-ledger.mjs prepare|supabase|contents: write/.test(production));
+const normalizedStaging=staging.replace(/\r/g,'');
+// Exact event and permission blocks reject broad branches, privileged PR events and extra grants.
+const events=normalizedStaging.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
+ok(events==='  push:\n    branches:\n      - pilot/6c2-site-consumer\n  pull_request:\n    branches:\n      - main\n  workflow_dispatch:\n');
+ok(normalizedStaging.match(/^permissions:\n([\s\S]*?)^jobs:/m)?.[1]==='  contents: read\n');
+ok((normalizedStaging.match(/^\s*permissions:/gm)||[]).length===1);
+ok(!/pull_request_target|workflow_run|secrets\s*[.\[]|github\s*\.\s*token|\benvironment\s*:|\bwrite\b/i.test(staging));
+const stagingActions=[...staging.matchAll(/uses:\s*(\S+)/g)].map(match=>match[1]);
+ok(stagingActions.length===2&&stagingActions[0]==='actions/checkout@v4'&&stagingActions[1]==='actions/setup-node@v4');
+ok(staging.includes('persist-credentials: false'));
+ok(!/environment:|pages:|id-token:|attestations:|\w+: write|actions\/deploy-pages|actions\/upload-pages-artifact/.test(staging));ok(!/^  deploy:/m.test(staging));
+ok(staging.includes('publication-build-only-staging.mjs'));ok(staging.includes('fetch-depth: 0'));ok(staging.includes('publication-ledger-history-check.mjs'));ok(producer.includes('actions/attest-build-provenance'));ok(producer.includes('attestations: write')&&producer.includes('id-token: write'));
+const entry=fs.readFileSync(new URL('./publication-build-only-staging.mjs',import.meta.url),'utf8');
+for(const script of ['consumer','recovery','release','git-ledger','workflow'])ok(entry.includes('test-publication-'+script+'.mjs'));
+ok(entry.includes('test-pages-reconciliation.mjs')&&entry.includes('test-publication-builds.mjs'));
+console.log(JSON.stringify({result:'PASS',assertions,scope:'static YAML policy; no GitHub execution'}));

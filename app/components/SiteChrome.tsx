@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { navCategories, news, showcaseTitle } from "../data";
+import { navCategories, showcaseTitle } from "../data";
+import { siteNews as news, publicationMode } from "../site-news";
 import { institutionalLinks } from "../institutional";
 import { sitePath } from "../paths";
 
@@ -15,5 +16,5 @@ export function Header() {
 }
 
 export function Footer() {
-  return <footer className="bg-[#07172d] text-white"><div className="mx-auto max-w-7xl px-4 py-10"><div className="grid gap-8 lg:grid-cols-[1fr_1.5fr]"><div><img src={sitePath("/ivmova-wordmark.svg")} alt="IVMOVA" className="w-44 brightness-0 invert" /><p className="mt-3 max-w-md text-sm leading-6 text-slate-400">Enerji, enerji piyasaları, teknoloji, mobilite ve iklim alanlarında haberler, analizler ve uzman görüşleri.</p></div><nav className="grid gap-x-8 gap-y-3 text-sm sm:grid-cols-2 lg:grid-cols-3" aria-label="Kurumsal bağlantılar">{institutionalLinks.map(([label, href]) => <Link prefetch={false} key={href} href={`/kurumsal/${href}`} className="text-slate-300 transition hover:text-[#59d8ca]">{label}</Link>)}</nav></div><div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-5 text-xs text-slate-500 sm:flex-row sm:justify-between"><p>Bu sürüm yayın yapısını göstermek amacıyla demo içerik kullanır.</p><p>© 2026 IVMOVA</p></div></div></footer>;
+  return <footer className="bg-[#07172d] text-white"><div className="mx-auto max-w-7xl px-4 py-10"><div className="grid gap-8 lg:grid-cols-[1fr_1.5fr]"><div><img src={sitePath("/ivmova-wordmark.svg")} alt="IVMOVA" className="w-44 brightness-0 invert" /><p className="mt-3 max-w-md text-sm leading-6 text-slate-400">Enerji, enerji piyasaları, teknoloji, mobilite ve iklim alanlarında haberler, analizler ve uzman görüşleri.</p></div><nav className="grid gap-x-8 gap-y-3 text-sm sm:grid-cols-2 lg:grid-cols-3" aria-label="Kurumsal bağlantılar">{institutionalLinks.map(([label, href]) => <Link prefetch={false} key={href} href={`/kurumsal/${href}`} className="text-slate-300 transition hover:text-[#59d8ca]">{label}</Link>)}</nav></div><div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-5 text-xs text-slate-500 sm:flex-row sm:justify-between"><p>{publicationMode ? "Yerel publication staging pilotu; production yayını değildir." : "Bu sürüm yayın yapısını göstermek amacıyla demo içerik kullanır."}</p><p>© 2026 IVMOVA</p></div></div></footer>;
 }
