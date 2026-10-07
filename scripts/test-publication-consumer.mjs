@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
-import { importRelease, rollback, loadCurrent, validateRelease, normalize, canonicalBytes, sha256 } from './publication-consumer.mjs';
+import { importRelease, rollback, loadCurrent, validateRelease, normalize, canonicalBytes, sha256, recoveryPlan, recover } from './publication-consumer.mjs';
 import { story, uid, writeRelease } from './publication-fixtures.mjs';
 const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'ivmova-consumer-test-'));let assertions=0;let counter=20;
 const ok=(v,m)=>{assert.ok(v,m);assertions++;}; const eq=(a,b,m)=>{assert.deepEqual(a,b,m);assertions++;};
@@ -16,7 +16,7 @@ try {
   const before=canonicalBytes(normalize(loadCurrent(store).state.stories));const beforeStateHash=loadCurrent(store).pointer.stateSha256;
   const second=make({type:'INCREMENTAL',minute:2,stories:[story(2)]});importRelease(second.dir,{store});eq(loadCurrent(store).state.stories.length,2,'INCREMENTAL UPSERT');
   rollback({store});eq(canonicalBytes(normalize(loadCurrent(store).state.stories)),before,'rollback public hash/state equality');eq(loadCurrent(store).pointer.stateSha256,beforeStateHash,'rollback raw state SHA equality');
-  rejected(()=>importRelease(first.dir,{store}),'replayed old FULL');
+  eq(importRelease(first.dir,{store}).replay,true,'same payload replay after rollback');
   const rt=make({type:'INCREMENTAL',minute:3,stories:[story(1,2,true)]});importRelease(rt.dir,{store});const retracted=loadCurrent(store).state.stories[0];eq(retracted.publicationStatus,'RETRACTED','route notice preserved');eq(normalize([retracted]).filter(s=>s.publicationStatus!=='RETRACTED').length,0,'notice excluded from listing');
   rollback({store});eq(loadCurrent(store).state.stories[0].headline,'Haber geri çekildi','rollback retains retraction fence');
   const rm=make({type:'INCREMENTAL',minute:4,stories:[],removals:[1]});validateRelease(rm.dir);eq(fs.existsSync(path.join(rm.dir,'stories/tr/sentetik-1.json')),false,'REMOVE no Story');importRelease(rm.dir,{store});eq(loadCurrent(store).state.stories.length,0,'REMOVE excludes routes');eq(loadCurrent(store).state.fences[0].kind,'REMOVE','tombstone');
@@ -46,7 +46,7 @@ try {
   const rename=fs.renameSync;fs.renameSync=function(from,to){if(to===path.join(a,'current.json'))throw new Error('SIMULATED_SWAP_FAILURE');return rename(from,to);};
   try{rejected(()=>importRelease(next.dir,{store:a}),'swap failure');}finally{fs.renameSync=rename;}
   eq(fs.readFileSync(path.join(a,'current.json')),safePointer,'failed swap preserves current pointer');eq(loadCurrent(a).state.stories.length,1,'failed swap preserves previous bytes');
-  importRelease(next.dir,{store:a});eq(loadCurrent(a).state.stories.length,2,'retry after failed swap reuses verified orphan');
+  const plan=recoveryPlan(a);recover({store:a,action:'resume',planHash:plan.planHash});importRelease(next.dir,{store:a});eq(loadCurrent(a).state.stories.length,2,'retry after failed swap reuses verified orphan');
   const ownerCollision=make({type:'INCREMENTAL',minute:12,stories:[{...story(2),slug:'sentetik-1'}]});rejected(()=>importRelease(ownerCollision.dir,{store:a}),'slug owner collision');
   const tombRetract=make({type:'INCREMENTAL',minute:12,stories:[story(1,5,true)]});rejected(()=>importRelease(tombRetract.dir,{store}),'REMOVE cannot become RETRACT');
   const countLimit=make();for(let i=0;i<1003;i++)fs.writeFileSync(path.join(countLimit.dir,'extra-'+i),'');rejected(()=>validateRelease(countLimit.dir),'file count limit');

@@ -4,6 +4,7 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { canonicalBytes, sha256, parseInput, validateSchema, contentHash, safeArtifactPath, checkText, verifyContracts, ExportError } from './publication-contract.mjs';
 export { canonicalBytes, sha256 };
+import { locked as transactionLock, publishTransaction, generation, inspectTransaction, recoveryPlan as planRecovery, recoverTransaction } from './publication-transaction.mjs';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const defaultStore = path.join(repo, '.publication-local');
 const fail = code => { throw new ExportError(code); };
@@ -85,30 +86,23 @@ function exactKeys(v,keys) {if(!v||typeof v!=='object'||Array.isArray(v)||!equal
 function stateBytes(store,id) { if(!/^[0-9a-f]{64}$/.test(id))fail('RELEASE_ID'); const dir=path.join(store,'releases',id); noLinks(dir);const b=fs.readFileSync(path.join(dir,'state.json'));const rb=fs.readFileSync(path.join(dir,'record.json'));if(sha256(Buffer.concat([b,rb]))!==id)fail('RELEASE_INTEGRITY');return b; }
 export function loadCurrent(store=defaultStore) {
   store=storePath(store); const file=path.join(store,'current.json'); if(!fs.existsSync(file))fail('NO_CURRENT');
-  const p=readJson(file);exactKeys(p,['version','current','previous','stateSha256','recordSha256','highWatermark','seenRunIds']);if(p.version!==1)fail('STATE_VERSION');
-  const b=stateBytes(store,p.current);if(sha256(b)!==p.stateSha256)fail('STATE_INTEGRITY');const state=parseInput(b);exactKeys(state,['version','stories','fences']);if(state.version!==1||!Array.isArray(state.stories)||!Array.isArray(state.fences)||!b.equals(canonicalBytes(state)))fail('STATE_SCHEMA');
+  const p=readJson(file);exactKeys(p,['version','current','previous','stateSha256','recordSha256','highWatermark','seenRunIds','generation']);if(p.version!==1)fail('STATE_VERSION');if(!Array.isArray(p.seenRunIds)||p.seenRunIds.length>10000||new Set(p.seenRunIds).size!==p.seenRunIds.length||p.seenRunIds.some(x=>typeof x!=='string'||!/^([0-9a-f]{8}-){1}[0-9a-f-]{27}$/.test(x))||!Number.isFinite(Date.parse(p.highWatermark)))fail('STATE_SCHEMA');
+  generation(store);const b=stateBytes(store,p.current);if(sha256(b)!==p.stateSha256)fail('STATE_INTEGRITY');const state=parseInput(b);exactKeys(state,['version','stories','fences']);if(state.version!==1||!Array.isArray(state.stories)||!Array.isArray(state.fences)||!b.equals(canonicalBytes(state)))fail('STATE_SCHEMA');
   state.stories.forEach(validateStory); for(const k of ['storyId','slug'])if(new Set(state.stories.map(s=>s[k])).size!==state.stories.length)fail('STATE_DUPLICATE');
   for(const f of state.fences){exactKeys(f,['storyId','slug','kind','story']);if(!['REMOVE','RETRACT'].includes(f.kind)||!validateSchema('public-story-export.schema.json',f.story)&&f.kind==='RETRACT')fail('FENCE');if(f.kind==='REMOVE'&&f.story!==null)fail('FENCE');}
   const recordFile=path.join(store,'releases',p.current,'record.json');if(sha256(fs.readFileSync(recordFile))!==p.recordSha256)fail('RECORD_INTEGRITY');
   return {pointer:p,state,record:readJson(recordFile)};
 }
-function locked(store,fn) {
-  store=storePath(store);fs.mkdirSync(store,{recursive:true}); noLinks(store);const lock=path.join(store,'import.lock');let fd;
-  try {fd=fs.openSync(lock,'wx');return fn(store);} finally {if(fd!==undefined){fs.closeSync(fd);fs.unlinkSync(lock);}}
-}
-function publish(store,state,record,old,highWatermark,seenRunIds) {
-  if(state.stories.length>1000||state.fences.length>2000||seenRunIds.length>10000)fail('STATE_LIMIT');
-  const b=canonicalBytes(state),rb=canonicalBytes(record);if(b.length>MAX_BYTES||rb.length>MAX_BYTES)fail('STATE_LIMIT'); const id=sha256(Buffer.concat([b,rb]));const dir=path.join(store,'releases',id);fs.mkdirSync(path.dirname(dir),{recursive:true});
-  const staging=fs.mkdtempSync(path.join(store,'stage-')); let pointerTemp;
-  try {
-    for(const [name,bytes] of [['state.json',b],['record.json',rb]]) {const f=path.join(staging,name);const fd=fs.openSync(f,'wx');try{fs.writeFileSync(fd,bytes);fs.fsyncSync(fd);}finally{fs.closeSync(fd);}if(!bytes.equals(fs.readFileSync(f)))fail('READBACK');}
-    if(fs.existsSync(dir)) {if(!fs.readFileSync(path.join(dir,'state.json')).equals(b)||!fs.readFileSync(path.join(dir,'record.json')).equals(rb))fail('RELEASE_COLLISION');for(const name of ['state.json','record.json'])fs.unlinkSync(path.join(staging,name));fs.rmdirSync(staging);} else fs.renameSync(staging,dir);
-    const pointer={version:1,current:id,previous:old?.pointer.current??null,stateSha256:sha256(b),recordSha256:sha256(rb),highWatermark,seenRunIds};
-    pointerTemp=path.join(store,'pointer-'+id+'.tmp');fs.writeFileSync(pointerTemp,canonicalBytes(pointer),{flag:'wx'});if(!equal(readJson(pointerTemp),pointer))fail('READBACK');fs.renameSync(pointerTemp,path.join(store,'current.json')); return {releaseId:id,storyCount:state.stories.length,record};
-  } finally {
-    if(pointerTemp&&fs.existsSync(pointerTemp))fs.unlinkSync(pointerTemp);
-    if(fs.existsSync(staging)) {for(const e of fs.readdirSync(staging)) {if(!['state.json','record.json'].includes(e))fail('CLEANUP_FOREIGN');fs.unlinkSync(path.join(staging,e));}fs.rmdirSync(staging);}
-  }
+function locked(store,fn) {store=storePath(store);noLinks(store);return transactionLock(store,fn);}
+function publish(store,state,record,old,highWatermark,seenRunIds){return publishTransaction(store,state,record,old,highWatermark,seenRunIds);}
+export function inspectStore(store=defaultStore){store=storePath(store);noLinks(store);const info=inspectTransaction(store);if(info.current)loadCurrent(store);return info;}
+export function recoveryPlan(store=defaultStore){store=storePath(store);noLinks(store);if(fs.existsSync(path.join(store,'current.json')))loadCurrent(store);return planRecovery(store);}
+export function recover({store=defaultStore,action,planHash}={}){store=storePath(store);const plan=recoveryPlan(store);if(plan.planHash!==planHash)fail('RECOVERY_PLAN_CHANGED');return recoverTransaction(store,{action,planHash});}
+function replay(store,old,m,hash){
+ if(!old?.pointer.seenRunIds.includes(m.exportId))return null;
+ const ids=fs.readdirSync(path.join(store,'releases')).filter(id=>/^[0-9a-f]{64}$/.test(id));let match=false;
+ for(const id of ids){stateBytes(store,id);const r=readJson(path.join(store,'releases',id,'record.json'));if(r.operation==='IMPORT'&&r.runId===m.exportId){if(r.manifestSha256!==hash)fail('RUN_CONFLICT');match=true;}}
+ if(!match)fail('REPLAY_RECORD_MISSING');return {releaseId:old.pointer.current,storyCount:old.state.stories.length,record:old.record,generation:old.pointer.generation,replay:true};
 }
 function fenced(stories,fences) {
   const result=stories.filter(s=>!fences.some(f=>f.storyId===s.storyId||f.slug===s.slug));
@@ -120,7 +114,8 @@ export function importRelease(input,{store=defaultStore}={}) {
   const release=validateRelease(input);
   return locked(store,store=>{
     const old=fs.existsSync(path.join(store,'current.json'))?loadCurrent(store):null;const m=release.manifest;
-    if(old&&(Date.parse(m.generatedAt)<=Date.parse(old.pointer.highWatermark)||old.pointer.seenRunIds.includes(m.exportId)))fail('STALE_RELEASE');
+    const repeated=replay(store,old,m,release.receipt.manifestSha256);if(repeated)return repeated;
+    if(old&&Date.parse(m.generatedAt)<=Date.parse(old.pointer.highWatermark))fail('STALE_RELEASE');
     if(!old&&m.runType!=='FULL')fail('BASE_REQUIRED');
     const fences=[...(old?.state.fences??[])];const implicitRemovals=[];
     if(m.runType==='FULL'&&old)for(const s of old.state.stories)if(!m.items.some(x=>x.storyId===s.storyId)&&!fences.some(f=>f.storyId===s.storyId)){fences.push({storyId:s.storyId,slug:s.slug,kind:'REMOVE',story:null});implicitRemovals.push({storyId:s.storyId,slug:s.slug});}
@@ -155,5 +150,12 @@ export function rollback({store=defaultStore}={}) {
   });
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)) {
-  try {const [command,input,...extra]=process.argv.slice(2);if(extra.length||!['import','rollback'].includes(command)||command==='import'&&!input||command==='rollback'&&input)fail('CLI_ARGUMENT');const result=command==='import'?importRelease(input):rollback();console.log(JSON.stringify({releaseId:result.releaseId,storyCount:result.storyCount}));}catch(e){console.error(e instanceof ExportError?e.code:'CONSUMER_FAILED');process.exitCode=1;}
+ try {
+ const [command,...args]=process.argv.slice(2);const store=defaultStore;let result;
+ if(command==='import'&&args.length===1)result=importRelease(args[0]);
+ else if(command==='rollback'&&!args.length)result=rollback();
+ else if(['state','lock','recovery-plan'].includes(command)&&!args.length)result=command==='recovery-plan'?recoveryPlan(store):inspectStore(store);
+ else if(command==='recover'&&args.length===2){const [action,planHash]=args;const plan=recoveryPlan(store);console.log(JSON.stringify({target:store,plan}));result=recover({store,action,planHash});}
+ else fail('CLI_ARGUMENT');console.log(JSON.stringify(result.record?{releaseId:result.releaseId,storyCount:result.storyCount,generation:result.generation,replay:result.replay}:result));
+ }catch(e){console.error(e instanceof ExportError?e.code:'CONSUMER_FAILED');process.exitCode=1;}
 }

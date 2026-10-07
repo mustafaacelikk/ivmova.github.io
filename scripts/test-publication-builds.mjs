@@ -1,12 +1,13 @@
+import './publication-no-network.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { spawnSync } from 'node:child_process';
+import { spawnSync, spawn } from 'node:child_process';
 import assert from 'node:assert/strict';
-import { importRelease, rollback, loadCurrent, canonicalBytes } from './publication-consumer.mjs';
+import { importRelease, rollback, loadCurrent, canonicalBytes, recoveryPlan, recover } from './publication-consumer.mjs';
 const repo=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'ivmova-build-test-'));const clone=path.join(tmp,'reader'),store=path.join(tmp,'store');let assertions=0;const builds=[];
+const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'ivmova-build-test-'));const clone=path.join(tmp,'reader'),store=path.join(tmp,'store');let assertions=0;const builds=[];let httpChecks=0,serversClosed=0;const servers=[];
 const ok=(v,m)=>{assert.ok(v,m);assertions++;};
 const eq=(a,b,m)=>{assert.deepEqual(a,b,m);assertions++;};
 function removeOwned(p) {const target=path.resolve(p);if(!target.startsWith(path.resolve(tmp)+path.sep)||fs.lstatSync(target).isSymbolicLink())throw new Error('CLEANUP_BOUNDARY');fs.rmSync(target,{recursive:true,force:true});}
@@ -30,31 +31,47 @@ function build(label,mode='publication',selectedStore=store,expectedFailure=fals
   }
   console.log('BUILD_PASS '+label);
 }
+async function httpStage(label, expected) {
+ const out=path.join(clone,'out');const server=spawn(process.execPath,[path.join(clone,'scripts/publication-static-staging.mjs'),out],{stdio:['ignore','pipe','pipe','ipc']});servers.push(server);let log='';server.stderr.on('data',b=>log+=b);const closed=new Promise(resolve=>server.once('close',resolve));
+ try {
+ const port=await new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(new Error('SERVER_TIMEOUT '+log)),10000);server.stdout.once('data',b=>{clearTimeout(timeout);try{resolve(JSON.parse(String(b)).port);}catch(e){reject(e);}});server.once('error',reject);});
+ const origin='http://127.0.0.1:'+port;
+ async function get(route,status=200){const r=await fetch(origin+route);eq(r.status,status,label+' HTTP '+route);httpChecks++;return {text:await r.text(),cache:r.headers.get('cache-control')};}
+ const home=await get('/');await get('/kategori/enerji/');const sitemap=await get('/sitemap.xml');await get('/publication-placeholder.svg');await get('/does-not-exist/',404);
+ ok(!home.text.includes('Enerji dönüşümünde yeni dönem'),label+' no demo HTML');ok(!sitemap.text.includes('enerji-donusumunde-yeni-donem'),label+' no demo sitemap');
+ for(const [slug,status,notice] of expected){const r=await get('/haber/'+slug+'/',status);if(notice)ok(r.text.includes('Haber geri çekildi'),label+' RETRACT HTTP notice');if(status===404||notice)ok(!sitemap.text.includes('/haber/'+slug+'/'),label+' absent sitemap');}
+ const asset=outputFiles(out).find(f=>f.includes(path.sep+'_next'+path.sep+'static'+path.sep)&&f.endsWith('.js'));ok(asset,label+' emitted JS');const ar=await get('/'+path.relative(out,asset).split(path.sep).join('/'));ok(ar.cache.includes('immutable'),label+' immutable local asset header');ok(home.cache.includes('no-cache'),label+' mutable local HTML header');
+ const json=outputFiles(out).find(f=>f.endsWith('.json')||f.endsWith('.txt'));ok(json,label+' static data payload');await get('/'+path.relative(out,json).split(path.sep).join('/'));
+ for(const f of outputFiles(out).filter(f=>/\.(html|js|json|xml|txt)$/.test(f))){const t=fs.readFileSync(f,'utf8');for(const key of ['operationId','generation-head','operation.json','import.lock','rollbackTarget','implicitRemovals','manifestSha256','recordSha256','seenRunIds'])ok(!t.includes(key),label+' no internal '+key);ok(!t.includes('enerji-donusumunde-yeni-donem'),label+' demo slug absent public package');}
+ console.log('HTTP_STAGE_PASS '+label);
+ }finally{if(server.connected)server.send('close');else server.kill();await closed;serversClosed++;eq(server.exitCode,0,label+' server closed');}
+}
 try {
   fs.mkdirSync(clone);
   for(const dir of ['app','public','scripts','contracts','tests'])if(fs.existsSync(path.join(repo,dir)))fs.cpSync(path.join(repo,dir),path.join(clone,dir),{recursive:true,filter:p=>!p.endsWith('site-news.generated.json')});
   for(const f of ['package.json','package-lock.json','next.config.ts','next-env.d.ts','tsconfig.json','postcss.config.mjs'])fs.copyFileSync(path.join(repo,f),path.join(clone,f));
-  fs.unlinkSync(path.join(clone,'public','CNAME'));console.log('COPY_LOCAL_DEPENDENCIES');fs.cpSync(path.join(repo,'node_modules'),path.join(clone,'node_modules'),{recursive:true});
+  fs.unlinkSync(path.join(clone,'public','CNAME'));console.log('COPY_LOCAL_DEPENDENCIES');fs.cpSync(fs.realpathSync(path.join(repo,'node_modules')),path.join(clone,'node_modules'),{recursive:true});
   const actionsOnly=process.argv[2]==='--actions-only';if(process.argv.length>3||process.argv[2]&&!actionsOnly)throw new Error('CLI_ARGUMENT');
   const fixtures=path.join(repo,'tests/fixtures/publication');
   if(!actionsOnly) {
     build('demo','demo');ok(fs.existsSync(path.join(clone,'out/haber/enerji-donusumunde-yeni-donem/index.html')),'demo route preserved');
     build('missing-input','publication',path.join(tmp,'missing'),true);
-    importRelease(path.join(fixtures,'full'),{store});build('full');ok(fs.existsSync(path.join(clone,'out/haber/sentetik-1/index.html')),'full detail');ok(fs.readFileSync(path.join(clone,'out/haber/sentetik-1/index.html'),'utf8').includes('&lt;script&gt;alert(1)&lt;/script&gt;'),'fixture script rendered as escaped text');
+    const rename=fs.renameSync;fs.renameSync=function(from,to){if(to===path.join(store,'current.json'))throw new Error('TEST_LOCAL_SWAP');return rename(from,to);};try{assert.throws(()=>importRelease(path.join(fixtures,'full'),{store}));assertions++;}finally{fs.renameSync=rename;}const recovery=recoveryPlan(store);eq(recovery.decision,'VERIFIED_PENDING','build recovery plan');recover({store,action:'resume',planHash:recovery.planHash});build('recovery-full');await httpStage('recovery-full',[['sentetik-1',200,false],['sentetik-2',404,false]]);ok(fs.existsSync(path.join(clone,'out/haber/sentetik-1/index.html')),'full detail');ok(fs.readFileSync(path.join(clone,'out/haber/sentetik-1/index.html'),'utf8').includes('&lt;script&gt;alert(1)&lt;/script&gt;'),'fixture script rendered as escaped text');
     const fullHash=canonicalBytes(loadCurrent(store).state.stories);
-    importRelease(path.join(fixtures,'incremental'),{store});build('incremental');ok(fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'incremental detail');
-    rollback({store});eq(canonicalBytes(loadCurrent(store).state.stories),fullHash,'rollback exact Story state');build('rollback');ok(!fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'rollback route removed');
+    importRelease(path.join(fixtures,'incremental'),{store});build('incremental');await httpStage('incremental',[['sentetik-1',200,false],['sentetik-2',200,false]]);ok(fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'incremental detail');
+    rollback({store});eq(canonicalBytes(loadCurrent(store).state.stories),fullHash,'rollback exact Story state');build('rollback');await httpStage('rollback',[['sentetik-1',200,false],['sentetik-2',404,false]]);ok(!fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'rollback route removed');
   } else {
     importRelease(path.join(fixtures,'full'),{store});importRelease(path.join(fixtures,'incremental'),{store});rollback({store});
   }
   importRelease(path.join(fixtures,'incremental-after-rollback'),{store});
-  importRelease(path.join(fixtures,'retract'),{store});build('retract');const notice=fs.readFileSync(path.join(clone,'out/haber/sentetik-1/index.html'),'utf8');ok(notice.includes('Haber geri çekildi'),'notice route');ok(!fs.readFileSync(path.join(clone,'out/sitemap.xml'),'utf8').includes('/haber/sentetik-1/'),'notice absent sitemap');ok(fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'REMOVE target exists before action');
-  importRelease(path.join(fixtures,'remove'),{store});build('remove');ok(!fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'remove absent static route');ok(!fs.readFileSync(path.join(clone,'out/sitemap.xml'),'utf8').includes('/haber/sentetik-2/'),'remove absent sitemap');
-  rollback({store});build('safety-rollback');ok(!fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'safe rollback no REMOVE resurrection');ok(fs.readFileSync(path.join(clone,'out/haber/sentetik-1/index.html'),'utf8').includes('Haber geri çekildi'),'safe rollback no RETRACT resurrection');
+  importRelease(path.join(fixtures,'retract'),{store});build('retract');await httpStage('retract',[['sentetik-1',200,true],['sentetik-2',200,false]]);const notice=fs.readFileSync(path.join(clone,'out/haber/sentetik-1/index.html'),'utf8');ok(notice.includes('Haber geri çekildi'),'notice route');ok(!fs.readFileSync(path.join(clone,'out/sitemap.xml'),'utf8').includes('/haber/sentetik-1/'),'notice absent sitemap');ok(fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'REMOVE target exists before action');
+  importRelease(path.join(fixtures,'remove'),{store});build('remove');await httpStage('remove',[['sentetik-1',200,true],['sentetik-2',404,false]]);ok(!fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'remove absent static route');ok(!fs.readFileSync(path.join(clone,'out/sitemap.xml'),'utf8').includes('/haber/sentetik-2/'),'remove absent sitemap');
+  rollback({store});build('safety-rollback');await httpStage('safety-rollback',[['sentetik-1',200,true],['sentetik-2',404,false]]);ok(!fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'safe rollback no REMOVE resurrection');ok(fs.readFileSync(path.join(clone,'out/haber/sentetik-1/index.html'),'utf8').includes('Haber geri çekildi'),'safe rollback no RETRACT resurrection');
   const corrupt=path.join(store,'releases',loadCurrent(store).pointer.current,'state.json');fs.appendFileSync(corrupt,' ');build('tampered-input','publication',store,true);
-  if(!actionsOnly){const emptyStore=path.join(tmp,'empty-store');importRelease(path.join(fixtures,'empty'),{store:emptyStore});build('empty','publication',emptyStore);ok(fs.readFileSync(path.join(clone,'out/index.html'),'utf8').includes('Henüz yayımlanmış haber yok'),'empty render');}
-  console.log(JSON.stringify({assertions,builds,expectedBuildRejections:actionsOnly?1:2,networkCalls:0,result:'PASS'}));
+  if(!actionsOnly){const emptyStore=path.join(tmp,'empty-store');importRelease(path.join(fixtures,'empty'),{store:emptyStore});build('empty','publication',emptyStore);await httpStage('empty',[['sentetik-1',404,false],['sentetik-2',404,false]]);ok(fs.readFileSync(path.join(clone,'out/index.html'),'utf8').includes('Henüz yayımlanmış haber yok'),'empty render');}
+  console.log(JSON.stringify({assertions,builds,httpChecks,serversClosed,expectedBuildRejections:actionsOnly?1:2,networkCalls:0,result:'PASS'}));
 } finally {
+  for(const server of servers)if(server.exitCode===null)server.kill();
   const link=path.join(clone,'node_modules');if(fs.existsSync(link)&&fs.lstatSync(link).isSymbolicLink())fs.unlinkSync(link);
   const abs=path.resolve(tmp);if(!abs.startsWith(path.resolve(os.tmpdir())+path.sep)||!path.basename(abs).startsWith('ivmova-build-test-'))throw new Error('CLEANUP_BOUNDARY');fs.rmSync(abs,{recursive:true,force:true});console.log('TEMP_BUILD_CLEANUP_OK');
 }

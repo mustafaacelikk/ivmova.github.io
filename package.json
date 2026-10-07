@@ -12,7 +12,12 @@
     "publication:import": "node scripts/publication-consumer.mjs import",
     "publication:rollback": "node scripts/publication-consumer.mjs rollback",
     "test:publication-consumer": "node scripts/test-publication-consumer.mjs",
-    "test:publication-builds": "node scripts/test-publication-builds.mjs"
+    "test:publication-builds": "node scripts/test-publication-builds.mjs",
+    "publication:state": "node scripts/publication-consumer.mjs state",
+    "publication:recovery-plan": "node scripts/publication-consumer.mjs recovery-plan",
+    "publication:recover": "node scripts/publication-consumer.mjs recover",
+    "publication:lock": "node scripts/publication-consumer.mjs lock",
+    "test:publication-recovery": "node scripts/test-publication-recovery.mjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.2.1",
