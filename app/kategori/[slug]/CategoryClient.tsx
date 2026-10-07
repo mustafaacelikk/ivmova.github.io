@@ -9,7 +9,7 @@ import { sitePath } from "../../paths";
 export function CategoryClient({ category, publishedNews }: { category: CategorySlug; publishedNews: NewsItem[] }) {
   const searchParams = useSearchParams();
   const meta = categoryMeta[category];
-  const allItems = publishedNews.filter(item => item.category === category).sort((a, b) => publishedValue(b.published) - publishedValue(a.published));
+  const allItems = publishedNews.filter(item => item.category === category).sort((a, b) => (b.publishedIso ? Date.parse(b.publishedIso) : publishedValue(b.published)) - (a.publishedIso ? Date.parse(a.publishedIso) : publishedValue(a.published)));
   const alt = searchParams.get("alt");
   const activeSubcategory = alt && subcategoryMeta[category].includes(alt) ? alt : null;
   const items = activeSubcategory ? allItems.filter(item => item.subcategory === activeSubcategory) : allItems;

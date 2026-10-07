@@ -1,0 +1,14 @@
+{
+  "contractVersion": 2,
+  "storyVersion": 1,
+  "sourceRepository": "ivmova-editorial",
+  "sourceCheckpoint": "checkpoint-public-site-analysis-v1",
+  "sourceCommit": "335e006a411941c9f6b52e0b8a813b3b2fc6ded8",
+  "files": {
+    "public-story-export.schema.json": "3f02e6f7b0a07f56265c6f5af5596052619b487bcdd6f7e6f02f1c7707e7c3cb",
+    "publication-export-input-v2.schema.json": "2545d51d59d395f1707075677b4de826713f1bd48de7d5675ce04ffd42577d9b",
+    "publication-manifest-v2.schema.json": "f8321ec361b3b7ac7acd4024f0758385037a996736616e94bf20ee22a7f9769c",
+    "publication-export-receipt-v2.schema.json": "3390c4af1c7b851c7a16df5aac6b5ce86dbda6e55c0924a4ade1ab5c119121a5",
+    "publication-removal-proof-v2.schema.json": "94cc9246e593cc6b20202826dd2a096c40a55b4fa14b56ac134a0310732867a9"
+  }
+}

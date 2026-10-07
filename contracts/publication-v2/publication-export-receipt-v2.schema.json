@@ -1,0 +1,23 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","title":"IVMOVA export receipt v2",
+  "$comment":"Detached export result, not a deployment or authorization receipt. Application verifies all projected counts/hash/path identities.",
+  "type":"object","additionalProperties":false,
+  "required":["contractVersion","runId","manifestSha256","manifestBytes","itemCount","fileCount","actionCounts","artifacts","removals"],
+  "properties":{
+    "contractVersion":{"const":2},"runId":{"type":"string","format":"uuid"},
+    "manifestSha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"manifestBytes":{"type":"integer","minimum":0},
+    "itemCount":{"type":"integer","minimum":0},"fileCount":{"type":"integer","minimum":1},
+    "actionCounts":{"type":"object","additionalProperties":false,"required":["UPSERT","RETRACT","REMOVE"],"properties":{
+      "UPSERT":{"type":"integer","minimum":0},"RETRACT":{"type":"integer","minimum":0},"REMOVE":{"type":"integer","minimum":0}
+    }},
+    "artifacts":{"type":"array","maxItems":1000,"items":{"type":"object","additionalProperties":false,
+      "required":["artifactPath","artifactSha256","artifactBytes"],"properties":{
+        "artifactPath":{"type":"string","maxLength":500,"pattern":"^stories/(tr|en)/[a-z0-9]+(-[a-z0-9]+)*[.]json$"},
+        "artifactSha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"artifactBytes":{"type":"integer","minimum":0}
+      }}},
+    "removals":{"type":"array","maxItems":1000,"items":{"type":"object","additionalProperties":false,
+      "required":["removalProof","removalReceiptSha256"],"properties":{
+        "removalProof":{"$ref":"publication-removal-proof-v2.schema.json"},"removalReceiptSha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+      }}}
+  }
+}

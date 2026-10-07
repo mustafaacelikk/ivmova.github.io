@@ -1,4 +1,5 @@
-import { news, type NewsItem } from "./data";
+import type { NewsItem } from "./data";
+import { siteNews, routeNews } from "./site-news";
 
 export type PublicEventDossier = {
   id: string;
@@ -16,11 +17,11 @@ export type ArticleSource = {
 };
 
 export async function getAllPublishedNews(): Promise<NewsItem[]> {
-  return news;
+  return siteNews;
 }
 
 export async function getPublishedArticle(slug: string): Promise<NewsItem | undefined> {
-  return news.find((item) => item.slug === slug);
+  return routeNews.find((item) => item.slug === slug);
 }
 
 export async function getPublishedArticleEvent(_slug: string): Promise<PublicEventDossier | undefined> {
@@ -38,3 +39,5 @@ export async function getPublicEventDossier(_id: string): Promise<{ dossier: Pub
 export async function getPublicEventDossierIds(): Promise<string[]> {
   return [];
 }
+
+export async function getAllRouteNews(): Promise<NewsItem[]> { return routeNews; }

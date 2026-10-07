@@ -7,8 +7,12 @@
     "build": "next build",
     "build:root": "next build",
     "build:pages": "set NEXT_PUBLIC_BASE_PATH=/ivmova.github.io&& next build",
-    "typecheck": "tsc --noEmit",
-    "start": "next start"
+    "typecheck": "node scripts/publication-build.mjs && tsc --noEmit",
+    "start": "next start",
+    "publication:import": "node scripts/publication-consumer.mjs import",
+    "publication:rollback": "node scripts/publication-consumer.mjs rollback",
+    "test:publication-consumer": "node scripts/test-publication-consumer.mjs",
+    "test:publication-builds": "node scripts/test-publication-builds.mjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.2.1",

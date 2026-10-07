@@ -1,4 +1,7 @@
+import { prepareSiteData } from './scripts/publication-build.mjs';
 import type { NextConfig } from "next";
+
+prepareSiteData();
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 

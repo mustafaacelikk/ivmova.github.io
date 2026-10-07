@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Footer, Header } from "./components/SiteChrome";
-import { categoryMeta, news, showcaseSummary, showcaseTitle, type CategorySlug, type NewsItem } from "./data";
+import { categoryMeta, showcaseSummary, showcaseTitle, type CategorySlug, type NewsItem } from "./data";
+import { siteNews as news } from "./site-news";
 import { sitePath } from "./paths";
 
-const sortItems = (items: NewsItem[]) => [...items].sort((a,b) => Number(Boolean(b.breaking))-Number(Boolean(a.breaking)) || b.priority-a.priority);
+const sortItems = (items: NewsItem[]) => [...items].sort((a,b) => Number(Boolean(b.breaking))-Number(Boolean(a.breaking)) || b.priority-a.priority || (b.publishedIso ?? "").localeCompare(a.publishedIso ?? ""));
 
 function NewsCard({ item, large = false }: { item: (typeof news)[number]; large?: boolean }) {
   return (
@@ -39,12 +40,13 @@ export default function Home() {
   const next = useCallback(() => setSlide((current) => (current + 1) % headlines.length), [headlines.length]);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || headlines.length === 0) return;
     const timer = window.setInterval(next, 7000);
     return () => window.clearInterval(timer);
   }, [paused, next]);
 
   const current = headlines[slide];
+  if (!current) return <main className="min-h-screen bg-[#f4f6f8]"><Header /><section className="mx-auto max-w-5xl px-4 py-24"><h1 className="text-3xl font-black">Henüz yayımlanmış haber yok</h1></section><Footer /></main>;
   const currentHeroTitle = current.heroTitle?.trim() || current.title;
   const currentHeroSummary = current.heroSummary?.trim() || current.summary;
   const marketItems = [

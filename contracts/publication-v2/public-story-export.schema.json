@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IVMOVA Public Story Export v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "storyId", "slug", "language", "publicationStatus", "revisionId", "revisionNumber", "revisionType", "headline", "standfirst", "bodyMarkdown", "contentHash", "publishedAt", "updatedAt", "retractedAt", "primaryCategory", "sources"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "storyId": {"type": "string", "format": "uuid"},
+    "slug": {"type": "string", "maxLength": 200, "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"},
+    "language": {"enum": ["tr", "en"]},
+    "publicationStatus": {"enum": ["PUBLISHED", "RETRACTED"]},
+    "revisionId": {"type": "string", "format": "uuid"},
+    "revisionNumber": {"type": "integer", "minimum": 1},
+    "revisionType": {"enum": ["INITIAL", "UPDATE", "CORRECTION", "RETRACTION"]},
+    "headline": {"type": "string", "maxLength": 500, "pattern": "\\S"},
+    "standfirst": {"type": ["string", "null"], "maxLength": 2000},
+    "bodyMarkdown": {"type": "string", "maxLength": 100000, "pattern": "\\S"},
+    "contentHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "publishedAt": {"type": "string", "format": "date-time"},
+    "updatedAt": {"type": "string", "format": "date-time"},
+    "retractedAt": {"type": ["string", "null"], "format": "date-time"},
+    "primaryCategory": {"type": "string", "maxLength": 200, "pattern": "\\S"},
+    "sources": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["sourceName", "title", "url", "publishedAt", "role"],
+        "properties": {
+          "sourceName": {"type": "string", "maxLength": 500, "pattern": "\\S"},
+          "title": {"type": "string", "maxLength": 1000, "pattern": "\\S"},
+          "url": {"type": "string", "format": "uri", "pattern": "^https?://", "maxLength": 4000},
+          "publishedAt": {"type": ["string", "null"], "format": "date-time"},
+          "role": {"enum": ["PRIMARY", "SUPPORTING", "BACKGROUND"]}
+        }
+      },
+      "contains": {"type": "object", "required": ["role"], "properties": {"role": {"const": "PRIMARY"}}},
+      "minContains": 1, "maxContains": 1
+    }
+  },
+  "allOf": [{
+    "if": {"properties": {"publicationStatus": {"const": "RETRACTED"}}, "required": ["publicationStatus"]},
+    "then": {"properties": {"retractedAt": {"type": "string", "format": "date-time"}}, "required": ["retractedAt"]}
+  }]
+}
