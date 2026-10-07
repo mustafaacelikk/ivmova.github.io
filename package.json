@@ -17,7 +17,10 @@
     "publication:recovery-plan": "node scripts/publication-consumer.mjs recovery-plan",
     "publication:recover": "node scripts/publication-consumer.mjs recover",
     "publication:lock": "node scripts/publication-consumer.mjs lock",
-    "test:publication-recovery": "node scripts/test-publication-recovery.mjs"
+    "test:publication-recovery": "node scripts/test-publication-recovery.mjs",
+    "test:publication-release": "node scripts/test-publication-release.mjs",
+    "test:publication-workflow": "node scripts/test-publication-workflow.mjs",
+    "publication:build-only": "node scripts/publication-build-only-staging.mjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.2.1",

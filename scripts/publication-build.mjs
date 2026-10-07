@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadCurrent, normalize, canonicalBytes } from './publication-consumer.mjs';
+import { loadCurrent, normalize, canonicalBytes, sha256 } from './publication-consumer.mjs';
 const repo=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export function prepareSiteData() {
   const mode=process.env.NEXT_PUBLIC_IVMOVA_CONTENT_MODE??'demo';
@@ -14,3 +14,12 @@ export function prepareSiteData() {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) prepareSiteData();
+
+export function deterministicBuildId() {
+  const files=[];
+  function walk(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))){const full=path.join(dir,e.name);if(e.isSymbolicLink())throw Error('BUILD_SOURCE_LINK');if(e.isDirectory())walk(full);else if(e.isFile())files.push({path:path.relative(repo,full).split(path.sep).join('/'),sha256:sha256(fs.readFileSync(full))});}}
+  for(const name of ['app','public','scripts','contracts'])walk(path.join(repo,name));
+  for(const name of ['package.json','package-lock.json','next.config.ts','tsconfig.json','postcss.config.mjs'])files.push({path:name,sha256:sha256(fs.readFileSync(path.join(repo,name)))});
+  files.sort((a,b)=>a.path<b.path?-1:a.path>b.path?1:0);
+  return sha256(canonicalBytes({version:1,files,mode:process.env.NEXT_PUBLIC_IVMOVA_CONTENT_MODE??'demo',origin:process.env.NEXT_PUBLIC_IVMOVA_SITE_ORIGIN??'https://ivmova.com',basePath:process.env.NEXT_PUBLIC_BASE_PATH??''}));
+}

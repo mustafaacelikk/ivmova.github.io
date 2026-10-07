@@ -1,4 +1,6 @@
 import './publication-no-network.mjs';
+import {createBundle, verifyBundle, inventory, treeHash} from './publication-release.mjs';
+import {writeRelease} from './publication-fixtures.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -29,6 +31,21 @@ function build(label,mode='publication',selectedStore=store,expectedFailure=fals
     ok(!/sb_secret_|postgres(?:ql)?:\/\/|eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/.test(text),label+' secret scan');
     if(f.endsWith('.html'))ok(!text.includes('<script>alert(1)</script>'),label+' raw script inert HTML');
   }
+    if(mode==='publication'){
+    const current=loadCurrent(selectedStore);
+    const publication=path.join(tmp,'release-input-'+label),destination=path.join(tmp,'bundle-'+label);
+    const removed=current.state.fences.filter(f=>f.kind==='REMOVE').map(f=>Number(f.slug.replace('sentetik-','')));
+    writeRelease(publication,{run:100+builds.length,stories:current.state.stories,removals:removed});
+    const checked=createBundle({output:out,publication,destination,siteSourceCommit:'28b22024ab16455e242a8f658607954284753e8c',buildTimestamp:'2026-10-07T09:00:00.000Z'});
+    eq(verifyBundle(destination).metadata,checked.metadata,label+' bundle chain');
+    const archive=path.join(tmp,label+'-pages.tar');
+    const pack=spawnSync('tar',['-cf',archive,'-C',path.join(destination,'public'),'.'],{encoding:'utf8'});
+    eq(pack.status,0,label+' public artifact packaging');
+    const listed=spawnSync('tar',['-tf',archive],{encoding:'utf8'});eq(listed.status,0,label+' tar inventory');
+    const entries=listed.stdout.trim().split(/\r?\n/).filter(x=>!x.endsWith('/')).map(x=>x.replace(/^\.\//,'')).sort();
+    eq(entries,inventory(path.join(destination,'public')).map(x=>x.path),label+' only verified public files in package');
+    console.log('BUNDLE_PACKAGE_PASS '+label);
+  }
   console.log('BUILD_PASS '+label);
 }
 async function httpStage(label, expected) {
@@ -57,6 +74,7 @@ try {
     build('demo','demo');ok(fs.existsSync(path.join(clone,'out/haber/enerji-donusumunde-yeni-donem/index.html')),'demo route preserved');
     build('missing-input','publication',path.join(tmp,'missing'),true);
     const rename=fs.renameSync;fs.renameSync=function(from,to){if(to===path.join(store,'current.json'))throw new Error('TEST_LOCAL_SWAP');return rename(from,to);};try{assert.throws(()=>importRelease(path.join(fixtures,'full'),{store}));assertions++;}finally{fs.renameSync=rename;}const recovery=recoveryPlan(store);eq(recovery.decision,'VERIFIED_PENDING','build recovery plan');recover({store,action:'resume',planHash:recovery.planHash});build('recovery-full');await httpStage('recovery-full',[['sentetik-1',200,false],['sentetik-2',404,false]]);ok(fs.existsSync(path.join(clone,'out/haber/sentetik-1/index.html')),'full detail');ok(fs.readFileSync(path.join(clone,'out/haber/sentetik-1/index.html'),'utf8').includes('&lt;script&gt;alert(1)&lt;/script&gt;'),'fixture script rendered as escaped text');
+    const originalTree=treeHash(path.join(clone,'out'));build('recovery-full-repeat');eq(treeHash(path.join(clone,'out')),originalTree,'same input deterministic public tree');
     const fullHash=canonicalBytes(loadCurrent(store).state.stories);
     importRelease(path.join(fixtures,'incremental'),{store});build('incremental');await httpStage('incremental',[['sentetik-1',200,false],['sentetik-2',200,false]]);ok(fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'incremental detail');
     rollback({store});eq(canonicalBytes(loadCurrent(store).state.stories),fullHash,'rollback exact Story state');build('rollback');await httpStage('rollback',[['sentetik-1',200,false],['sentetik-2',404,false]]);ok(!fs.existsSync(path.join(clone,'out/haber/sentetik-2/index.html')),'rollback route removed');
