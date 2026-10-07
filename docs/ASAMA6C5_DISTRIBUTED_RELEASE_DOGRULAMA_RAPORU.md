@@ -1,5 +1,5 @@
 # Aşama 6C-5 — Distributed release doğrulama raporu
-Tarih: 2026-10-07. **Kontrollü GitHub build-only testine hazır. İlk production deploy'a hazır değil.**
+Tarih: 2026-10-07. **Gerçek GitHub Actions build-only doğrulaması başarılı (f2b4d88). İlk production deploy'a hazır değil.**
 
 ## Başlangıç kanıtları ve kapsam
 Site pilot/6c2-site-consumer temizdi. HEAD = origin/pilot/6c2-site-consumer = checkpoint-production-release-readiness-v1^{commit} = 17cdddfcf6ef6ca281d03dc6aac7cd6bdafc097f.
@@ -24,7 +24,7 @@ PREPARED record expected Git base'indeki ledger tam onun önceki prefix'idir. De
 Prepare CLI HEAD/expected base, head/generation, bundle/hash/safety fences doğrular; yalnız ledger/marker/summary taslağı yazar. Commit/push veya tracked ledger overwrite yapmaz.
 Git non-fast-forward/expected parent review/PR aşamasındaki CAS'tır. İki async hazırlık yarışında expected-parent modelinde bir plan kabul edildi; ikinci stale parent reddedildi. Gerçek Git remote yarış/push denenmedi.
 Git admin/force-push bypass veya alternatif Pages writer'ı kontrol edilmeyen ortamda dağıtık garanti iddia edilmez. Main protection ve required history check manuel önkoşuldur.
-Genesis henüz bu turda commit edilmediğinden actual HEAD Git geçmişinde yeni ledger yoktur; current genesis schema generation=0 doğrulandı. İlk kontrollü pilot commit sonrası build-only workflow gerçek checkout Git geçmişi kontrolünü çalıştıracak; pozitif gerçek-Git snapshot integration bu turda commit yasağı nedeniyle çalıştırılmadı.
+İlk yerel doğrulama sırasında genesis henüz commit edilmemişti; genesis schema generation=0 doğrulandı. O aşamada commit yasağı nedeniyle pozitif gerçek-Git snapshot integration çalıştırılmadı. Sonraki gerçek GitHub Actions build-only sonucu aşağıda ayrıca kayıtlıdır; remote CAS/production promotion kanıtı olarak yorumlanmaz.
 
 ## Provenance, producer ve marker
 FULL publication manifest/receipt/proofs → pinned contract checksums → 6C provenance → public tree → bundle tree → reviewed ledger → same-repo/main/manual successful producer run/attempt/artifact identity + digest → verified outer ZIP → safe tar → marker/deploy tree → Pages artifact zinciri kuruldu.
@@ -49,7 +49,7 @@ Workflow metadata-only outcome artifactı verir; ayrı reviewed PR yeni DEPLOYED
 Rollback verified eski immutable bundle'ı yeni release ID/event/marker/deploy tree ile kullanır. Append-only completed rollback, replay ve stale rollback testlidir; latest REMOVE/RETRACT fence uyumluluğu zorunlu.
 FAILED/UNKNOWN outstanding attempt normal RELEASE'i bloke eder. Manuel recovery rollback expected failed reservation ID/tree/generation/base ile ve yalnız settled Pages succeed kontrolünden sonra ilerler. Otomatik ikinci deploy/rollback yoktur.
 
-## Çalıştırılan doğrulamalar
+## İlk yerel aşamada çalıştırılan doğrulamalar (tarihsel)
 | Kontrol | Sonuç |
 | --- | --- |
 | 6C-2 consumer | 71 assertion PASS |
@@ -71,11 +71,21 @@ FAILED/UNKNOWN outstanding attempt normal RELEASE'i bloke eder. Manuel recovery 
 | Whitespace | git diff --check PASS |
 
 Final build-only entrypoint exit 0: BUILD_ONLY_PASS; GIT_LEDGER_UNCHANGED; DEPLOY_NOT_INVOKED.
-Workflow static policy testi YAML yapısına yönelik repo policy check'tir; genel YAML parser/GitHub interpreter validation iddiası değildir. Gerçek GitHub Actions test sayısı 0.
+Workflow static policy testi YAML yapısına yönelik repo policy check'tir; genel YAML parser/GitHub interpreter validation iddiası değildir. İlk yerel rapor anında gerçek GitHub Actions çalışma sayısı 0 idi; sonraki iki çalışmanın sonucu aşağıdadır.
 İlk yeni ledger fixture koşusunda yanlış sourceCommit shorthand'i düzeltildi; final PASS sayaçlarına başarısız deneme katılmadı.
 Offline audit yeniden çalıştırılmadı; 6C-4'te dış bağlantı blocker ile boş rapor üretildiği bilindiğinden güncel advisory güvenliği iddiası korunmadı.
 
-## Temizlik ve son Git
+## Gerçek GitHub Actions build-only sonucu
+Bu bölüm kullanıcı tarafından bildirilen gerçek Actions sonuçlarına dayanır; bu belge güncellemesinde test veya workflow yeniden çalıştırılmadı.
+
+- İlk `Synthetic build-only staging` çalışması `Error: LINK` ile başarısız oldu. Kök neden, Linux dizinlerinde normal olan `nlink > 1` değerinin hardlink sanılmasıydı; async assertion hatası değildi.
+- Güvenlik kontrolü gevşetilmedi: hardlink kontrolü yalnız dosyalara uygulandı; tüm symlink/junction reddi korundu. Test fixture temizliği `finally` ile güvenceye alındı.
+- İkinci çalışma: commit `f2b4d88`, workflow `Synthetic build-only staging`, branch `pilot/6c2-site-consumer`, GitHub Linux runner. Başarıyla tamamlandı; süre yaklaşık **1 dakika 38 saniye**.
+- Production `Deploy GitHub Pages` workflow'u tetiklenmedi. `main`, `github-pages` environment ve canlı site değiştirilmedi.
+
+Bu sonuç gerçek Linux runner'da build-only doğrulamasının geçtiğini gösterir. Production deploy, producer/approval/reconciliation veya gerçek remote CAS başarısı iddiası değildir.
+
+## İlk yerel aşamanın temizlik ve Git durumu (tarihsel)
 Owned consumer/recovery/release/ledger/build/archive TEMP clone/store/out/.next/node_modules kopyaları finally cleanup marker'larıyla kaldırıldı. 9 HTTP server kapandı. Syntax sırasında oluşan yalnız publication-extract-artifact Python cache'i temizlendi. Final TEMP/process prefix kontrolleri yapıldı.
 Site pilot/6c2-site-consumer; HEAD/origin/checkpoint 17cdddfcf6ef6ca281d03dc6aac7cd6bdafc097f değişmedi; 8 tracked modified + 23 yeni untracked dosya, stage/commit yok.
 Editorial main temiz; HEAD/origin/main 335e006a411941c9f6b52e0b8a813b3b2fc6ded8 değişmedi.
@@ -83,7 +93,10 @@ Commit/push/tag/release/merge, main checkout, workflow trigger, Pages deploy, Gi
 
 ## Dashboard ve gerçek ortamda kalan doğrulamalar
 Kullanıcı: github-pages create/main-only branch/reviewer/prevent-self-review/admin bypass; Pages source Actions; branch/ruleset PR-review/force-push/delete yasağı/required history status check; alternatif deployment writer'larını kapatma; default read-only token; plan availability, domain/TLS/noindex ve action SHA pin review.
-Gerçek GitHub'da henüz: Linux/Node22/npm ci ve workflow interpretation; committed ledger history integration/remote CAS; artifact digest transport/storage host; producer API identity; attestation desteği; environment approvals; Pages artifact/deployment API/current-commit fencing; gerçek reconciliation/CDN/404/custom domain.
-Controlled build-only testine kod/yerel eşdeğer açısından hazır; workflow remote'a aktarılmadı/tetiklenmedi. İlk production deploy'a **hazır değil**: manuel settings + gerçek build-only/producer/provenance/approval/reconciliation kanıtı + reviewed genesis/release PR'ı ve açık deploy yetkisi gerekir.
+Gerçek GitHub Linux runner'da build-only workflow başarıyla tamamlandı (f2b4d88). Production için kalan doğrulamalar: gerçek remote CAS; producer/production ledger history integration; artifact digest transport/storage host; producer API identity; attestation desteği; environment approvals; Pages artifact/deployment API/current-commit fencing; gerçek reconciliation/CDN/404/custom domain.
+Kontrollü gerçek build-only doğrulaması tamamlandı; belge checkpoint'ine hazır. İlk production deploy'a **hazır değil**: manuel settings + gerçek producer/provenance/approval/reconciliation kanıtı + reviewed genesis/release PR'ı ve açık deploy yetkisi gerekir.
 
 Otomatik güvenlik incelemesi expected-base replay kontrolünü gevşetme önerisini stale/conflicting promotion riski nedeniyle reddetti. Güvenli alternatifte kontrol aynen korundu; reddedilen değişiklik uygulanmadı, bu nedenle pending izin talebi yoktur.
+
+## Bu belge güncellemesinin kapsamı
+Yalnız bu rapor güncellendi; PUBLICATION_PRODUCTION_LEDGER.md içindeki durum/güvenlik sözleşmelerinde değişiklik gerekmedi. Test/Actions/SQL/build/deploy yeniden çalıştırılmadı; kod değiştirilmedi. Commit/push/tag yapılmadı. Yalnız git diff --check ve belge hassas veri taraması yapıldı.
