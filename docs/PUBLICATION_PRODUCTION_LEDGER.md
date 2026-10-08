@@ -37,7 +37,7 @@ treeHash, marker eklenmeden önceki verified public tree'dir. Marker bunu taşı
 
 ## Workflow fencing ve başarısızlık
 Production yalnız workflow_dispatch, main ve expected commit/release/public tree hash. Checkout inputtan bağımsız github.sha'ya sabittir. Main API HEAD dispatch SHA ile eşleşmelidir; environment onayından sonra yeniden okunur. Tek ivmova-production-pages concurrency grubu, cancel-in-progress:false.
-Validate/build aşaması artifactı tekrar doğrular ve out'u materialize eder; minimum read-only izinlidir. Deploy contents:read/pages:write/id-token:write; github-pages environment; repo/ledger write yoktur.
+Validate/build aşaması artifactı tekrar doğrular ve out'u materialize eder; minimum read-only izinlidir. Deploy contents:read/actions:read/deployments:read/pages:write/id-token:write; github-pages environment; repo/ledger write yoktur.
 Pages deployment'ın commit SHA ile durumu sorgulanabilir. Mevcut aynı-commit deployment veya önceki aynı-commit run, rerun attempt>1 durumunda ikinci deploy reddedilir; reconciliation gerekir. [Pages API](https://docs.github.com/en/rest/pages/pages)
 Git main güncellemesi ile Pages çağrısı tek atomik transaction değildir. Güvence, reviewed reservation, unresolved release'in yeni RELEASE'i bloke etmesi, bütün deployment writer'larının aynı concurrency kullanması ve approval sonrası fresh main/previous head kontrolüne dayanır. Başka writer/admin bypass bu model dışında kalır.
 

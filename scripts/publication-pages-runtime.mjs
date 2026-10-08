@@ -6,6 +6,7 @@ import {readCanonical,equal,fail} from './publication-control-schema.mjs';
 import {verifyProducerIdentity} from './publication-producer-trust.mjs';
 import {limitedBody,reconcileMarker} from './publication-pages-reconciliation.mjs';
 import {verifyEnvironmentPolicy} from './publication-environment-policy.mjs';
+import {verifyPublicationPagesAbsence} from './publication-pages-absence.mjs';
 export const REPOSITORY='mustafaacelikk/ivmova.github.io',PRODUCTION_ORIGIN='https://ivmova.com';
 export function dispatchGate({ref,commit,mainCommit,expectedCommit,expectedReleaseId,expectedTreeHash,ledger}){
  if(ref!=='refs/heads/main')fail('MAIN_ONLY');assertGitBase(expectedCommit,commit);assertGitBase(expectedCommit,mainCommit);
@@ -18,13 +19,13 @@ async function api(route,{allow404=false}={}){
  if(response.status!==200)fail('GITHUB_READ_FAILED_'+response.status);return JSON.parse((await limitedBody(response,4*1024*1024)).toString('utf8'));
 }
 function context(){if(process.env.GITHUB_REPOSITORY!==REPOSITORY)fail('REPOSITORY_MISMATCH');return {ref:process.env.GITHUB_REF,commit:process.env.GITHUB_SHA,expectedCommit:process.env.EXPECTED_COMMIT,expectedReleaseId:process.env.EXPECTED_RELEASE,expectedTreeHash:process.env.EXPECTED_TREE};}
-async function gate({history=true,checkPrior=true}={}){
+async function gate({history=true,checkPrior=true,afterApproval=false}={}){
  const c=context(),main=await api('git/ref/heads/main'),ledger=history?verifyGitLedgerHistory(process.cwd(),c.commit):readCanonical(LEDGER_PATH);
  const r=dispatchGate({...c,mainCommit:main.object?.sha,ledger});
  if(process.env.GITHUB_RUN_ATTEMPT!=='1')fail('RERUN_RECONCILE_WITHOUT_REDEPLOY');
  // A prior request against this prepared commit may have reached Pages even if its runner died.
  if(checkPrior){const runs=await api('actions/workflows/deploy-pages.yml/runs?head_sha='+c.commit+'&per_page=100');if(runs.total_count>100||runs.workflow_runs.some(x=>String(x.id)!==process.env.GITHUB_RUN_ID))fail('PRIOR_RUN_RECONCILIATION_REQUIRED');}
- const deployment=await api('pages/deployments/'+c.commit,{allow404:true});if(deployment)fail('PAGES_ATTEMPT_ALREADY_EXISTS_RECONCILE');
+ await verifyPublicationPagesAbsence({api,commit:c.commit,run:process.env.GITHUB_RUN_ID,afterApproval});
  return r;
 }
 async function downloadProducer(record,root){
@@ -57,7 +58,7 @@ async function main(){
  console.log('VALIDATED_LEDGER_BUNDLE_OUTPUT');return;
  }
  if(mode==='guard'){
- const record=await gate({checkPrior:false});if(process.env.EXPECTED_RECORD!==record.recordSha256)fail('HANDOFF_RECORD_MISMATCH');await previousMarkerCheck(record);console.log('POST_APPROVAL_FENCE_PASS');return;
+ const record=await gate({checkPrior:false,afterApproval:true});if(process.env.EXPECTED_RECORD!==record.recordSha256)fail('HANDOFF_RECORD_MISMATCH');await previousMarkerCheck(record);console.log('POST_APPROVAL_FENCE_PASS');return;
  }
  if(mode==='reconcile'){
  const ledger=readCanonical(LEDGER_PATH),state=validateLedger(ledger),record=state.pending;
