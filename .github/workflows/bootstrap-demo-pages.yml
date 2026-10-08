@@ -10,6 +10,11 @@ on:
         description: Type BOOTSTRAP_DEMO_ONCE to publish the existing demo, not a publication
         required: true
         type: string
+      recovery_run_id:
+        description: Leave empty normally; exact reviewed pre-deploy failure recovery ID 37751560162 only
+        required: false
+        default: ''
+        type: string
 permissions:
   contents: read
 concurrency:
@@ -23,6 +28,7 @@ jobs:
       contents: read
       actions: read
       pages: read
+      deployments: read
     outputs:
       health: ${{ steps.prepare.outputs.health }}
     steps:
@@ -39,6 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           EXPECTED_COMMIT: ${{ inputs.expected_commit }}
           CONFIRM_DEMO_BOOTSTRAP: ${{ inputs.confirm_demo_bootstrap }}
+          RECOVERY_RUN_ID: ${{ inputs.recovery_run_id }}
         run: node scripts/bootstrap-demo-pages.mjs validate
       - run: npm ci
       - name: Build existing demo for the custom domain
@@ -54,6 +61,7 @@ jobs:
         env:
           EXPECTED_COMMIT: ${{ inputs.expected_commit }}
           CONFIRM_DEMO_BOOTSTRAP: ${{ inputs.confirm_demo_bootstrap }}
+          RECOVERY_RUN_ID: ${{ inputs.recovery_run_id }}
         run: node scripts/bootstrap-demo-pages.mjs prepare
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -65,6 +73,8 @@ jobs:
     permissions:
       contents: read
       pages: write
+      actions: read
+      deployments: read
       id-token: write
     environment:
       name: github-pages
@@ -82,6 +92,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           EXPECTED_COMMIT: ${{ inputs.expected_commit }}
           CONFIRM_DEMO_BOOTSTRAP: ${{ inputs.confirm_demo_bootstrap }}
+          RECOVERY_RUN_ID: ${{ inputs.recovery_run_id }}
           BOOTSTRAP_HEALTH: ${{ needs.build.outputs.health }}
         run: node scripts/bootstrap-demo-pages.mjs guard
       - name: Deploy demo once
@@ -93,6 +104,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           EXPECTED_COMMIT: ${{ inputs.expected_commit }}
           CONFIRM_DEMO_BOOTSTRAP: ${{ inputs.confirm_demo_bootstrap }}
+          RECOVERY_RUN_ID: ${{ inputs.recovery_run_id }}
           BOOTSTRAP_HEALTH: ${{ needs.build.outputs.health }}
         run: node scripts/bootstrap-demo-pages.mjs reconcile
       - name: Preserve bootstrap-only outcome (never a ledger event)
@@ -103,4 +115,5 @@ jobs:
           path: ${{ runner.temp }}/demo-bootstrap-outcome.json
           if-no-files-found: error
           retention-days: 90
-# No automatic triggers or publication fallback. Even a failed prior run consumes this path.
+# No automatic triggers or publication fallback. Failed runs consume the normal path.
+# Only explicit recovery_run_id=37751560162 admits the proven pre-deploy failure once.
