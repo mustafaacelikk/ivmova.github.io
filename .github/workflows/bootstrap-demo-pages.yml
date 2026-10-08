@@ -1,0 +1,106 @@
+name: One-time reviewed demo Pages bootstrap
+on:
+  workflow_dispatch:
+    inputs:
+      expected_commit:
+        description: Full reviewed main HEAD SHA (not the infrastructure checkpoint)
+        required: true
+        type: string
+      confirm_demo_bootstrap:
+        description: Type BOOTSTRAP_DEMO_ONCE to publish the existing demo, not a publication
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: ivmova-production-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+      pages: read
+    outputs:
+      health: ${{ steps.prepare.outputs.health }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Reject wrong ref, stale main, publication state and any previous bootstrap run
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+          CONFIRM_DEMO_BOOTSTRAP: ${{ inputs.confirm_demo_bootstrap }}
+        run: node scripts/bootstrap-demo-pages.mjs validate
+      - run: npm ci
+      - name: Build existing demo for the custom domain
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
+          NEXT_PUBLIC_IVMOVA_CONTENT_MODE: demo
+          NEXT_PUBLIC_IVMOVA_SITE_ORIGIN: https://ivmova.com
+          NEXT_PUBLIC_BASE_PATH: ''
+          IVMOVA_BUILD_PROFILE: demo-bootstrap
+        run: npm run build
+      - name: Verify demo output and add bootstrap-only receipt
+        id: prepare
+        env:
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+          CONFIRM_DEMO_BOOTSTRAP: ${{ inputs.confirm_demo_bootstrap }}
+        run: node scripts/bootstrap-demo-pages.mjs prepare
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/demo-bootstrap/out
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Recheck main and bootstrap absence after approval
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+          CONFIRM_DEMO_BOOTSTRAP: ${{ inputs.confirm_demo_bootstrap }}
+          BOOTSTRAP_HEALTH: ${{ needs.build.outputs.health }}
+        run: node scripts/bootstrap-demo-pages.mjs guard
+      - name: Deploy demo once
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Bounded Pages and HTTPS byte reconciliation
+        if: ${{ always() && steps.deployment.outcome != 'skipped' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+          CONFIRM_DEMO_BOOTSTRAP: ${{ inputs.confirm_demo_bootstrap }}
+          BOOTSTRAP_HEALTH: ${{ needs.build.outputs.health }}
+        run: node scripts/bootstrap-demo-pages.mjs reconcile
+      - name: Preserve bootstrap-only outcome (never a ledger event)
+        if: ${{ always() && steps.deployment.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-bootstrap-outcome-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/demo-bootstrap-outcome.json
+          if-no-files-found: error
+          retention-days: 90
+# No automatic triggers or publication fallback. Even a failed prior run consumes this path.

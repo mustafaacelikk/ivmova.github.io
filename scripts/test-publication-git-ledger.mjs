@@ -42,10 +42,13 @@ try{
  const failedEvidence={...evidence(next.record),pagesDeploymentId:null,markerSha256:null,outcome:'NOT_DEPLOYED'};
  const failed=recordOutcome({ledger:next.ledger,releaseId:next.record.releaseId,status:'FAILED',evidence:failedEvidence,expectedGitBase:base,actualGitBase:base,expectedGeneration:3}).ledger;ok(validateLedger(failed).production.releaseId===first.record.releaseId);ok(validateLedger(failed).pending===null);
  const unknown=recordOutcome({ledger:next.ledger,releaseId:next.record.releaseId,status:'FAILED',evidence:{...failedEvidence,outcome:'UNKNOWN',pagesDeploymentId:'c'.repeat(40)},expectedGitBase:base,actualGitBase:base,expectedGeneration:3}).ledger;ok(validateLedger(unknown).pending!==null);throws(()=>preparePromotion({...args,ledger:unknown,releaseId:uid(506),expectedPrevious:validateLedger(unknown).production,expectedGeneration:4}));
- const policy={name:'github-pages',protection_rules:[{type:'required_reviewers',prevent_self_review:true,reviewers:[{type:'User'}]}],deployment_branch_policy:{custom_branch_policies:true,protected_branches:false}},branches={total_count:1,branch_policies:[{name:'main',type:'branch'}]};
+ const policy={name:'github-pages',protection_rules:[{type:'required_reviewers',prevent_self_review:false,reviewers:[{type:'User',reviewer:{login:'mustafaacelikk'}}]}],deployment_branch_policy:{custom_branch_policies:true,protected_branches:false}},branches={total_count:1,branch_policies:[{name:'main',type:'branch'}]};
  ok(verifyEnvironmentPolicy(policy,branches).reviewRequired);
  throws(()=>verifyEnvironmentPolicy({...policy,protection_rules:[]},branches));
  throws(()=>verifyEnvironmentPolicy({...policy,protection_rules:[{type:'required_reviewers',prevent_self_review:false,reviewers:[{}]}]},branches));
+ throws(()=>verifyEnvironmentPolicy({...policy,protection_rules:[{...policy.protection_rules[0],prevent_self_review:true}]},branches));
+ throws(()=>verifyEnvironmentPolicy({...policy,protection_rules:[{...policy.protection_rules[0],reviewers:[{type:'User',reviewer:{login:'other'}}]}]},branches));
+ ok(verifyEnvironmentPolicy(policy,branches).preventSelfReview===false);
  throws(()=>verifyEnvironmentPolicy(policy,{total_count:1,branch_policies:[{name:'pilot',type:'branch'}]}));
  throws(()=>verifyEnvironmentPolicy(policy,{total_count:1,branch_policies:[{name:'main',type:'tag'}]}));
  throws(()=>verifyEnvironmentPolicy(policy,{total_count:2,branch_policies:[{name:'main',type:'branch'},{name:'*',type:'branch'}]}));

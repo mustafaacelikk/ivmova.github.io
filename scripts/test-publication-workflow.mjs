@@ -28,4 +28,5 @@ ok(staging.includes('publication-build-only-staging.mjs'));ok(staging.includes('
 const entry=fs.readFileSync(new URL('./publication-build-only-staging.mjs',import.meta.url),'utf8');
 for(const script of ['consumer','recovery','release','git-ledger','workflow'])ok(entry.includes('test-publication-'+script+'.mjs'));
 ok(entry.includes('test-pages-reconciliation.mjs')&&entry.includes('test-publication-builds.mjs'));
+ok(entry.includes('test-bootstrap-demo-pages.mjs'));
 console.log(JSON.stringify({result:'PASS',assertions,scope:'static YAML policy; no GitHub execution'}));
