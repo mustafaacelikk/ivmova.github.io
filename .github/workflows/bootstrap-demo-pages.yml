@@ -11,7 +11,7 @@ on:
         required: true
         type: string
       recovery_run_id:
-        description: Leave empty normally; exact reviewed pre-deploy failure recovery ID 37751560162 only
+        description: Leave empty normally; reviewed recovery ID 37761123163 proves both failed pre-deploy runs
         required: false
         default: ''
         type: string
@@ -116,4 +116,4 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 # No automatic triggers or publication fallback. Failed runs consume the normal path.
-# Only explicit recovery_run_id=37751560162 admits the proven pre-deploy failure once.
+# Explicit recovery_run_id=37761123163 admits only the two proven pre-deploy failures.
