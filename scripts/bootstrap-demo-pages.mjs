@@ -15,9 +15,48 @@ export function bootstrapGate(c,main,ledger,runs){
  if(c.repository!==REPO||c.ref!=='refs/heads/main'||c.event!=='workflow_dispatch'||c.attempt!=='1')fail('BOOTSTRAP_CONTEXT');
  if(c.confirm!=='BOOTSTRAP_DEMO_ONCE'||! /^[0-9a-f]{40}$/.test(c.expected)||c.expected!==c.commit||c.commit!==main)fail('BOOTSTRAP_MAIN_FENCE');
  if(ledger.schemaVersion!==1||!Array.isArray(ledger.records)||ledger.records.length!==0||Object.keys(ledger).sort().join(',')!=='records,schemaVersion')fail('BOOTSTRAP_GENESIS_ONLY');
- if(runs&&(runs.total_count!==1||runs.workflow_runs?.length!==1||String(runs.workflow_runs[0].id)!==c.run))fail('BOOTSTRAP_ALREADY_ATTEMPTED');
+ if(runs)verifyBootstrapHistory(c,runs);
 }
-function context(){return {repository:process.env.GITHUB_REPOSITORY,ref:process.env.GITHUB_REF,event:process.env.GITHUB_EVENT_NAME,attempt:process.env.GITHUB_RUN_ATTEMPT,expected:process.env.EXPECTED_COMMIT,commit:process.env.GITHUB_SHA,confirm:process.env.CONFIRM_DEMO_BOOTSTRAP,run:process.env.GITHUB_RUN_ID};}
+// GitHub Actions returned HTTP 200 with an empty status for the absent deployment
+// of db9c21a (diagnostic run 37758836914). Never infer absence from HTTP 200 alone.
+export function assertNoPagesAttempt(deployment,records){
+ if(!Array.isArray(records))fail('BOOTSTRAP_PAGES_ABSENCE_UNPROVEN');
+ if(records.length!==0)fail('BOOTSTRAP_PAGES_ATTEMPT_EXISTS');
+ if(deployment===null)return;
+ if(deployment&&typeof deployment==='object'&&!Array.isArray(deployment)&&deployment.status==='')return;
+ if(deployment&&['deployment_in_progress','syncing_files','finished','succeed','deployment_failed','cancelled','queued','pending','in_progress','failed'].includes(deployment.status))fail('BOOTSTRAP_PAGES_ATTEMPT_EXISTS');
+ fail('BOOTSTRAP_PAGES_ABSENCE_UNPROVEN');
+}
+const RECOVERY_RUN='37751560162',RECOVERY_SHA='db9c21ab60a71d9f1407e68b8f22011ee476dc97';
+export function verifyRecoveryEvidence(run,jobs,artifacts){
+ if(String(run?.id)!==RECOVERY_RUN||run.head_sha!==RECOVERY_SHA||run.run_attempt!==1||run.event!=='workflow_dispatch'||run.head_branch!=='main'||run.path!=='.github/workflows/bootstrap-demo-pages.yml'||run.status!=='completed'||run.conclusion!=='failure')fail('BOOTSTRAP_RECOVERY_RUN_UNPROVEN');
+ if(!Array.isArray(jobs?.jobs)||jobs.total_count!==2||jobs.jobs.length!==2)fail('BOOTSTRAP_RECOVERY_JOBS_UNPROVEN');
+ const build=jobs.jobs.find(j=>j.name==='build'),deploy=jobs.jobs.find(j=>j.name==='deploy');
+ if(build?.status!=='completed'||build.conclusion!=='failure'||deploy?.status!=='completed'||deploy.conclusion!=='skipped'||deploy.steps?.length)fail('BOOTSTRAP_RECOVERY_DEPLOY_UNPROVEN');
+ const steps=build.steps;
+ const before=['Set up job','Run actions/checkout@v4','Run actions/setup-node@v4'];
+ const skipped=['Run npm ci','Build existing demo for the custom domain','Verify demo output and add bootstrap-only receipt','Run actions/upload-pages-artifact@v3','Post Run actions/setup-node@v4'];
+ const failure='Reject wrong ref, stale main, publication state and any previous bootstrap run';
+ const after=['Post Run actions/checkout@v4','Complete job'];
+ if(!Array.isArray(steps)||steps.length!==before.length+skipped.length+after.length+1||steps.some(s=>s.status!=='completed'))fail('BOOTSTRAP_RECOVERY_STEPS_UNPROVEN');
+ const matches=(name,conclusion)=>steps.filter(s=>s.name===name&&s.conclusion===conclusion).length===1;
+ if(!before.every(n=>matches(n,'success'))||!skipped.every(n=>matches(n,'skipped'))||!after.every(n=>matches(n,'success'))||!matches(failure,'failure'))fail('BOOTSTRAP_RECOVERY_STEPS_UNPROVEN');
+ if(artifacts?.total_count!==0||!Array.isArray(artifacts.artifacts)||artifacts.artifacts.length)fail('BOOTSTRAP_RECOVERY_ARTIFACT_UNPROVEN');
+ return true;
+}
+export function verifyBootstrapHistory(c,runs){
+ const entries=runs?.workflow_runs;
+ if(!Array.isArray(entries)||runs.total_count!==entries.length)fail('BOOTSTRAP_ALREADY_ATTEMPTED');
+ if(!c.recovery){if(entries.length!==1||String(entries[0].id)!==c.run)fail('BOOTSTRAP_ALREADY_ATTEMPTED');return;}
+ if(c.recovery!==RECOVERY_RUN||c.run===RECOVERY_RUN||c.commit===RECOVERY_SHA||entries.length!==2||entries.filter(r=>String(r.id)===c.run).length!==1||entries.filter(r=>String(r.id)===RECOVERY_RUN&&r.head_sha===RECOVERY_SHA&&r.conclusion==='failure').length!==1)fail('BOOTSTRAP_RECOVERY_HISTORY_UNPROVEN');
+}
+async function proveRecovery(c){
+ if(!c.recovery)return;
+ if(c.recovery!==RECOVERY_RUN)fail('BOOTSTRAP_RECOVERY_RUN_UNPROVEN');
+ verifyRecoveryEvidence(await api('actions/runs/'+RECOVERY_RUN),await api('actions/runs/'+RECOVERY_RUN+'/attempts/1/jobs?per_page=100'),await api('actions/runs/'+RECOVERY_RUN+'/artifacts?per_page=100'));
+ assertNoPagesAttempt(await api('pages/deployments/'+RECOVERY_SHA,true),await api('deployments?sha='+RECOVERY_SHA+'&per_page=100'));
+}
+function context(){return {repository:process.env.GITHUB_REPOSITORY,ref:process.env.GITHUB_REF,event:process.env.GITHUB_EVENT_NAME,attempt:process.env.GITHUB_RUN_ATTEMPT,expected:process.env.EXPECTED_COMMIT,commit:process.env.GITHUB_SHA,confirm:process.env.CONFIRM_DEMO_BOOTSTRAP,run:process.env.GITHUB_RUN_ID,recovery:process.env.RECOVERY_RUN_ID};}
 async function bounded(response,limit){
  let size=0;const chunks=[];
  for await(const chunk of response.body){size+=chunk.length;if(size>limit)fail('BOOTSTRAP_RESPONSE_LIMIT');chunks.push(chunk);}
@@ -41,8 +80,9 @@ async function remoteGate(history){
  // Reject malformed/ref/replay dispatch before any network request.
  bootstrapGate(c,c.commit,JSON.parse(fs.readFileSync('production/ledger.json','utf8')));
  const main=await api('git/ref/heads/main');
- bootstrapGate(c,main.object?.sha,JSON.parse(fs.readFileSync('production/ledger.json','utf8')),history?await api('actions/workflows/bootstrap-demo-pages.yml/runs?per_page=100'):null);
- if(await api('pages/deployments/'+c.commit,true))fail('BOOTSTRAP_PAGES_ATTEMPT_EXISTS');
+ bootstrapGate(c,main.object?.sha,JSON.parse(fs.readFileSync('production/ledger.json','utf8')),history||c.recovery?await api('actions/workflows/bootstrap-demo-pages.yml/runs?per_page=100'):null);
+ await proveRecovery(c);
+ assertNoPagesAttempt(await api('pages/deployments/'+c.commit,true),await api('deployments?sha='+c.commit+'&per_page=100'));
  await absence();
  if(history)verifyEnvironmentPolicy(await api('environments/github-pages'),await api('environments/github-pages/deployment-branch-policies?per_page=100'));
 }
