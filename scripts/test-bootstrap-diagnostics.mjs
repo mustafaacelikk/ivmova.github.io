@@ -1,0 +1,13 @@
+import './publication-no-network.mjs';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {summarize} from './diagnose-bootstrap-pages.mjs';
+assert.deepEqual(summarize('pages/deployments/sha',404,{message:'Not Found'}),{route:'pages/deployments/sha',http:404,pagesStatus:null});
+assert.equal(summarize('pages/deployments/sha',200,{status:'succeed'}).pagesStatus,'succeed');
+assert.equal(summarize('pages/deployments/sha',200,{status:null}).pagesStatus,null);
+assert.equal(summarize('pages/deployments/sha',200,{}).http,200);
+assert.equal(JSON.stringify(summarize('pages',200,{token:'secret',build_type:'workflow'})).includes('secret'),false);
+const wf=fs.readFileSync(new URL('../.github/workflows/bootstrap-diagnostics.yml',import.meta.url),'utf8');
+assert.equal(wf.includes('workflow_dispatch:'),true);
+assert.equal(/: write|environment:|deploy-pages@|upload-pages-artifact@|npm ci|npm run build|workflow_run:|pull_request:|push:/.test(wf),false);
+console.log('PASS: 7 diagnostic response and read-only workflow checks; no network or deployment');

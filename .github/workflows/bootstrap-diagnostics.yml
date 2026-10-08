@@ -1,0 +1,24 @@
+name: Read-only bootstrap failure diagnosis
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+      pages: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect failed bootstrap commit without build or deployment
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/diagnose-bootstrap-pages.mjs
