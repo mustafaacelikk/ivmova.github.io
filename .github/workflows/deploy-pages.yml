@@ -27,6 +27,7 @@ jobs:
       contents: read
       actions: read
       pages: read
+      deployments: read
     outputs:
       release_record_sha256: ${{ steps.verify.outputs.release_record_sha256 }}
     steps:
@@ -56,6 +57,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      actions: read
+      deployments: read
       pages: write
       id-token: write
     environment:

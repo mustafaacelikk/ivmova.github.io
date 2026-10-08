@@ -10,7 +10,10 @@ const validate=production.split('  validate:')[1].split('  deploy:')[0],deploy=p
 ok(!/pages: write|id-token: write/.test(validate));ok(validate.includes('publication-pages-runtime.mjs validate'));
 ok(validate.indexOf('publication-pages-runtime.mjs validate')<validate.indexOf('actions/upload-pages-artifact'));
 ok(validate.includes('runner.temp }}/release/out'));ok(deploy.includes('needs: validate'));ok(deploy.includes('needs.validate.result')&&deploy.includes('name: github-pages'));
-ok(deploy.includes('contents: read')&&deploy.includes('pages: write')&&deploy.includes('id-token: write'));ok(!/actions: (read|write)|contents: write|attestations: write/.test(deploy));
+ok(deploy.includes('contents: read')&&deploy.includes('pages: write')&&deploy.includes('id-token: write'));ok(!/actions: write|deployments: write|contents: write|attestations: write/.test(deploy));
+const permissionBlock=text=>text.replace(/\r/g,'').match(/^    permissions:\n([\s\S]*?)^    (outputs|environment):/m)?.[1];
+ok(permissionBlock(validate)==='      contents: read\n      actions: read\n      pages: read\n      deployments: read\n');
+ok(permissionBlock(deploy)==='      contents: read\n      actions: read\n      deployments: read\n      pages: write\n      id-token: write\n');
 ok(deploy.indexOf('publication-pages-runtime.mjs guard')<deploy.indexOf('actions/deploy-pages'));ok(deploy.includes('publication-pages-runtime.mjs reconcile'));
 ok(!/git (push|commit)|publication-git-ledger.mjs prepare|supabase|contents: write/.test(production));
 const normalizedStaging=staging.replace(/\r/g,'');
@@ -29,4 +32,5 @@ const entry=fs.readFileSync(new URL('./publication-build-only-staging.mjs',impor
 for(const script of ['consumer','recovery','release','git-ledger','workflow'])ok(entry.includes('test-publication-'+script+'.mjs'));
 ok(entry.includes('test-pages-reconciliation.mjs')&&entry.includes('test-publication-builds.mjs'));
 ok(entry.includes('test-bootstrap-demo-pages.mjs'));
+ok(entry.includes('test-publication-pages-absence.mjs'));
 console.log(JSON.stringify({result:'PASS',assertions,scope:'static YAML policy; no GitHub execution'}));
