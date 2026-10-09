@@ -9,7 +9,7 @@ const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const defaultStore = path.join(repo, '.publication-local');
 const fail = code => { throw new ExportError(code); };
 const MAX_BYTES = 16 * 1024 * 1024, MAX_FILES = 1002;
-const categoryMap = Object.freeze({ 'Enerji':'enerji', 'Enerji Piyasaları':'piyasalar', 'Teknoloji':'teknoloji', 'Mobilite':'mobilite', 'İklim':'iklim', 'Analiz':'analiz', enerji:'enerji', piyasalar:'piyasalar', teknoloji:'teknoloji', mobilite:'mobilite', iklim:'iklim', analiz:'analiz' });
+const categoryMap = Object.freeze({ 'Enerji':'enerji', 'Enerji Piyasaları':'piyasalar', 'Teknoloji':'teknoloji', 'Mobilite':'mobilite', 'İklim':'iklim', 'Analiz':'analiz', ENERGY:'enerji', 'enerji-piyasalari':'piyasalar', enerji:'enerji', piyasalar:'piyasalar', teknoloji:'teknoloji', mobilite:'mobilite', iklim:'iklim', analiz:'analiz' });
 const cmp = (a,b) => a < b ? -1 : a > b ? 1 : 0;
 function inside(r,p) { const rel=path.relative(r,p); return rel!=='' && !rel.startsWith('..') && !path.isAbsolute(rel); }
 function noLinks(p) {
