@@ -12,6 +12,16 @@ const make=(opt={})=>{const dir=path.join(tmp,'input-'+counter);return {dir,...w
 function mutate(input,fn) {fn(input.manifest);fs.writeFileSync(input.file,canonicalBytes(input.manifest));}
 function replaceStory(input,fn) {const x=input.manifest.items[0];const f=path.join(input.dir,x.artifactPath);const s=JSON.parse(fs.readFileSync(f));fn(s);const b=canonicalBytes(s);fs.writeFileSync(f,b);x.artifactSha256=sha256(b);x.artifactBytes=b.length;mutate(input,()=>{});}
 try {
+  for(const [category,expected] of [['ENERGY','enerji'],['enerji-piyasalari','piyasalar']]) {
+    const raw={...story(80),primaryCategory:category};const input=make({stories:[raw]});
+    const artifact=path.join(input.dir,input.manifest.items[0].artifactPath);const bytes=fs.readFileSync(artifact);
+    validateRelease(input.dir);const categoryStore=path.join(tmp,'category-'+expected);importRelease(input.dir,{store:categoryStore});
+    const current=loadCurrent(categoryStore);eq(current.state.stories[0].primaryCategory,category,'raw editorial category retained');
+    eq(normalize(current.state.stories)[0].category,expected,'editorial category maps to existing site route');
+    eq(fs.readFileSync(artifact),bytes,'import preserves signed artifact bytes');
+    eq(sha256(bytes),input.manifest.items[0].artifactSha256,'original manifest hash remains valid');
+  }
+  const unknownCode=make({stories:[{...story(81),primaryCategory:'energy'}]});rejected(()=>validateRelease(unknownCode.dir),'unlisted category code rejected');
   const store=path.join(tmp,'store');const first=make({minute:1});importRelease(first.dir,{store});eq(loadCurrent(store).state.stories.length,1,'FULL UPSERT');
   const before=canonicalBytes(normalize(loadCurrent(store).state.stories));const beforeStateHash=loadCurrent(store).pointer.stateSha256;
   const second=make({type:'INCREMENTAL',minute:2,stories:[story(2)]});importRelease(second.dir,{store});eq(loadCurrent(store).state.stories.length,2,'INCREMENTAL UPSERT');
