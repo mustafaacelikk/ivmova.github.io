@@ -1,4 +1,4 @@
-import fs from 'node:fs';import path from 'node:path';import {spawnSync} from 'node:child_process';
+import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import {spawnSync} from 'node:child_process';
 import {validateRelease,importRelease} from './publication-consumer.mjs';import {createBundle,EMPTY_HEAD} from './publication-release.mjs';import {validateLedger,git} from './publication-git-ledger.mjs';import {readCanonical,fail} from './publication-control-schema.mjs';
 const root=process.env.RUNNER_TEMP,commit=process.env.GITHUB_SHA;
 if(process.env.GITHUB_ACTIONS!=='true'||!root||process.env.GITHUB_REF!=='refs/heads/main'||process.env.GITHUB_REPOSITORY!=='mustafaacelikk/ivmova.github.io')fail('TRUSTED_PRODUCER_MAIN_ONLY');
@@ -6,7 +6,7 @@ if(!/^[0-9a-f-]{36}$/.test(process.env.PUBLICATION_RUN)||!/^[0-9a-f]{64}$/.test(
 const input=path.resolve('production/input',process.env.PUBLICATION_RUN),release=validateRelease(input);if(release.manifest.exportId!==process.env.PUBLICATION_RUN||release.receipt.manifestSha256!==process.env.EXPECTED_MANIFEST||release.manifest.runType!=='FULL')fail('REVIEWED_FULL_INPUT_REQUIRED');
 const state=validateLedger(readCanonical('production/ledger.json'));if(state.pending)fail('PRODUCTION_PENDING');
 const previous=state.production.releaseId?state.releases.get(state.production.releaseId):null;
-const store=path.join(root,'producer-store');importRelease(input,{store});git(process.cwd(),['diff','--exit-code',commit,'--','production/input']);
+const store=fs.mkdtempSync(path.join(os.tmpdir(),'ivmova-producer-store-'));importRelease(input,{store});git(process.cwd(),['diff','--exit-code',commit,'--','production/input']);
 const result=spawnSync(process.execPath,['node_modules/next/dist/bin/next','build'],{stdio:'inherit',env:{...process.env,NEXT_TELEMETRY_DISABLED:'1',NEXT_PUBLIC_IVMOVA_CONTENT_MODE:'publication',NEXT_PUBLIC_IVMOVA_SITE_ORIGIN:'https://ivmova.com',IVMOVA_BUILD_PROFILE:'reviewed-production',IVMOVA_PUBLICATION_STORE:store}});
 if(result.status!==0)process.exit(result.status??1);
 const destination=path.join(root,'release-bundle');createBundle({output:path.resolve('out'),publication:input,destination,siteSourceCommit:commit,buildTimestamp:new Date().toISOString(),previousProduction:previous?{releaseId:previous.publicationRunId,provenanceSha256:previous.provenanceSha256}:EMPTY_HEAD});
