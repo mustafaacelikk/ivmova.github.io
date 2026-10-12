@@ -1,0 +1,46 @@
+name: Verify cancellation of unpublished first release
+on:
+  workflow_dispatch:
+    inputs:
+      expected_commit:
+        description: Current reviewed main HEAD
+        required: true
+        type: string
+      expected_release:
+        description: Unpublished PREPARED first release UUID
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: ivmova-production-pages
+  cancel-in-progress: false
+jobs:
+  verify:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      pages: read
+      deployments: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prove no promotion or Pages attempt; produce metadata only
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+          EXPECTED_RELEASE: ${{ inputs.expected_release }}
+        run: node scripts/cancel-prepared-release.mjs "${{ runner.temp }}/deployment-outcome.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cancellation-outcome-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/deployment-outcome.json
+          if-no-files-found: error
+          retention-days: 30
