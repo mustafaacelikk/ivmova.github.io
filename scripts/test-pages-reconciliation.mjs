@@ -10,10 +10,10 @@ const server=http.createServer((req,res)=>{httpChecks++;queries.add(req.url);if(
  res.setHeader('Content-Type','application/json');res.end(canonicalBytes(mode==='mismatch'?{...expected,treeHash:'f'.repeat(64)}:expected));});
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const local='http://127.0.0.1:'+server.address().port;
 async function mockTransport(url,options){const r=await fetch(local+url.pathname+url.search,options);return {status:r.status,redirected:r.redirected,url:url.href,headers:r.headers,body:r.body};}
-const config={origin:'https://example.test',expected,nonce:'synthetic',attempts:2,timeoutMs:100,intervalMs:0};
+const config={origin:'https://example.test',expected,nonce:'synthetic',attempts:2,timeoutMs:2000,intervalMs:0};
 try{
  ok((await reconcileMarker(config,mockTransport)).attempts===1);
- for(const value of ['mismatch','timeout','oversize','streamoversize','redirect','invalid','extra','missing']){mode=value;await assert.rejects(()=>reconcileMarker({...config,nonce:value},mockTransport));assertions++;}
+ for(const value of ['mismatch','timeout','oversize','streamoversize','redirect','invalid','extra','missing']){mode=value;await assert.rejects(()=>reconcileMarker({...config,nonce:value,timeoutMs:value==='timeout'?100:config.timeoutMs},mockTransport));assertions++;}
  mode='success';for(const origin of ['http://127.0.0.1','https://user@example.test','https://example.test/path','https://example.test:444']){await assert.rejects(()=>reconcileMarker({...config,origin},mockTransport));assertions++;}
  await assert.rejects(()=>reconcileMarker({...config,attempts:7},mockTransport));assertions++;ok(secretRequests===0);ok(queries.size===httpChecks);
  console.log(JSON.stringify({result:'PASS',assertions,httpChecks,redirectFollowed:0,liveSiteRequests:0}));

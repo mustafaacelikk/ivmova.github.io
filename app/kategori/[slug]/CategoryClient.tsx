@@ -1,4 +1,5 @@
 "use client";
+import { LocalDateTime } from "../../components/LocalDateTime";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -24,7 +25,7 @@ export function CategoryClient({ category, publishedNews }: { category: Category
   </>;
 }
 
-function StoryTile({item}:{item:NewsItem}){return <a href={sitePath(`/haber/${item.slug}`)} className="group relative block min-h-[220px] overflow-hidden rounded-xl bg-[#07172d] text-white sm:min-h-[245px]"><img src={item.image} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"/><div className="absolute inset-0 bg-gradient-to-t from-[#061326] via-[#061326]/35 to-transparent"/><div className="absolute inset-x-0 bottom-0 min-w-0 p-4"><span className="text-[9px] font-black uppercase tracking-[.14em] text-[#59d8ca]">{item.subcategory} · {item.time}</span><h3 className="mt-2 [overflow-wrap:anywhere] text-lg font-black leading-tight">{showcaseTitle(item)}</h3></div></a>}
+function StoryTile({item}:{item:NewsItem}){return <a href={sitePath(`/haber/${item.slug}`)} className="group relative block min-h-[220px] overflow-hidden rounded-xl bg-[#07172d] text-white sm:min-h-[245px]"><img src={item.image} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"/><div className="absolute inset-0 bg-gradient-to-t from-[#061326] via-[#061326]/35 to-transparent"/><div className="absolute inset-x-0 bottom-0 min-w-0 p-4"><span className="text-[9px] font-black uppercase tracking-[.14em] text-[#59d8ca]">{item.subcategory} · <LocalDateTime value={item.time} /></span><h3 className="mt-2 [overflow-wrap:anywhere] text-lg font-black leading-tight">{showcaseTitle(item)}</h3></div></a>}
 
 function InvestmentNotice(){return <aside className="mt-6 rounded-xl border border-slate-200 bg-white px-5 py-4 text-xs leading-5 text-slate-500"><strong className="text-slate-700">Bilgilendirme:</strong> Bu bölümdeki içerikler genel bilgilendirme amacı taşır; yatırım danışmanlığı kapsamında değildir ve herhangi bir sermaye piyasası aracı için alım-satım önerisi içermez.</aside>}
 

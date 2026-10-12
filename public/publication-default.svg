@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" role="img" aria-labelledby="title desc">
- <title id="title">IVMOVA yayın görseli</title><desc id="desc">Lacivert zemin üzerinde turkuaz enerji çizgileri ve IVMOVA marka yazısı. Olay fotoğrafı değildir.</desc>
- <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07172d"/><stop offset="1" stop-color="#12334b"/></linearGradient></defs>
- <rect width="1600" height="700" fill="url(#bg)"/>
- <g fill="none" stroke="#12b8a6"><circle cx="1380" cy="350" r="270" opacity=".16" stroke-width="2"/><circle cx="1380" cy="350" r="210" opacity=".23" stroke-width="2"/><path d="M980 700 1140 470 1290 470 1460 180 1600 180" opacity=".35" stroke-width="8"/><path d="M0 590H750" stroke-width="5"/></g>
- <text x="120" y="365" fill="#fff" font-family="Arial, sans-serif" font-weight="700" font-size="132" letter-spacing="8">IVMOVA</text>
- <text x="126" y="435" fill="#59d8ca" font-family="Arial, sans-serif" font-size="28" letter-spacing="9">ENERJİ · TEKNOLOJİ · MOBİLİTE</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700"><defs><linearGradient id="bg" x2="1" y2=".4"><stop stop-color="#061326"/><stop offset="1" stop-color="#12364a"/></linearGradient><linearGradient id="fade" x2="0" y2="1"><stop stop-color="#061326" stop-opacity="0"/><stop offset="1" stop-color="#061326" stop-opacity=".96"/></linearGradient></defs><rect width="1600" height="700" fill="url(#bg)"/><g fill="none" stroke="#19bfad"><circle cx="1460" cy="130" r="250" opacity=".12" stroke-width="2"/><circle cx="1460" cy="130" r="180" opacity=".18" stroke-width="2"/><path d="M1030 340 1190 340 1290 170 1420 170 1530 0" opacity=".30" stroke-width="6"/></g></svg>

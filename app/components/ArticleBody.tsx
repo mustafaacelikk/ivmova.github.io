@@ -8,8 +8,11 @@ function inline(text: string): ReactNode[] {
   });
 }
 
-export function ArticleBody({ body }: { body: string[] | string }) {
+export function ArticleBody({ body, sourceUrls = [] }: { body: string[] | string; sourceUrls?: string[] }) {
   const lines = (Array.isArray(body) ? body : body.split(/\n/)).map((line) => line.trim()).filter(Boolean);
+  // Hide only a standalone trailing citation already present in the source panel.
+  const citation = lines.at(-1)?.match(/^Kaynak:\s*\[[^\]]+\]\((https?:\/\/[^)]+)\)\.?$/);
+  if (citation && sourceUrls.includes(citation[1])) lines.pop();
   const content: ReactNode[] = []; let list: string[] = [];
   const flushList = () => { if (list.length) { content.push(<ul key={`list-${content.length}`} className="mb-7 list-disc space-y-2 pl-6 text-lg leading-8 text-slate-700">{list.map((item, index) => <li key={index}>{inline(item)}</li>)}</ul>); list = []; } };
   for (const line of lines) {
