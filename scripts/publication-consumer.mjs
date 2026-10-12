@@ -1,3 +1,4 @@
+import {resolvePublicationMedia} from './publication-media.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -80,7 +81,7 @@ function validateStory(s) {
   } else if(s.revisionType==='RETRACTION'||s.retractedAt!==null)fail('ACTION_STORY');
 }
 export function normalize(stories) {
-  return [...stories].sort((a,b)=>cmp(b.publishedAt,a.publishedAt)||cmp(a.slug,b.slug)).map(s=>({id:s.storyId,slug:s.slug,category:categoryMap[s.primaryCategory],subcategory:'',title:s.headline,summary:s.standfirst??'',image:'/publication-placeholder.svg',imageSource:'IVMOVA yerel staging',imageAlt:'Nötr staging görseli',imageCaption:'Yerel staging için nötr görsel',time:s.publishedAt,published:s.publishedAt,updated:s.updatedAt,publishedIso:s.publishedAt,updatedIso:s.updatedAt,priority:0,breaking:false,author:'',source:s.sources.find(x=>x.role==='PRIMARY').sourceName,body:s.bodyMarkdown.split('\n'),publicationStatus:s.publicationStatus,retractedAt:s.retractedAt,sources:s.sources.map(x=>({sourceName:x.sourceName,title:x.title,url:x.url,publishedAt:x.publishedAt,role:x.role}))}));
+  return [...stories].sort((a,b)=>cmp(b.publishedAt,a.publishedAt)||cmp(a.slug,b.slug)).map(s=>({id:s.storyId,slug:s.slug,category:categoryMap[s.primaryCategory],subcategory:'',title:s.headline,summary:s.standfirst??'',...resolvePublicationMedia(s),time:s.publishedAt,published:s.publishedAt,updated:s.updatedAt,publishedIso:s.publishedAt,updatedIso:s.updatedAt,priority:0,breaking:false,author:'',source:s.sources.find(x=>x.role==='PRIMARY').sourceName,body:s.bodyMarkdown.split('\n'),publicationStatus:s.publicationStatus,retractedAt:s.retractedAt,sources:s.sources.map(x=>({sourceName:x.sourceName,title:x.title,url:x.url,publishedAt:x.publishedAt,role:x.role}))}));
 }
 function exactKeys(v,keys) {if(!v||typeof v!=='object'||Array.isArray(v)||!equal(Object.keys(v).sort(),keys.sort()))fail('STATE_SCHEMA');}
 function stateBytes(store,id) { if(!/^[0-9a-f]{64}$/.test(id))fail('RELEASE_ID'); const dir=path.join(store,'releases',id); noLinks(dir);const b=fs.readFileSync(path.join(dir,'state.json'));const rb=fs.readFileSync(path.join(dir,'record.json'));if(sha256(Buffer.concat([b,rb]))!==id)fail('RELEASE_INTEGRITY');return b; }

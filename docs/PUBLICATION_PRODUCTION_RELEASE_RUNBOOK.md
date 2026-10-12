@@ -68,3 +68,16 @@ Bu bootstrap hazırlığında hosted runtime, gerçek runner power loss, environ
 
 ### 2026-10-09 first real producer failure
 Run `37940410077` on reviewed main `fb7a9417b8215bb1f9aa59400def07879893a3af` stopped with `STORE_BOUNDARY` before Next build or artifact upload; no bundle or deployment was produced. GitHub RUNNER_TEMP and Node os.tmpdir() are different directories on this runner. The producer now creates its consumer store with mkdtempSync under os.tmpdir(); the consumer boundary is unchanged. Bundle and tar outputs remain under RUNNER_TEMP as required by the workflow. Local validation imported the actual one-story publication using the producer's store expression; workflow policy checks passed (50 assertions). After the fix is reviewed and merged, dispatch a new producer run with the same publication UUID/manifest hash; do not rerun the failed old commit. This is build-only and does not authorize deployment.
+## Haber görselleri
+
+Publication haberlerinde varsayılan `/publication-default.svg` IVMOVA marka görselidir; olay fotoğrafı değildir. Kaynak haberin görseli kullanılmaz. AI özel görsel sağlamazsa otomatik varsayılan seçilir. Özel görsel yokluğu yayını engellemez.
+
+Editörün metinle birlikte onayladığı özel PNG/JPEG/WebP görselini site reposunun terminalinden alın:
+
+```powershell
+node .\scripts\import-publication-media.mjs <editorial görsel onayı JSON tam yolu> <dışa aktarılmış story JSON tam yolu>
+```
+
+Araç Story/Revision/contentHash ve incelenen metin hash'ini karşılaştırır, dosya hash'i ve türünü denetler; aynı revision kaydını üzerine yazmaz. `public/media/reviewed/` dosyası ve `app/publication-media.json` birlikte site PR'ına alınır. Hak, atıf ve AI araç bilgileri kaydedilir. Kaynak haberin alanından alınmış görsel bağlantısı reddedilir; hak beyanı ayrıca editör tarafından kontrol edilmelidir. Site, eksik/bozuk özel görseli sessizce varsayılanla değiştirmez; build başarısız olur. AI görselleri mevcut haber sayfasındaki AI etiketiyle gösterilir.
+
+Görsel seçimi mevcut publication-v2 veri sözleşmesini değiştirmez. Site Git incelemesi, kaynak commit ve bundle hash zinciri görsel dosyalarını release'e bağlar. Görsel veya marka görseli değiştiğinde eski producer bundle kullanılmaz; yeni reviewed source üzerinden yeniden üretilir. Önceki PREPARED ledger kaydı silinmez veya elle değiştirilmez; yeni release öncesinde mevcut ledger kapanış kuralları uygulanır.
