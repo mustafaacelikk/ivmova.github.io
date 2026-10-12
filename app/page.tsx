@@ -1,4 +1,5 @@
 "use client";
+import { LocalDateTime } from "./components/LocalDateTime";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Footer, Header } from "./components/SiteChrome";
@@ -14,7 +15,7 @@ function NewsCard({ item, large = false }: { item: (typeof news)[number]; large?
       <img src={item.image} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#061326] via-[#061326]/45 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-6">
-        <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[#59d8ca]">{categoryMeta[item.category].name} · {item.subcategory} · <span className="text-slate-300">{item.time}</span></div>
+        <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[#59d8ca]">{categoryMeta[item.category].name} · {item.subcategory} · <span className="text-slate-300"><LocalDateTime value={item.time} /></span></div>
         <h3 className={`${large ? "text-2xl sm:text-3xl" : "text-xl"} font-black leading-tight tracking-tight`}>{showcaseTitle(item)}</h3>
         <p className="mt-2 line-clamp-2 max-w-xl text-sm leading-5 text-slate-300">{showcaseSummary(item)}</p>
       </div>
@@ -25,7 +26,7 @@ function NewsCard({ item, large = false }: { item: (typeof news)[number]; large?
 function CompactStory({ item, index }: { item: (typeof news)[number]; index: number }) {
   return <a href={sitePath(`/haber/${item.slug}`)} className="group grid grid-cols-[34px_1fr] gap-3 border-t border-slate-200 py-4 first:border-t-0 sm:border-t-0 sm:border-l sm:px-5 sm:first:border-l-0 sm:first:pl-0">
     <span className="text-sm font-black text-[#12b8a6]">{String(index + 1).padStart(2, "0")}</span>
-    <span><span className="block text-[10px] font-bold uppercase tracking-[.16em] text-slate-400">{categoryMeta[item.category].name} · {item.time}</span><strong className="mt-1.5 block leading-snug transition group-hover:text-[#0d9688]">{showcaseTitle(item)}</strong></span>
+    <span><span className="block text-[10px] font-bold uppercase tracking-[.16em] text-slate-400">{categoryMeta[item.category].name} · <LocalDateTime value={item.time} /></span><strong className="mt-1.5 block leading-snug transition group-hover:text-[#0d9688]">{showcaseTitle(item)}</strong></span>
   </a>;
 }
 
@@ -85,7 +86,7 @@ export default function Home() {
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 p-5 pb-16 text-white sm:px-24 sm:pb-16 lg:px-28 lg:pb-14">
             <div className="mb-4 flex items-center gap-3 text-xs font-bold uppercase tracking-wider">
               {current.breaking && <span className="rounded bg-[#12b8a6] px-3 py-1.5">Son dakika</span>}
-              <span>{categoryMeta[current.category].name}</span><span className="text-slate-300">· {current.time}</span>
+              <span>{categoryMeta[current.category].name}</span><span className="text-slate-300">· <LocalDateTime value={current.time} /></span>
             </div>
             <h1 className={`max-w-4xl [overflow-wrap:anywhere] text-[28px] font-black leading-[1.08] tracking-[-.035em] ${currentHeroTitle.length > 72 ? "sm:text-4xl" : "sm:text-5xl"}`}>{currentHeroTitle}</h1>
             <p className="mt-3 max-w-3xl [overflow-wrap:anywhere] text-sm leading-6 text-slate-200 sm:mt-4 sm:text-lg">{currentHeroSummary}</p>
@@ -109,7 +110,7 @@ export default function Home() {
 
       <section className="bg-white py-12"><div className="mx-auto max-w-7xl px-4"><SectionHeading kicker="Gelişmenin ötesi" title="Analiz ve Dosyalar" href="/kategori/analiz"/>{analysisItems.length > 0 && <><a href={sitePath(`/haber/${analysisItems[0].slug}`)} className="group grid overflow-hidden rounded-2xl border border-slate-200 bg-[#f4f7f7] lg:grid-cols-[1.05fr_1fr]"><img src={analysisItems[0].image} alt="" className="h-72 w-full object-cover lg:h-full"/><div className="flex flex-col justify-center p-7 sm:p-10"><span className="text-xs font-black uppercase tracking-[.2em] text-[#0d9688]">{analysisItems[0].subcategory}</span><h3 className="mt-4 [overflow-wrap:anywhere] text-3xl font-black leading-tight tracking-tight sm:text-4xl">{showcaseTitle(analysisItems[0])}</h3><p className="mt-4 line-clamp-3 max-w-xl [overflow-wrap:anywhere] leading-7 text-slate-600">{showcaseSummary(analysisItems[0])}</p><span className="mt-6 text-sm font-bold">Analizi oku →</span></div></a>{analysisItems.length > 1 && <div className="mt-5 grid gap-5 md:grid-cols-3">{analysisItems.slice(1, 4).map((item) => <NewsCard key={item.id} item={item} />)}</div>}</>}</div></section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14"><div className="rounded-2xl bg-[#07172d] p-7 text-white shadow-[0_18px_45px_rgba(7,23,45,.14)] sm:p-10"><div className="grid gap-8 lg:grid-cols-[1fr_2fr]"><div><p className="text-xs font-bold uppercase tracking-[.22em] text-[#59d8ca]">Canlı yayın akışı</p><h2 className="mt-3 text-3xl font-black">Son gelişmeler</h2><p className="mt-3 text-sm leading-6 text-slate-400">Enerji, enerji piyasaları, teknoloji, mobilite ve iklimden öne çıkan gelişmeler; en yeniden eskiye.</p></div><div className="divide-y divide-white/10">{sortItems(items).slice(0, 6).map((item) => <a key={item.id} href={sitePath(`/haber/${item.slug}`)} className="grid gap-2 py-4 transition hover:text-[#59d8ca] sm:grid-cols-[90px_110px_1fr]"><span className="text-sm text-slate-400">{item.time}</span><span className="text-xs font-bold uppercase tracking-wider text-[#59d8ca]">{categoryMeta[item.category].name}</span><strong className="[overflow-wrap:anywhere]">{showcaseTitle(item)}</strong></a>)}</div></div></div></section>
+      <section className="mx-auto max-w-7xl px-4 py-14"><div className="rounded-2xl bg-[#07172d] p-7 text-white shadow-[0_18px_45px_rgba(7,23,45,.14)] sm:p-10"><div className="grid gap-8 lg:grid-cols-[1fr_2fr]"><div><p className="text-xs font-bold uppercase tracking-[.22em] text-[#59d8ca]">Canlı yayın akışı</p><h2 className="mt-3 text-3xl font-black">Son gelişmeler</h2><p className="mt-3 text-sm leading-6 text-slate-400">Enerji, enerji piyasaları, teknoloji, mobilite ve iklimden öne çıkan gelişmeler; en yeniden eskiye.</p></div><div className="divide-y divide-white/10">{sortItems(items).slice(0, 6).map((item) => <a key={item.id} href={sitePath(`/haber/${item.slug}`)} className="grid gap-2 py-4 transition hover:text-[#59d8ca] sm:grid-cols-[90px_110px_1fr]"><span className="text-sm text-slate-400"><LocalDateTime value={item.time} /></span><span className="text-xs font-bold uppercase tracking-wider text-[#59d8ca]">{categoryMeta[item.category].name}</span><strong className="[overflow-wrap:anywhere]">{showcaseTitle(item)}</strong></a>)}</div></div></div></section>
       <Footer />
     </main>
   );

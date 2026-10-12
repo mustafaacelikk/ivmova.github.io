@@ -13,7 +13,9 @@ function clientDate(value: string) {
 }
 
 export function LocalDateTime({ value, fallback }: { value: string; fallback?: string }) {
-  const [label, setLabel] = useState(fallback ?? value);
-  useEffect(() => setLabel(clientDate(value)), [value]);
+  const valid = /^\d{4}-\d{2}-\d{2}T/.test(value) && Number.isFinite(Date.parse(value));
+  const initial = valid ? `${new Intl.DateTimeFormat("tr-TR", { timeZone: "Europe/Istanbul", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(value))} (GMT +3)` : (fallback ?? value);
+  const [label, setLabel] = useState(initial);
+  useEffect(() => setLabel(valid ? clientDate(value) : (fallback ?? value)), [value, valid, fallback]);
   return <time dateTime={value} suppressHydrationWarning>{label}</time>;
 }
