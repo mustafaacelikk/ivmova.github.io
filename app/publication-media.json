@@ -1,1 +1,21 @@
-{"schemaVersion":1,"items":[]}
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "storyId": "ea62dd3e-2f7f-40e6-8feb-de0d61cc973b",
+      "revisionId": "3dee1118-da21-4200-b49b-dc295422fa68",
+      "contentHash": "46c34c96d64a738dbd6d6d3770dcaf9ff29bd6c51185a728fb08e09f450c52fb",
+      "image": "/media/reviewed/8dbe18503db60a85f71fc9738226453273eecb43ac1744f2283576bac19cd65d.jpeg",
+      "imageSha256": "8dbe18503db60a85f71fc9738226453273eecb43ac1744f2283576bac19cd65d",
+      "alt": "Do─şal gaz tesisini betimleyen temsili yapay zek├ó g├Ârseli.",
+      "caption": "Temsili g├Ârsel; ger├ğek bir tesisin veya haber konusu olay─▒n foto─şraf─▒ de─şildir.",
+      "credit": "IVMOVA / Gemini ile olu┼şturuldu",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
+    }
+  ]
+}
