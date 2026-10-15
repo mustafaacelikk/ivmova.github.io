@@ -1,0 +1,1957 @@
+[
+  {
+    "id": "enerji",
+    "term": "Enerji",
+    "aliases": [],
+    "category": "Temel kavramlar",
+    "definition": "İş yapma veya ısı aktarımı sağlayabilme büyüklüğü. Elektrik enerjisi çoğunlukla kilovatsaatle ifade edilir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/energyexplained/electricity/measuring-electricity.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "guc",
+    "term": "Güç",
+    "aliases": [],
+    "category": "Temel kavramlar",
+    "definition": "Enerji üretiminin, aktarımının veya tüketiminin hızını gösterir. Birimi wattır.",
+    "note": "Güç ile belirli sürede üretilen veya tüketilen enerji farklıdır.",
+    "sourceUrl": "https://www.eia.gov/energyexplained/electricity/measuring-electricity.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "watt",
+    "term": "Watt",
+    "aliases": [
+      "W"
+    ],
+    "category": "Birimler",
+    "definition": "Güç birimidir. Bir watt, saniyede bir joule enerji aktarımına karşılık gelir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/energyexplained/electricity/measuring-electricity.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "kilovat",
+    "term": "Kilovat",
+    "aliases": [
+      "kW",
+      "kilowatt"
+    ],
+    "category": "Birimler",
+    "definition": "Bin wattlık güç birimidir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/energyexplained/electricity/measuring-electricity.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "megavat",
+    "term": "Megavat",
+    "aliases": [
+      "MW",
+      "megawatt"
+    ],
+    "category": "Birimler",
+    "definition": "Bin kilovata, yani bir milyon watta eşit güç birimidir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/energyexplained/electricity/measuring-electricity.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "gigavat",
+    "term": "Gigavat",
+    "aliases": [
+      "GW",
+      "gigawatt"
+    ],
+    "category": "Birimler",
+    "definition": "Bin megavata eşit güç birimidir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/energyexplained/electricity/measuring-electricity.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "kilovatsaat",
+    "term": "Kilovatsaat",
+    "aliases": [
+      "kWh",
+      "kilowatt hour",
+      "kilowatt-hour",
+      "kWsa"
+    ],
+    "category": "Birimler",
+    "definition": "Bir kilovatlık gücün bir saat sürmesiyle aktarılan enerji miktarıdır.",
+    "note": "kW güç, kWh enerjidir. Kilovatsaat, saatte kilovat anlamına gelmez.",
+    "sourceUrl": "https://www.eia.gov/energyexplained/electricity/measuring-electricity.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "megavatsaat",
+    "term": "Megavatsaat",
+    "aliases": [
+      "MWh"
+    ],
+    "category": "Birimler",
+    "definition": "Bin kilovatsaate eşit enerji birimidir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/energyexplained/electricity/measuring-electricity.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "gigavatsaat",
+    "term": "Gigavatsaat",
+    "aliases": [
+      "GWh"
+    ],
+    "category": "Birimler",
+    "definition": "Bin megavatsaate eşit enerji birimidir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/energyexplained/electricity/measuring-electricity.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "teravatsaat",
+    "term": "Teravatsaat",
+    "aliases": [
+      "TWh"
+    ],
+    "category": "Birimler",
+    "definition": "Bir milyon megavatsaate eşit enerji birimidir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/energyexplained/electricity/measuring-electricity.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "kurulu-guc",
+    "term": "Kurulu güç",
+    "aliases": [
+      "installed capacity"
+    ],
+    "category": "Üretim ve şebeke",
+    "definition": "Üretim tesislerinin güç kapasitesini ifade eder; genellikle MW veya GW olarak verilir.",
+    "note": "Kurulu güç, gerçekleşen üretim miktarı değildir.",
+    "sourceUrl": "https://www.eia.gov/tools/faqs/faq.php?id=101&t=6",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "kapasite-faktoru",
+    "term": "Kapasite faktörü",
+    "aliases": [
+      "capacity factor"
+    ],
+    "category": "Üretim ve şebeke",
+    "definition": "Belirli dönemdeki gerçek üretimin, seçilen kapasite temelinde aynı sürede mümkün olan azami üretime oranıdır.",
+    "note": "Hesapta kullanılan kapasite ve dönem belirtilmelidir; verimlilikle aynı ölçü değildir.",
+    "sourceUrl": "https://www.eia.gov/tools/faqs/faq.php?id=101&t=6",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "nominal-kapasite",
+    "term": "Nominal kapasite",
+    "aliases": [
+      "nameplate capacity"
+    ],
+    "category": "Üretim ve şebeke",
+    "definition": "Üretici veya tesis tasarımının belirttiği güç kapasitesidir. İşletme koşullarındaki kullanılabilir güç farklı olabilir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/faqs/faq.php?id=101&t=6",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "brut-uretim",
+    "term": "Brüt üretim",
+    "aliases": [
+      "gross generation"
+    ],
+    "category": "Üretim ve şebeke",
+    "definition": "Üretim birimlerinin çıkışında ölçülen toplam elektrik enerjisidir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=electricity",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "net-uretim",
+    "term": "Net üretim",
+    "aliases": [
+      "net generation"
+    ],
+    "category": "Üretim ve şebeke",
+    "definition": "Brüt üretimden tesisin kendi işletme tüketimi çıkarıldıktan sonra kalan elektrik enerjisidir.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=electricity",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "iletim",
+    "term": "Elektrik iletimi",
+    "aliases": [
+      "transmission"
+    ],
+    "category": "Üretim ve şebeke",
+    "definition": "Elektriğin üretim ve büyük tüketim merkezleri arasında yüksek gerilimli şebeke üzerinden taşınmasıdır.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=electricity",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dagitim",
+    "term": "Elektrik dağıtımı",
+    "aliases": [
+      "distribution"
+    ],
+    "category": "Üretim ve şebeke",
+    "definition": "Elektriğin dağıtım şebekesi üzerinden son kullanıcılara ulaştırılmasıdır.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=electricity",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "transformator",
+    "term": "Transformatör",
+    "aliases": [
+      "trafo",
+      "transformer"
+    ],
+    "category": "Üretim ve şebeke",
+    "definition": "Alternatif akımda gerilim düzeyini değiştiren elektrik ekipmanıdır.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=electricity",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yuk",
+    "term": "Elektrik yükü",
+    "aliases": [
+      "load",
+      "talep"
+    ],
+    "category": "Üretim ve şebeke",
+    "definition": "Bir anda şebekeden çekilen veya karşılanması gereken elektrik gücüdür.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=electricity",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yenilenebilir",
+    "term": "Yenilenebilir enerji",
+    "aliases": [],
+    "category": "Kaynaklar",
+    "definition": "Güneş, rüzgâr, su ve jeotermal gibi doğal süreçlerle yenilenen kaynaklardan elde edilen enerjidir.",
+    "note": "",
+    "sourceUrl": "https://www.enerji.gov.tr/bilgi-merkezi-enerji-elektrik?v=1.0.23",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "ges",
+    "term": "Güneş enerjisi santrali",
+    "aliases": [
+      "GES"
+    ],
+    "category": "Kaynaklar",
+    "definition": "Güneşten elektrik üreten tesistir. Fotovoltaik sistemler ışığı doğrudan elektriğe çevirir.",
+    "note": "",
+    "sourceUrl": "https://www.enerji.gov.tr/bilgi-merkezi-enerji-elektrik?v=1.0.23",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "res",
+    "term": "Rüzgâr enerjisi santrali",
+    "aliases": [
+      "RES"
+    ],
+    "category": "Kaynaklar",
+    "definition": "Rüzgârın hareket enerjisini türbinlerle elektrik enerjisine dönüştüren tesistir.",
+    "note": "",
+    "sourceUrl": "https://www.enerji.gov.tr/bilgi-merkezi-enerji-elektrik?v=1.0.23",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "hes",
+    "term": "Hidroelektrik santral",
+    "aliases": [
+      "HES"
+    ],
+    "category": "Kaynaklar",
+    "definition": "Suyun hareketi veya yükseklik farkından yararlanarak elektrik üreten tesistir.",
+    "note": "",
+    "sourceUrl": "https://www.enerji.gov.tr/bilgi-merkezi-enerji-elektrik?v=1.0.23",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "jeotermal",
+    "term": "Jeotermal enerji",
+    "aliases": [],
+    "category": "Kaynaklar",
+    "definition": "Yer içindeki ısıdan yararlanılan enerji kaynağıdır; elektrik üretiminde veya doğrudan ısı kullanımında değerlendirilebilir.",
+    "note": "",
+    "sourceUrl": "https://www.enerji.gov.tr/bilgi-merkezi-enerji-elektrik?v=1.0.23",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "depolama",
+    "term": "Enerji depolama",
+    "aliases": [],
+    "category": "Depolama",
+    "definition": "Enerjinin daha sonra kullanılmak üzere başka bir biçimde tutulmasıdır. Kimyasal, mekanik veya ısıl yöntemler kullanılabilir.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-integration-solar-energy-and-storage-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "bess",
+    "term": "Batarya enerji depolama sistemi",
+    "aliases": [
+      "BESS",
+      "batarya depolama"
+    ],
+    "category": "Depolama",
+    "definition": "Elektrik enerjisini bataryalarda kimyasal biçimde depolayıp gerektiğinde elektrik olarak veren sistemdir.",
+    "note": "MW çıkış gücünü, MWh depolanan enerji kapasitesini belirtir.",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-integration-solar-energy-and-storage-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "pompaj",
+    "term": "Pompaj depolamalı hidroelektrik",
+    "aliases": [],
+    "category": "Depolama",
+    "definition": "Su üst hazneye pompalanarak enerji depolanır; su aşağıya bırakıldığında türbinlerle elektrik geri üretilir.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-integration-solar-energy-and-storage-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "gop",
+    "term": "Gün Öncesi Piyasası",
+    "aliases": [
+      "GÖP",
+      "GOP"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Elektriğin ertesi gün teslim edilmek üzere alınıp satıldığı organize piyasadır.",
+    "note": "",
+    "sourceUrl": "https://seffaflik-prp.epias.com.tr/electricity-service/technical/tr/index.html",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "ptf",
+    "term": "Piyasa Takas Fiyatı",
+    "aliases": [
+      "PTF"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Gün Öncesi Piyasası tekliflerinin eşleştirilmesiyle oluşan elektrik enerjisi fiyatıdır.",
+    "note": "Son kullanıcı faturasının tamamını ifade etmez.",
+    "sourceUrl": "https://seffaflik-prp.epias.com.tr/electricity-service/technical/tr/index.html",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "gip",
+    "term": "Gün İçi Piyasası",
+    "aliases": [
+      "GİP",
+      "GIP"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Katılımcıların teslimata daha yakın zamanda elektrik alım satımıyla pozisyonlarını düzenleyebildiği piyasadır.",
+    "note": "",
+    "sourceUrl": "https://www.epias.com.tr/gun-ici-piyasasi/giris/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "smf",
+    "term": "Sistem Marjinal Fiyatı",
+    "aliases": [
+      "SMF"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Dengeleme Güç Piyasasında sistemin enerji açığı veya fazlasını karşılayan teklifler üzerinden belirlenen fiyattır.",
+    "note": "",
+    "sourceUrl": "https://www.epias.com.tr/smf-hesaplanmasi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "lng",
+    "term": "Sıvılaştırılmış doğal gaz",
+    "aliases": [
+      "LNG"
+    ],
+    "category": "Gaz ve yakıtlar",
+    "definition": "Taşıma ve depolama için çok düşük sıcaklıkta sıvı hâle getirilen doğal gazdır.",
+    "note": "LPG ile aynı yakıt değildir.",
+    "sourceUrl": "https://www.eia.gov/energyexplained/natural-gas/liquefied-natural-gas.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "lpg",
+    "term": "Sıvılaştırılmış petrol gazı",
+    "aliases": [
+      "LPG",
+      "otogaz"
+    ],
+    "category": "Gaz ve yakıtlar",
+    "definition": "Başlıca propan ve bütandan oluşan, basınç altında sıvılaştırılarak saklanabilen yakıt grubudur.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/index.php?id=Liquefied",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "ohm",
+    "term": "Ohm",
+    "aliases": [
+      "Ω",
+      "om"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Elektriksel direnç birimi; bir voltun bir amper akıma oranıdır.",
+    "note": "",
+    "sourceUrl": "https://www.bipm.org/en/measurement-units/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "volt",
+    "term": "Volt",
+    "aliases": [
+      "V"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Elektriksel potansiyel farkının, yani gerilimin birimi.",
+    "note": "",
+    "sourceUrl": "https://www.bipm.org/en/measurement-units/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "amper",
+    "term": "Amper",
+    "aliases": [
+      "A"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Elektrik akımının SI birimi.",
+    "note": "",
+    "sourceUrl": "https://www.bipm.org/en/measurement-units/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "hertz",
+    "term": "Hertz",
+    "aliases": [
+      "Hz"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Saniyedeki çevrim sayısını gösteren frekans birimi.",
+    "note": "",
+    "sourceUrl": "https://www.bipm.org/en/measurement-units/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "joule",
+    "term": "Joule",
+    "aliases": [
+      "J",
+      "jul"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Enerji ve işin SI birimi.",
+    "note": "",
+    "sourceUrl": "https://www.bipm.org/en/measurement-units/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "pascal",
+    "term": "Pascal",
+    "aliases": [
+      "Pa",
+      "paskal"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Basınç birimi; metrekare başına bir newton kuvveti ifade eder.",
+    "note": "",
+    "sourceUrl": "https://www.bipm.org/en/measurement-units/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "kelvin",
+    "term": "Kelvin",
+    "aliases": [
+      "K"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Termodinamik sıcaklığın SI birimi.",
+    "note": "",
+    "sourceUrl": "https://www.bipm.org/en/measurement-units/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "kilovolt",
+    "term": "Kilovolt",
+    "aliases": [
+      "kV"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Bin volta eşit gerilim birimi.",
+    "note": "",
+    "sourceUrl": "https://www.bipm.org/en/measurement-units/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "megajoule",
+    "term": "Megajoule",
+    "aliases": [
+      "MJ"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Bir milyon joule enerji.",
+    "note": "",
+    "sourceUrl": "https://www.bipm.org/en/measurement-units/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "gigajoule",
+    "term": "Gigajoule",
+    "aliases": [
+      "GJ"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Bir milyar joule enerji.",
+    "note": "",
+    "sourceUrl": "https://www.bipm.org/en/measurement-units/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dogru-akim",
+    "term": "Doğru akım",
+    "aliases": [
+      "DC"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Tek yönde akan elektrik akımı; güneş panelleri doğru akım üretir.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-integration-inverters-and-grid-services-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "alternatif-akim",
+    "term": "Alternatif akım",
+    "aliases": [
+      "AC"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Yönü periyodik değişen elektrik akımı; şebekelerde kullanılır.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-integration-inverters-and-grid-services-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "inverter",
+    "term": "İnverter",
+    "aliases": [
+      "evirici",
+      "invertör"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Doğru akımı alternatif akıma dönüştüren cihaz.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-integration-inverters-and-grid-services-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "reaktif-guc",
+    "term": "Reaktif güç",
+    "aliases": [
+      "kVAr",
+      "var"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Elektrik ve manyetik alanlarla kaynak arasında gidip gelen güç bileşeni; aktif güçten farklıdır.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-integration-inverters-and-grid-services-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "aktif-guc",
+    "term": "Aktif güç",
+    "aliases": [
+      "P"
+    ],
+    "category": "Elektrik ve ölçüm",
+    "definition": "Elektrik devresinde yararlı işe veya ısıya dönüşen güç bileşeni.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-integration-inverters-and-grid-services-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "fotovoltaik",
+    "term": "Fotovoltaik",
+    "aliases": [
+      "PV"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Işığı doğrudan elektrik enerjisine dönüştüren teknoloji.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/how-does-solar-work",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "gunes-hucresi",
+    "term": "Güneş hücresi",
+    "aliases": [
+      "solar cell"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Fotovoltaik dönüşümü gerçekleştiren temel yarı iletken eleman.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/how-does-solar-work",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "gunes-modulu",
+    "term": "Güneş modülü",
+    "aliases": [
+      "panel"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Birden çok güneş hücresinin koruyucu yapı içinde birleştirildiği elektrik üretim birimi.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/how-does-solar-work",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yogunlastirilmis-gunes-enerjisi",
+    "term": "Yoğunlaştırılmış güneş enerjisi",
+    "aliases": [
+      "CSP"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Güneş ışığını aynalarla yoğunlaştırıp ısı üreten teknoloji.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/how-does-solar-work",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "isinim-siddeti",
+    "term": "Işınım şiddeti",
+    "aliases": [
+      "irradiance",
+      "W/m²"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Bir yüzeye birim zamanda, birim alan başına ulaşan ışınım gücü.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-radiation-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "guneslenme-enerjisi",
+    "term": "Güneşlenme enerjisi",
+    "aliases": [
+      "irradiation",
+      "kWh/m²"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Belirli sürede birim alana ulaşan güneş enerjisi; anlık güçle karıştırılmaz.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-radiation-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "baglanti-anlasmasina-cagri-mektubu",
+    "term": "Bağlantı anlaşmasına çağrı mektubu",
+    "aliases": [
+      "GES çağrı mektubu",
+      "çağrı mektubu"
+    ],
+    "category": "Proje ve izinler",
+    "definition": "Lisanssız üretim başvurusunda bağlantı anlaşmasına geçiş için verilen, teknik koşulları içeren belge.",
+    "note": "Türkiye bağlamında kısa açıklamadır. Güncel başvuru koşulları ve süreler kaynak mevzuattan kontrol edilmelidir; çağrı mektubu tek başına tüm izinlerin tamamlandığı anlamına gelmez.",
+    "sourceUrl": "https://www.epdk.gov.tr/detay/icerik/3-0-0-1160/elektrik-piyasasinda-lisanssiz-elektrik-uretimi-",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "baglanti-anlasmasi",
+    "term": "Bağlantı anlaşması",
+    "aliases": [],
+    "category": "Proje ve izinler",
+    "definition": "Üretim veya tüketim tesisinin şebekeye bağlantı koşullarını düzenleyen anlaşma.",
+    "note": "Türkiye bağlamında kısa açıklamadır. Güncel başvuru koşulları ve süreler kaynak mevzuattan kontrol edilmelidir; çağrı mektubu tek başına tüm izinlerin tamamlandığı anlamına gelmez.",
+    "sourceUrl": "https://www.epdk.gov.tr/detay/icerik/3-0-0-1160/elektrik-piyasasinda-lisanssiz-elektrik-uretimi-",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "lisanssiz-elektrik-uretimi",
+    "term": "Lisanssız elektrik üretimi",
+    "aliases": [
+      "lisanssız GES"
+    ],
+    "category": "Proje ve izinler",
+    "definition": "Mevzuattaki koşullarla üretim lisansı alma yükümlülüğü olmaksızın yapılan elektrik üretimi.",
+    "note": "Türkiye bağlamında kısa açıklamadır. Güncel başvuru koşulları ve süreler kaynak mevzuattan kontrol edilmelidir; çağrı mektubu tek başına tüm izinlerin tamamlandığı anlamına gelmez.",
+    "sourceUrl": "https://www.epdk.gov.tr/detay/icerik/3-0-0-1160/elektrik-piyasasinda-lisanssiz-elektrik-uretimi-",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "mahsuplasma",
+    "term": "Mahsuplaşma",
+    "aliases": [],
+    "category": "Proje ve izinler",
+    "definition": "İlgili kurallara göre üretim ve tüketimin belirli dönem için karşılaştırılarak hesaplaşılması.",
+    "note": "Türkiye bağlamında kısa açıklamadır. Güncel başvuru koşulları ve süreler kaynak mevzuattan kontrol edilmelidir; çağrı mektubu tek başına tüm izinlerin tamamlandığı anlamına gelmez.",
+    "sourceUrl": "https://www.epdk.gov.tr/detay/icerik/3-0-0-1160/elektrik-piyasasinda-lisanssiz-elektrik-uretimi-",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "oztuketim",
+    "term": "Öztüketim",
+    "aliases": [
+      "öz tüketim"
+    ],
+    "category": "Proje ve izinler",
+    "definition": "Bir tesisin ürettiği elektriği kendi tüketiminde kullanması.",
+    "note": "Türkiye bağlamında kısa açıklamadır. Güncel başvuru koşulları ve süreler kaynak mevzuattan kontrol edilmelidir; çağrı mektubu tek başına tüm izinlerin tamamlandığı anlamına gelmez.",
+    "sourceUrl": "https://www.epdk.gov.tr/detay/icerik/3-0-0-1160/elektrik-piyasasinda-lisanssiz-elektrik-uretimi-",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "marjinal-tarim-arazisi",
+    "term": "Marjinal tarım arazisi",
+    "aliases": [
+      "marjinal arazi"
+    ],
+    "category": "Proje ve izinler",
+    "definition": "Toprak veya topoğrafya sınırlamaları nedeniyle tarımsal kullanım imkânı kısıtlı olan bir arazi sınıfı.",
+    "note": "Çorak veya sahipsiz arazi demek değildir. Bu sınıf tek başına GES kurma, yapılaşma ya da tarım dışı kullanım izni vermez; resmî arazi sınıflaması ve diğer izinler ayrıca değerlendirilir.",
+    "sourceUrl": "https://kayseri.tarimorman.gov.tr/Sayfalar/Detay.aspx?TermId=d6008e47-6393-4d8a-a2c9-78dc26edd1e7&TermSetId=2fcd0a6e-29e6-4155-91b3-67f2140f7189&TermStoreId=368e785b-af33-487d-a98d-c11d5495130b&UrlSuffix=106%2FTarim-Arazilerinin-Bolunmesine-Son",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dengeleme-guc-piyasasi",
+    "term": "Dengeleme güç piyasası",
+    "aliases": [
+      "DGP"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Gerçek zamanda arz ve talebi dengelemek amacıyla işletilen elektrik piyasası.",
+    "note": "Türkiye piyasası bağlamındadır; güncel dönem, fiyat ve hesaplama kuralları ilgili mevzuata bağlıdır.",
+    "sourceUrl": "https://www.epias.com.tr/slide/dengeleme-guc-piyasasi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dengesizlik",
+    "term": "Dengesizlik",
+    "aliases": [],
+    "category": "Elektrik piyasası",
+    "definition": "Piyasa katılımcısının planlanan ticari pozisyonu ile gerçekleşen enerji miktarı arasındaki fark.",
+    "note": "Türkiye piyasası bağlamındadır; güncel dönem, fiyat ve hesaplama kuralları ilgili mevzuata bağlıdır.",
+    "sourceUrl": "https://www.epias.com.tr/slide/dengeleme-guc-piyasasi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "uzlastirma",
+    "term": "Uzlaştırma",
+    "aliases": [],
+    "category": "Elektrik piyasası",
+    "definition": "Piyasa işlemleri ve gerçekleşen enerji miktarlarına göre alacak ve borçların hesaplanması.",
+    "note": "Türkiye piyasası bağlamındadır; güncel dönem, fiyat ve hesaplama kuralları ilgili mevzuata bağlıdır.",
+    "sourceUrl": "https://www.epias.com.tr/slide/dengeleme-guc-piyasasi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yan-hizmetler",
+    "term": "Yan hizmetler",
+    "aliases": [],
+    "category": "Elektrik piyasası",
+    "definition": "Elektrik sisteminin güvenli işletilmesini destekleyen frekans ve gerilim kontrolü gibi hizmetler.",
+    "note": "Türkiye piyasası bağlamındadır; güncel dönem, fiyat ve hesaplama kuralları ilgili mevzuata bağlıdır.",
+    "sourceUrl": "https://www.epias.com.tr/slide/dengeleme-guc-piyasasi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "ikili-anlasma",
+    "term": "İkili anlaşma",
+    "aliases": [],
+    "category": "Elektrik piyasası",
+    "definition": "Elektrik alım satımının taraflar arasında kararlaştırılan koşullarla düzenlendiği anlaşma.",
+    "note": "Türkiye piyasası bağlamındadır; güncel dönem, fiyat ve hesaplama kuralları ilgili mevzuata bağlıdır.",
+    "sourceUrl": "https://www.epias.com.tr/slide/dengeleme-guc-piyasasi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "serbest-tuketici",
+    "term": "Serbest tüketici",
+    "aliases": [],
+    "category": "Elektrik piyasası",
+    "definition": "Mevzuattaki koşulları sağlayarak elektrik tedarikçisini seçme hakkı bulunan tüketici.",
+    "note": "Serbest tüketici sınırı ile son kaynak kapsamı aynı kavram değildir. Güncel parasal değerler ve tüketim sınırları burada sabitlenmez.",
+    "sourceUrl": "https://www.epdk.gov.tr/Detay/Icerik/16-12/ticari-ve-mesleki-amacla-elektrik-tuketen-aboneli",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "son-kaynak-tedarigi",
+    "term": "Son kaynak tedariği",
+    "aliases": [
+      "SKTT",
+      "son kaynak tedarik tarifesi"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "İlgili tüketicilere görevli tedarik şirketince son kaynak kapsamında elektrik sağlanması.",
+    "note": "Serbest tüketici sınırı ile son kaynak kapsamı aynı kavram değildir. Güncel parasal değerler ve tüketim sınırları burada sabitlenmez.",
+    "sourceUrl": "https://www.epdk.gov.tr/Detay/Icerik/16-12/ticari-ve-mesleki-amacla-elektrik-tuketen-aboneli",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "gorevli-tedarik-sirketi",
+    "term": "Görevli tedarik şirketi",
+    "aliases": [
+      "GTŞ"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Dağıtım bölgesindeki ilgili tüketicilere düzenlenen koşullarla elektrik tedarik eden şirket.",
+    "note": "Serbest tüketici sınırı ile son kaynak kapsamı aynı kavram değildir. Güncel parasal değerler ve tüketim sınırları burada sabitlenmez.",
+    "sourceUrl": "https://www.epdk.gov.tr/Detay/Icerik/16-12/ticari-ve-mesleki-amacla-elektrik-tuketen-aboneli",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yenilenebilir-enerji-kaynak-garanti-belgesi",
+    "term": "Yenilenebilir enerji kaynak garanti belgesi",
+    "aliases": [
+      "YEK-G"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Elektriğin yenilenebilir kaynak niteliğini izlemek ve belgelemek için kullanılan belge.",
+    "note": "Belge, tüketiciye giden fiziksel elektrondan çok enerji niteliğinin takibiyle ilgilidir; karbon kredisi ile aynı değildir.",
+    "sourceUrl": "https://yekgnedir.epias.com.tr/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "ham-petrol",
+    "term": "Ham petrol",
+    "aliases": [
+      "crude oil"
+    ],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Yeraltından çıkarılan ve rafinaj öncesi durumdaki sıvı hidrokarbon karışımı.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/TOOLS/GLOSSARY/index.php?id=petroleum",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "rafinaj",
+    "term": "Rafinaj",
+    "aliases": [],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Ham petrolün işlenerek çeşitli yakıt ve ürünlere dönüştürülmesi.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/TOOLS/GLOSSARY/index.php?id=petroleum",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "rafineri",
+    "term": "Rafineri",
+    "aliases": [],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Ham petrolü işleyip petrol ürünleri elde eden sanayi tesisi.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/TOOLS/GLOSSARY/index.php?id=petroleum",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "benzin",
+    "term": "Benzin",
+    "aliases": [],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Çoğunlukla kıvılcım ateşlemeli motorlarda kullanılan hafif petrol ürünü.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/TOOLS/GLOSSARY/index.php?id=petroleum",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "motorin",
+    "term": "Motorin",
+    "aliases": [
+      "dizel yakıt"
+    ],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Sıkıştırma ateşlemeli motorlarda kullanılan petrol kökenli veya uygun bileşenlerle harmanlanmış yakıt.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/TOOLS/GLOSSARY/index.php?id=petroleum",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "jet-yakiti",
+    "term": "Jet yakıtı",
+    "aliases": [],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Havacılık türbin motorlarında kullanılan, belirli teknik özellikleri sağlayan yakıt.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/TOOLS/GLOSSARY/index.php?id=petroleum",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "nafta",
+    "term": "Nafta",
+    "aliases": [],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Petrokimya hammaddesi veya rafineri bileşeni olarak kullanılabilen hafif hidrokarbon karışımı.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/TOOLS/GLOSSARY/index.php?id=petroleum",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "petrokimya",
+    "term": "Petrokimya",
+    "aliases": [],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Petrol ve doğal gaz kökenli hammaddelerden kimyasal ürün üretimi alanı.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/TOOLS/GLOSSARY/index.php?id=petroleum",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "fsru",
+    "term": "FSRU",
+    "aliases": [
+      "yüzer depolama ve yeniden gazlaştırma ünitesi"
+    ],
+    "category": "Doğal gaz",
+    "definition": "LNG’yi depolayan ve yeniden gaz hâline getirerek şebekeye verebilen yüzer tesis.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=natural",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yeniden-gazlastirma",
+    "term": "Yeniden gazlaştırma",
+    "aliases": [
+      "regazifikasyon"
+    ],
+    "category": "Doğal gaz",
+    "definition": "Sıvılaştırılmış doğal gazın ısıtılarak gaz hâline döndürülmesi.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=natural",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "calisma-gazi",
+    "term": "Çalışma gazı",
+    "aliases": [],
+    "category": "Doğal gaz",
+    "definition": "Depolama tesisinde işletme koşulları içinde piyasaya verilebilen gaz miktarı.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=natural",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yastik-gazi",
+    "term": "Yastık gazı",
+    "aliases": [
+      "baz gaz"
+    ],
+    "category": "Doğal gaz",
+    "definition": "Depolama tesisinin gerekli basınç ve işletme koşullarını sürdürmek için tutulan gaz.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=natural",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "kompresor-istasyonu",
+    "term": "Kompresör istasyonu",
+    "aliases": [],
+    "category": "Doğal gaz",
+    "definition": "Gazın basıncını artırarak boru hattında taşınmasını destekleyen tesis.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/tools/glossary/?id=natural",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "maden-kaynagi",
+    "term": "Maden kaynağı",
+    "aliases": [
+      "mineral resource"
+    ],
+    "category": "Madencilik",
+    "definition": "Gelecekte ekonomik çıkarım beklentisi bulunan cevherleşmenin tahmin edilen miktar ve niteliği.",
+    "note": "Kaynak, rezerv ve üretim aynı şey değildir. Sınıflandırma ve rapor tarihi belirtilmeden miktarlar karşılaştırılmamalıdır.",
+    "sourceUrl": "https://www.mapeg.gov.tr/Sayfa/Genel/umrek",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "maden-rezervi",
+    "term": "Maden rezervi",
+    "aliases": [
+      "mineral reserve"
+    ],
+    "category": "Madencilik",
+    "definition": "Kaynağın, gerekli teknik ve ekonomik değerlendirmelerle işletilebilir kabul edilen kısmı.",
+    "note": "Kaynak, rezerv ve üretim aynı şey değildir. Sınıflandırma ve rapor tarihi belirtilmeden miktarlar karşılaştırılmamalıdır.",
+    "sourceUrl": "https://www.mapeg.gov.tr/Sayfa/Genel/umrek",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "umrek",
+    "term": "UMREK",
+    "aliases": [],
+    "category": "Madencilik",
+    "definition": "Ulusal Maden Kaynak ve Rezerv Raporlama Komisyonunun kısa adı; kaynak ve rezerv raporlama çerçevesiyle ilgilidir.",
+    "note": "Kaynak, rezerv ve üretim aynı şey değildir. Sınıflandırma ve rapor tarihi belirtilmeden miktarlar karşılaştırılmamalıdır.",
+    "sourceUrl": "https://www.mapeg.gov.tr/Sayfa/Genel/umrek",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "tenor",
+    "term": "Tenör",
+    "aliases": [],
+    "category": "Madencilik",
+    "definition": "Cevherdeki yararlı mineral veya metal içeriğini gösteren oran ya da derişim.",
+    "note": "Ruhsat, tüm çevre, arazi ve işletme izinlerinin kendiliğinden tamamlandığı anlamına gelmez.",
+    "sourceUrl": "https://www.mapeg.gov.tr/Sayfa/Genel/Sikca-Sorulan-Sorular",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "sondaj",
+    "term": "Sondaj",
+    "aliases": [],
+    "category": "Madencilik",
+    "definition": "Yeraltı hakkında bilgi edinmek veya üretim amacıyla kuyu açma işlemi.",
+    "note": "Ruhsat, tüm çevre, arazi ve işletme izinlerinin kendiliğinden tamamlandığı anlamına gelmez.",
+    "sourceUrl": "https://www.mapeg.gov.tr/Sayfa/Genel/Sikca-Sorulan-Sorular",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "maden-arama-ruhsati",
+    "term": "Maden arama ruhsatı",
+    "aliases": [],
+    "category": "Madencilik",
+    "definition": "Belirlenen saha ve koşullar altında maden arama hakkı sağlayan ruhsat.",
+    "note": "Ruhsat, tüm çevre, arazi ve işletme izinlerinin kendiliğinden tamamlandığı anlamına gelmez.",
+    "sourceUrl": "https://www.mapeg.gov.tr/Sayfa/Genel/Sikca-Sorulan-Sorular",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "maden-isletme-ruhsati",
+    "term": "Maden işletme ruhsatı",
+    "aliases": [],
+    "category": "Madencilik",
+    "definition": "Belirlenen saha ve koşullar altında maden işletme hakkını düzenleyen ruhsat.",
+    "note": "Ruhsat, tüm çevre, arazi ve işletme izinlerinin kendiliğinden tamamlandığı anlamına gelmez.",
+    "sourceUrl": "https://www.mapeg.gov.tr/Sayfa/Genel/Sikca-Sorulan-Sorular",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "kojenerasyon",
+    "term": "Kojenerasyon",
+    "aliases": [
+      "CHP"
+    ],
+    "category": "Verimlilik ve ısı",
+    "definition": "Aynı süreçte elektrik veya mekanik güç ile kullanılabilir ısının birlikte üretilmesi.",
+    "note": "",
+    "sourceUrl": "https://enerji.gov.tr/evced-enerji-verimliligi-isi-ve-kojenerasyon",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "trijenerasyon",
+    "term": "Trijenerasyon",
+    "aliases": [],
+    "category": "Verimlilik ve ısı",
+    "definition": "Elektrik, ısıtma ve soğutmanın birlikte sağlandığı üretim düzeni.",
+    "note": "",
+    "sourceUrl": "https://enerji.gov.tr/evced-enerji-verimliligi-isi-ve-kojenerasyon",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "atik-isi",
+    "term": "Atık ısı",
+    "aliases": [],
+    "category": "Verimlilik ve ısı",
+    "definition": "Bir süreçten çıkan ve uygun teknolojiyle yeniden değerlendirilebilen ısı.",
+    "note": "",
+    "sourceUrl": "https://enerji.gov.tr/evced-enerji-verimliligi-isi-ve-kojenerasyon",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "bolgesel-isitma",
+    "term": "Bölgesel ısıtma",
+    "aliases": [],
+    "category": "Verimlilik ve ısı",
+    "definition": "Bir veya birden fazla kaynaktan sağlanan ısının bir ağ üzerinden birden çok binaya dağıtılması.",
+    "note": "",
+    "sourceUrl": "https://enerji.gov.tr/evced-enerji-verimliligi-isi-ve-kojenerasyon",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "elektroliz",
+    "term": "Elektroliz",
+    "aliases": [],
+    "category": "Hidrojen ve yakıt hücreleri",
+    "definition": "Elektrik kullanılarak kimyasal bileşiklerin ayrıştırılması; su elektrolizinde hidrojen ve oksijen elde edilir.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/fuels/glossary",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "elektrolizor",
+    "term": "Elektrolizör",
+    "aliases": [],
+    "category": "Hidrojen ve yakıt hücreleri",
+    "definition": "Elektroliz işlemini gerçekleştiren cihaz veya sistem.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/fuels/glossary",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yakit-hucresi",
+    "term": "Yakıt hücresi",
+    "aliases": [],
+    "category": "Hidrojen ve yakıt hücreleri",
+    "definition": "Yakıtın kimyasal enerjisini elektrokimyasal yolla elektriğe dönüştüren cihaz.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/fuels/glossary",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "hidrojen",
+    "term": "Hidrojen",
+    "aliases": [],
+    "category": "Hidrojen ve yakıt hücreleri",
+    "definition": "Yakıt veya sanayi girdisi olarak kullanılabilen element; üretim yöntemi çevresel etkisini değiştirir.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/fuels/glossary",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "ust-isil-deger",
+    "term": "Üst ısıl değer",
+    "aliases": [
+      "HHV"
+    ],
+    "category": "Hidrojen ve yakıt hücreleri",
+    "definition": "Yanma ürünlerindeki suyun yoğuşma ısısı da hesaba katıldığında elde edilen enerji değeri.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/fuels/glossary",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "alt-isil-deger",
+    "term": "Alt ısıl değer",
+    "aliases": [
+      "LHV"
+    ],
+    "category": "Hidrojen ve yakıt hücreleri",
+    "definition": "Yanma ürünlerindeki su buharının yoğuşma ısısı hariç tutularak hesaplanan enerji değeri.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/fuels/glossary",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "kur-riski",
+    "term": "Kur riski",
+    "aliases": [],
+    "category": "Şirketler ve finans",
+    "definition": "Döviz kurundaki değişimlerin şirketin gelir, gider veya borçları üzerinde olumsuz etki oluşturma ihtimali.",
+    "note": "",
+    "sourceUrl": "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB%2BTR/Main%2BMenu/Banka%2BHakkinda/Egitim-Akademik/Terimler%2BSozlugu/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "likidite",
+    "term": "Likidite",
+    "aliases": [],
+    "category": "Şirketler ve finans",
+    "definition": "Bir varlığın önemli değer kaybı olmadan nakde dönüşebilmesi veya yükümlülüklerin zamanında karşılanabilmesi.",
+    "note": "",
+    "sourceUrl": "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB%2BTR/Main%2BMenu/Banka%2BHakkinda/Egitim-Akademik/Terimler%2BSozlugu/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "teminat",
+    "term": "Teminat",
+    "aliases": [],
+    "category": "Şirketler ve finans",
+    "definition": "Bir yükümlülüğün yerine getirilmesini güvenceye almak için sunulan varlık veya güvence.",
+    "note": "",
+    "sourceUrl": "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB%2BTR/Main%2BMenu/Banka%2BHakkinda/Egitim-Akademik/Terimler%2BSozlugu/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "riskten-korunma",
+    "term": "Riskten korunma",
+    "aliases": [
+      "hedging"
+    ],
+    "category": "Şirketler ve finans",
+    "definition": "Fiyat, faiz veya kur değişimlerinden kaynaklanan riski azaltmak için yapılan işlemler.",
+    "note": "",
+    "sourceUrl": "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB%2BTR/Main%2BMenu/Banka%2BHakkinda/Egitim-Akademik/Terimler%2BSozlugu/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "spot-piyasa",
+    "term": "Spot piyasa",
+    "aliases": [],
+    "category": "Şirketler ve finans",
+    "definition": "Teslim ve ödeme koşulları yakın döneme ait işlemlerin yapıldığı piyasa.",
+    "note": "",
+    "sourceUrl": "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB%2BTR/Main%2BMenu/Banka%2BHakkinda/Egitim-Akademik/Terimler%2BSozlugu/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "vadeli-islem",
+    "term": "Vadeli işlem",
+    "aliases": [],
+    "category": "Şirketler ve finans",
+    "definition": "Fiyatı veya koşulları bugün belirlenen, yükümlülükleri ileri tarihle ilişkili işlem.",
+    "note": "",
+    "sourceUrl": "https://www.tcmb.gov.tr/wps/wcm/connect/TR/TCMB%2BTR/Main%2BMenu/Banka%2BHakkinda/Egitim-Akademik/Terimler%2BSozlugu/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "elektrik-akimi",
+    "term": "Elektrik akımı",
+    "aliases": [
+      "akım",
+      "cereyan"
+    ],
+    "category": "Elektrik ve şebeke",
+    "definition": "Bir kesitten birim zamanda geçen net elektrik yükü. Akımın birimi amperdir.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/akim-tanimi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "aktif-enerji",
+    "term": "Aktif enerji",
+    "aliases": [
+      "kWh aktif"
+    ],
+    "category": "Elektrik ve şebeke",
+    "definition": "Aktif gücün zaman boyunca toplamı; elektrik sayaçlarında çoğunlukla kWh ile ölçülür.",
+    "note": "P genellikle aktif gücü gösterir; aktif enerji ile güç karıştırılmamalıdır.",
+    "sourceUrl": "https://bestenerji.com.tr/aktif-enerji-p/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "sebeke",
+    "term": "Şebeke",
+    "aliases": [
+      "elektrik şebekesi"
+    ],
+    "category": "Elektrik ve şebeke",
+    "definition": "Elektriği üretim noktalarından kullanıcılara taşıyan hat, trafo ve bağlantıların oluşturduğu sistem.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/sebeke/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "ulusal-sebeke",
+    "term": "Ulusal şebeke",
+    "aliases": [],
+    "category": "Elektrik ve şebeke",
+    "definition": "Bir ülkenin elektrik sistemindeki büyük üretim ve tüketim bölgelerini birbirine bağlayan ağ.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/ulusal-sebeke/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dagitim-bolgesi",
+    "term": "Dağıtım bölgesi",
+    "aliases": [],
+    "category": "Elektrik ve şebeke",
+    "definition": "Elektrik dağıtım lisansında tanımlanan hizmet alanı.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/dagitim-bolgesi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dagitim-sirketi",
+    "term": "Dağıtım şirketi",
+    "aliases": [],
+    "category": "Elektrik ve şebeke",
+    "definition": "Lisansı kapsamındaki bölgede elektrik dağıtım şebekesini işleten şirket; tedarik şirketiyle aynı işlev değildir.",
+    "note": "Kısa kavram açıklamasıdır; uygulanacak güncel koşullar ilgili resmî mevzuat ve piyasa dokümanından kontrol edilmelidir.",
+    "sourceUrl": "https://bestenerji.com.tr/dagitim-lisansi-sahibi-tuzel-kisi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dagitik-uretim",
+    "term": "Dağıtık üretim",
+    "aliases": [
+      "dağıtık enerji"
+    ],
+    "category": "Elektrik ve şebeke",
+    "definition": "Büyük merkezî santraller yerine tüketim noktalarına yakın, dağıtım ağına bağlı veya yerinde yapılan üretim.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/dagitik-enerji/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "sebekeden-bagimsiz-sistem",
+    "term": "Şebekeden bağımsız sistem",
+    "aliases": [
+      "off-grid"
+    ],
+    "category": "Elektrik ve şebeke",
+    "definition": "Merkezî elektrik şebekesine bağlantıya ihtiyaç duymadan kendi üretim ve gerektiğinde depolamasıyla çalışan sistem.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/sebekeden-bagimsiz-off-grid-sistemler/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "elektrik-kesintisi",
+    "term": "Elektrik kesintisi",
+    "aliases": [
+      "güç kesintisi"
+    ],
+    "category": "Elektrik ve şebeke",
+    "definition": "Bir noktaya elektrik beslemesinin planlı veya arıza nedeniyle durması.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/guc-kesintisi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "elektrik-diregi",
+    "term": "Elektrik direği",
+    "aliases": [],
+    "category": "Elektrik ve şebeke",
+    "definition": "Enerji hatlarının iletkenlerini taşıyan ve gerekli açıklıkları sağlayan yapı.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/elektrik-diregi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "elektrik-motoru",
+    "term": "Elektrik motoru",
+    "aliases": [
+      "motor"
+    ],
+    "category": "Elektrik ve şebeke",
+    "definition": "Elektrik enerjisini mekanik dönme hareketine dönüştüren makine.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/motor/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "osos",
+    "term": "OSOS",
+    "aliases": [
+      "otomatik sayaç okuma sistemi"
+    ],
+    "category": "Elektrik ve şebeke",
+    "definition": "Sayaç ölçümlerinin uzaktan ve otomatik olarak toplanmasını sağlayan sistem.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/osos-otomatik-sayac-okuma-sistemi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dengeden-sorumlu-grup",
+    "term": "Dengeden sorumlu grup",
+    "aliases": [
+      "DSG"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Enerji dengesizliği bakımından ortak sorumluluk düzeni kuran piyasa katılımcıları grubu.",
+    "note": "",
+    "sourceUrl": "https://epys-prp.epias.com.tr/balancing-group/technical/tr/index.html",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "enerji-tanimlama-kodu",
+    "term": "Enerji tanımlama kodu",
+    "aliases": [
+      "EIC",
+      "ETSO kodu"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Piyasa tarafı, saha veya ölçüm noktası gibi enerji piyasası nesnelerinin tanımlanmasında kullanılan kod.",
+    "note": "",
+    "sourceUrl": "https://www.epias.com.tr/eic/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "piyasa-katilimcisi",
+    "term": "Piyasa katılımcısı",
+    "aliases": [],
+    "category": "Elektrik piyasası",
+    "definition": "İlgili piyasa kurallarına göre enerji ticareti veya piyasayla ilişkili işlemlere katılan taraf.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/piyasa-katilimcisi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "talep-tahmini",
+    "term": "Talep tahmini",
+    "aliases": [],
+    "category": "Elektrik piyasası",
+    "definition": "Gelecekteki elektrik tüketiminin hava, takvim ve geçmiş kullanım gibi verilerle öngörülmesi.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/talep-tahmini/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yuk-alma",
+    "term": "Yük alma",
+    "aliases": [
+      "YAL"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Dengeleme kapsamında üretimin artırılması veya uygun tüketimin azaltılması yönündeki işlem ya da talimat.",
+    "note": "Kısa kavram açıklamasıdır; uygulanacak güncel koşullar ilgili resmî mevzuat ve piyasa dokümanından kontrol edilmelidir.",
+    "sourceUrl": "https://bestenerji.com.tr/yal-yuk-alma/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yuk-atma",
+    "term": "Yük atma",
+    "aliases": [
+      "YAT"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Dengeleme kapsamında üretimin azaltılması veya uygun tüketimin artırılması yönündeki işlem ya da talimat.",
+    "note": "Kısa kavram açıklamasıdır; uygulanacak güncel koşullar ilgili resmî mevzuat ve piyasa dokümanından kontrol edilmelidir.",
+    "sourceUrl": "https://bestenerji.com.tr/yat-yuk-atma/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "uzlastirma-donemi",
+    "term": "Uzlaştırma dönemi",
+    "aliases": [],
+    "category": "Elektrik piyasası",
+    "definition": "Enerji miktarlarının ve mali yükümlülüklerin hesaplanmasında kullanılan zaman dilimi.",
+    "note": "Kısa kavram açıklamasıdır; uygulanacak güncel koşullar ilgili resmî mevzuat ve piyasa dokümanından kontrol edilmelidir.",
+    "sourceUrl": "https://bestenerji.com.tr/uzlastirma-donemi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "uzlastirmaya-esas-veris-cekis-miktari",
+    "term": "Uzlaştırmaya esas veriş-çekiş miktarı",
+    "aliases": [
+      "UEVÇM"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Uzlaştırma hesaplarında ilgili noktanın şebekeye verdiği veya şebekeden çektiği kabul edilen enerji miktarı.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/uzlastirmaya-esas-veris-cekis-miktari-uevcm/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "yekdem",
+    "term": "YEKDEM",
+    "aliases": [
+      "yenilenebilir enerji kaynakları destekleme mekanizması"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Türkiye’de uygun yenilenebilir elektrik üretimini desteklemek üzere uygulanan mekanizma.",
+    "note": "Kısa kavram açıklamasıdır; uygulanacak güncel koşullar ilgili resmî mevzuat ve piyasa dokümanından kontrol edilmelidir.",
+    "sourceUrl": "https://bestenerji.com.tr/yekdem/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "alim-tarifesi",
+    "term": "Alım tarifesi",
+    "aliases": [
+      "FiT",
+      "feed-in tariff"
+    ],
+    "category": "Elektrik piyasası",
+    "definition": "Uygun üretim için belirlenen koşullarla elektrik alımını ve fiyatlandırmasını destekleyen tarife düzeni.",
+    "note": "Kısa kavram açıklamasıdır; uygulanacak güncel koşullar ilgili resmî mevzuat ve piyasa dokümanından kontrol edilmelidir.",
+    "sourceUrl": "https://bestenerji.com.tr/feed-in-tariff-fit/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "acik-devre-gerilimi",
+    "term": "Açık devre gerilimi",
+    "aliases": [
+      "Voc",
+      "Uoc"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Bir hücre veya panelden akım çekilmezken uçları arasında ölçülen gerilim.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/en-yuksek-gucteki-gerilim-degeri/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "kisa-devre-akimi",
+    "term": "Kısa devre akımı",
+    "aliases": [
+      "Isc",
+      "ISC"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Hücre veya panel uçları kısa devre edildiğinde, belirtilen koşullarda akan akım.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/kisa-devre-akimi-isc/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "maksimum-guc-noktasi",
+    "term": "Maksimum güç noktası",
+    "aliases": [
+      "MPP"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Belirli ışınım ve sıcaklıkta akım ile gerilim çarpımının en büyük olduğu çalışma noktası.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/maksimum-guc-noktasi-mpp/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "maksimum-guc-noktasi-takibi",
+    "term": "Maksimum güç noktası takibi",
+    "aliases": [
+      "MPPT"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Değişen koşullarda panelin en yüksek güç sağlayan noktada çalışmasını hedefleyen kontrol yöntemi.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/izleme-maksimum-guc-noktasi-takibi-mppt/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "maksimum-guc-akimi",
+    "term": "Maksimum güç akımı",
+    "aliases": [
+      "Imp"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Panelin maksimum güç noktasındaki akım değeri.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/en-yuksek-gucteki-akim-degeri-imp/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "maksimum-guc-gerilimi",
+    "term": "Maksimum güç gerilimi",
+    "aliases": [
+      "Vmp",
+      "Ump"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Panelin maksimum güç noktasındaki gerilim değeri.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/en-yuksek-gucteki-gerilim-degeri/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dolum-faktoru",
+    "term": "Dolum faktörü",
+    "aliases": [
+      "FF",
+      "fill factor",
+      "dolum oranı"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Maksimum gücün, açık devre gerilimi ile kısa devre akımı çarpımına oranı.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/dolum-orani-solar-hucre/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "standart-test-kosullari",
+    "term": "Standart test koşulları",
+    "aliases": [
+      "STC"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "PV performansını karşılaştırmak için kullanılan referans: 1.000 W/m² ışınım, 25 °C hücre sıcaklığı ve AM 1,5 spektrumu.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/standart-test-kosullari-stc/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "watt-tepe",
+    "term": "Watt-tepe",
+    "aliases": [
+      "Wp",
+      "vat tepe"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Bir PV modülünün standart test koşullarında ölçülen en yüksek güç değeri.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/watt-tepe-degeri-wp/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "panel-donusum-verimi",
+    "term": "Panel dönüşüm verimi",
+    "aliases": [
+      "PV verimi",
+      "etkinlik derecesi"
+    ],
+    "category": "Güneş teknolojisi",
+    "definition": "Panelin ürettiği elektrik gücünün, panel alanına gelen ışınım gücüne oranı.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/solar-photovoltaic-performance-and-efficiency-basics",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "enerji-etudu",
+    "term": "Enerji etüdü",
+    "aliases": [],
+    "category": "Verimlilik ve ısı",
+    "definition": "Enerji kullanımını inceleyerek tasarruf ve verimlilik imkânlarını teknik ve ekonomik açıdan belirleyen çalışma.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/enerji-etudu/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "enerji-yoneticisi",
+    "term": "Enerji yöneticisi",
+    "aliases": [],
+    "category": "Verimlilik ve ısı",
+    "definition": "Bir kuruluşta enerji kullanımının izlenmesi ve performansın iyileştirilmesi çalışmalarını yürüten görevli.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/enerji-yoneticisi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "iso-50001",
+    "term": "ISO 50001",
+    "aliases": [
+      "enerji yönetim sistemi"
+    ],
+    "category": "Verimlilik ve ısı",
+    "definition": "Kuruluşların enerji performansını sistemli ve sürekli iyileştirmesine yönelik yönetim sistemi standardı.",
+    "note": "",
+    "sourceUrl": "https://www.iso.org/iso-50001-energy-management.html/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "isi",
+    "term": "Isı",
+    "aliases": [],
+    "category": "Verimlilik ve ısı",
+    "definition": "Sıcaklık farkı nedeniyle sistemler arasında aktarılan enerji; sıcaklığın kendisi değildir.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/isi-tanimi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "buhar-turbini",
+    "term": "Buhar türbini",
+    "aliases": [],
+    "category": "Verimlilik ve ısı",
+    "definition": "Buharın enerjisini dönen mil hareketine dönüştüren makine.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/buhar-turbini/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "turbin",
+    "term": "Türbin",
+    "aliases": [],
+    "category": "Verimlilik ve ısı",
+    "definition": "Bir akışkanın enerjisini dönme hareketine çeviren makine; jeneratörle birlikte elektrik üretebilir.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/turbin/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "enerji-verimliligi",
+    "term": "Enerji verimliliği",
+    "aliases": [
+      "verimlilik"
+    ],
+    "category": "Verimlilik ve ısı",
+    "definition": "Aynı hizmet veya üretim için gereken enerji miktarının azaltılması; üretimi kısmakla aynı değildir.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/verimlilik/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "net-sifir-enerjili-bina",
+    "term": "Net sıfır enerjili bina",
+    "aliases": [
+      "ZEH",
+      "sıfır enerji ev"
+    ],
+    "category": "Verimlilik ve ısı",
+    "definition": "Belirlenen hesap sınırı ve döneminde enerji tüketimi ile yenilenebilir üretimi dengelenen bina.",
+    "note": "Mutlaka şebekeden bağımsız veya sıfır karbonlu bina demek değildir.",
+    "sourceUrl": "https://bestenerji.com.tr/sifir-enerji-ev-zeh/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "biyokutle",
+    "term": "Biyokütle",
+    "aliases": [],
+    "category": "Kaynaklar",
+    "definition": "Enerji üretiminde kullanılabilen bitkisel ve hayvansal kökenli organik malzeme.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/biyokutle-tanimi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "biyodizel",
+    "term": "Biyodizel",
+    "aliases": [],
+    "category": "Kaynaklar",
+    "definition": "Yağlardan kimyasal dönüşümle elde edilen ve uygun yakıt koşullarıyla kullanılan dizel alternatifi.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/energyexplained/biofuels/biodiesel.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "biyogaz",
+    "term": "Biyogaz",
+    "aliases": [],
+    "category": "Kaynaklar",
+    "definition": "Organik maddelerin oksijensiz parçalanmasıyla oluşan, ağırlıkla metan ve karbondioksit içeren gaz.",
+    "note": "",
+    "sourceUrl": "https://www.eia.gov/energyexplained/biomass/landfill-gas-and-biogas.php",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "fosil-yakit",
+    "term": "Fosil yakıt",
+    "aliases": [],
+    "category": "Kaynaklar",
+    "definition": "Jeolojik süreçlerle oluşmuş kömür, petrol ve doğal gaz gibi enerji kaynağı.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/fosil-yakitlar/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "komur",
+    "term": "Kömür",
+    "aliases": [],
+    "category": "Kaynaklar",
+    "definition": "Karbonca zengin, yanıcı tortul kayaç; farklı kalite ve ısıl değerlere sahip türleri bulunur.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/komur/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dalga-enerjisi",
+    "term": "Dalga enerjisi",
+    "aliases": [],
+    "category": "Kaynaklar",
+    "definition": "Deniz yüzeyindeki dalgaların hareketinden elde edilen enerji.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/dalga-enerjisi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "gelgit-enerjisi",
+    "term": "Gelgit enerjisi",
+    "aliases": [],
+    "category": "Kaynaklar",
+    "definition": "Gelgit nedeniyle oluşan su seviyesi farkı veya akıntılardan yararlanılarak elde edilen enerji.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/gel-git-enerjisi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "denizustu-ruzgar",
+    "term": "Denizüstü rüzgâr",
+    "aliases": [
+      "offshore",
+      "rüzgâr deniz üstü"
+    ],
+    "category": "Kaynaklar",
+    "definition": "Deniz veya büyük su kütlelerine kurulan rüzgâr türbinleriyle elektrik üretimi.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/deniz-ustu-offshore-enerji/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "anemometre",
+    "term": "Anemometre",
+    "aliases": [],
+    "category": "Kaynaklar",
+    "definition": "Rüzgâr hızını ölçen cihaz; rüzgâr projesi ölçümlerinde kullanılır.",
+    "note": "",
+    "sourceUrl": "https://www.energy.gov/cmei/systems/how-do-wind-turbines-work",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "dogal-gaz",
+    "term": "Doğal gaz",
+    "aliases": [
+      "natural gas"
+    ],
+    "category": "Doğal gaz",
+    "definition": "Ağırlıkla metandan oluşan gaz karışımı; ham petrolden ayrı veya onunla birlikte bulunabilir.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/dogal-gaz/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "metan",
+    "term": "Metan",
+    "aliases": [
+      "CH4",
+      "CH₄"
+    ],
+    "category": "Doğal gaz",
+    "definition": "Doğal gazın ana bileşeni olan yanıcı hidrokarbon; atmosfere salındığında sera etkisine katkıda bulunur.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/metan-ch4/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "boru-hatti",
+    "term": "Boru hattı",
+    "aliases": [],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Petrol, gaz veya başka akışkanları taşımak için kullanılan boru ve yardımcı tesisler sistemi.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/boru-hatti/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "gazyagi",
+    "term": "Gazyağı",
+    "aliases": [
+      "kerosen"
+    ],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Ham petrolün işlenmesinden elde edilen bir yakıt grubu; kullanımına göre teknik özellikleri değişir.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/gazyagi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "petrol-kuyusu",
+    "term": "Petrol kuyusu",
+    "aliases": [],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Yeraltındaki petrol birikimine ulaşmak ve değerlendirmek için açılan kuyu.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/petrol-kuyusu/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "sondaj-kulesi",
+    "term": "Sondaj kulesi",
+    "aliases": [],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Kuyu açma donanımını taşıyan yapı ve sistem; yalnız denizde kullanılan araçları ifade etmez.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/sondaj-kulesi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "tanker",
+    "term": "Tanker",
+    "aliases": [],
+    "category": "Petrol ve akaryakıt",
+    "definition": "Petrol, kimyasal ürün veya sıvılaştırılmış gaz gibi dökme sıvıları taşıyan gemi ya da araç.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/tanker/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "karbondioksit",
+    "term": "Karbondioksit",
+    "aliases": [
+      "CO2",
+      "CO₂"
+    ],
+    "category": "İklim ve çevre",
+    "definition": "Bir karbon ve iki oksijen atomundan oluşan sera gazı.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/karbondioksit-co%e2%82%82-tanimi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "sera-gazi",
+    "term": "Sera gazı",
+    "aliases": [],
+    "category": "İklim ve çevre",
+    "definition": "Yeryüzünün yaydığı kızılötesi ışınımı soğurup yeniden yayarak sera etkisine katkıda bulunan gaz.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/sera-gazi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "azot-oksitler",
+    "term": "Azot oksitler",
+    "aliases": [
+      "NOx",
+      "nitrojen oksitler"
+    ],
+    "category": "İklim ve çevre",
+    "definition": "Yanma süreçlerinde oluşabilen azot-oksijen bileşikleri grubu; hava kirliliği açısından önem taşır.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/nitrojen-oksitler-nox/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "karbon-ticareti",
+    "term": "Karbon ticareti",
+    "aliases": [],
+    "category": "İklim ve çevre",
+    "definition": "Emisyon izni veya doğrulanmış azaltım birimleri gibi araçların kurallı sistemlerde alınıp satılması.",
+    "note": "",
+    "sourceUrl": "https://bestenerji.com.tr/karbon-ticareti-tanimi/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "nukleer-enerji",
+    "term": "Nükleer enerji",
+    "aliases": [],
+    "category": "Nükleer enerji",
+    "definition": "Atom çekirdeği tepkimelerinden elde edilen enerji; mevcut güç reaktörleri kontrollü fisyon kullanır.",
+    "note": "",
+    "sourceUrl": "https://aris.iaea.org/Glossary/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "fisyon",
+    "term": "Fisyon",
+    "aliases": [
+      "nükleer parçalanma"
+    ],
+    "category": "Nükleer enerji",
+    "definition": "Ağır bir atom çekirdeğinin daha küçük çekirdeklere ayrılması; uygun tepkimelerde enerji ve nötronlar açığa çıkar.",
+    "note": "",
+    "sourceUrl": "https://aris.iaea.org/Glossary/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "nukleer-yakit",
+    "term": "Nükleer yakıt",
+    "aliases": [],
+    "category": "Nükleer enerji",
+    "definition": "Reaktörde enerji üreten fisyon tepkimelerini sağlayan malzeme; yaygın yakıtlar uranyum içerir.",
+    "note": "",
+    "sourceUrl": "https://aris.iaea.org/Glossary/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "uranyum",
+    "term": "Uranyum",
+    "aliases": [
+      "U",
+      "U-235"
+    ],
+    "category": "Nükleer enerji",
+    "definition": "Doğal radyoaktif element. U-235 izotopu fisyonla enerji üretiminde kullanılır; bu işlem füzyon değildir.",
+    "note": "",
+    "sourceUrl": "https://aris.iaea.org/Glossary/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "nukleer-reaktor",
+    "term": "Nükleer reaktör",
+    "aliases": [],
+    "category": "Nükleer enerji",
+    "definition": "Nükleer zincirleme tepkimenin kontrollü sürdürüldüğü sistem; tüm reaktörler elektrik üretimi amacı taşımaz.",
+    "note": "",
+    "sourceUrl": "https://aris.iaea.org/Glossary/",
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "fuzyon",
+    "term": "Füzyon",
+    "aliases": [
+      "nükleer birleşme"
+    ],
+    "category": "Nükleer enerji",
+    "definition": "Hafif atom çekirdeklerinin birleşmesi; uygun tepkimelerde enerji açığa çıkar. Fisyondan farklıdır.",
+    "note": "",
+    "sourceUrl": "https://nucleus.iaea.org/sites/nuclear-instrumentation/Pages/neutrons.aspx",
+    "reviewedOn": "2026-10-15"
+  }
+]

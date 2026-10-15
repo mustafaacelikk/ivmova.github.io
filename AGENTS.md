@@ -389,3 +389,9 @@ Başarı:
 - Canlı sistemi güvenli tutmak,
 - Tek kişinin sürdürebileceği bir yayın sistemi kurmak,
 - Sonraki kesin adıma doğrudan geçebilmektir.
+
+## 25. Kullanıcıyla iş bölümü ve eşitleme
+
+Asistan kök neden analizi, kod hazırlığı ve sonuç kontrolünü yürütür. Kullanıcının yapabileceği temel terminal/Codex işlemleri doğru depo, kısa tek komut paketi ve beklenen sonuçla verilir; her basit işlem tarayıcıdan yürütülmez. Kullanıcıya verilen paket mevcut değişiklikleri korumalı, beklenmeyen dosya/dal durumunda durmalı ve sonuçları açıkça bildirmelidir.
+
+Kodun GitHub’a aktarılması, ChatGPT proje kaynakları, sohbet eşitlemesi ve Supabase verisi ayrı süreçlerdir. Yerel/ignored raporlar veya Sources aynası kendiliğinden eşitlenmiş sayılmaz. Özel raporlar ve kimlik bilgileri kod aktarımına eklenmez. Commit/push; merge/deploy ve otomasyon etkinleştirmesinden ayrıdır.

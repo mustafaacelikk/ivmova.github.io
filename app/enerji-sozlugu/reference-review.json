@@ -1,0 +1,25 @@
+{
+  "reviewedOn": "2026-10-15",
+  "references": [
+    {
+      "url": "https://bestenerji.com.tr/sozluk/",
+      "status": "INDEX_READ",
+      "entriesObserved": 130
+    },
+    {
+      "url": "https://www.noterson.com/enerji-sozlugu.html",
+      "status": "INITIAL_LIST_AND_Y_FILTER_READ"
+    },
+    {
+      "url": "https://www.aydemrenewablesinvestorrelations.com.tr/enerji-sozlugu",
+      "status": "FIRST_PAGE_READ_PAGINATION_BLOCKED",
+      "unreadPages": "2–6 ve kalan harfler"
+    }
+  ],
+  "method": "Terim keşfi; toplu tanım kopyası değil. Teknik çelişkiler düzeltilir; mevzuata bağlı açıklamalar güncel izin şartı yerine geçmez.",
+  "examples": [
+    "Aktif enerji P gücüyle karıştırılmadı.",
+    "U-235 için füzyon yerine fisyon ayrımı korundu.",
+    "Net sıfır enerji şebekeden bağımsızlık olarak tanımlanmadı."
+  ]
+}
