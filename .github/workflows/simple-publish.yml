@@ -1,0 +1,74 @@
+name: Simple batch Pages publish
+# Editorial "Yayına al" tetikler: yayin-verisi dalındaki onaylı FULL export ile main kodu build edilir.
+# Canlı yayın yalnız github-pages ortam onayından sonra başlar. Ledger/producer zinciri pasif kalır.
+on:
+  workflow_dispatch:
+    inputs:
+      data_commit:
+        description: yayin-verisi commit SHA (editorial Yayına al çıktısı)
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: ivmova-production-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      DATA_COMMIT: ${{ inputs.data_commit }}
+    steps:
+      - name: Validate data commit input
+        run: '[[ "$DATA_COMMIT" =~ ^[0-9a-f]{40}$ ]]'
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: yayin-verisi
+          path: .yayin-verisi
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Pin the requested commit from yayin-verisi
+        run: git -C .yayin-verisi merge-base --is-ancestor "$DATA_COMMIT" HEAD && git -C .yayin-verisi checkout --quiet --detach "$DATA_COMMIT"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node scripts/test-simple-publish.mjs
+      - name: Build site from latest FULL publication data
+        run: node scripts/simple-publish-build.mjs .yayin-verisi
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+  deploy:
+    needs: build
+    if: ${{ github.ref == 'refs/heads/main' && needs.build.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      DATA_COMMIT: ${{ inputs.data_commit }}
+    steps:
+      - name: Deploy once
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Bounded HTTPS check of the published marker
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            body=$(curl -fsS --max-time 15 "https://ivmova.com/.well-known/ivmova-simple-publish.json?check=${GITHUB_RUN_ID}-${attempt}" || true)
+            if printf '%s' "$body" | grep -q "\"dataCommit\":\"${DATA_COMMIT}\""; then echo "RECONCILED ${DATA_COMMIT}"; exit 0; fi
+            sleep 20
+          done
+          echo "UNKNOWN: canlı işaret doğrulanamadı; yeniden deploy etmeden Pages durumunu kontrol et."
+          exit 1
