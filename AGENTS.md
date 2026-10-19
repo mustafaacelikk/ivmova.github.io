@@ -1,5 +1,30 @@
 # IVMOVA PROJE TALİMATLARI
 
+## 0. Mustafa ile çalışma kuralları
+
+- Bu bölüm aşağıdaki bölümlerle çelişirse bu bölüm uygulanır.
+- Mustafa yazılımcı değil; günde 1-2 saat ayırıyor. Kod, dosya düzenleme, test ve branch işlerinde onay sorma, kendi kararınla ilerle.
+- Çalışma dalında commit ve push onaysız yapılır; main'e birleştirme yalnız Mustafa onayıyla, PR üzerinden.
+- Yalnız şunlarda sor:
+  - main'e birleştirme,
+  - canlı siteyi değiştiren yayın,
+  - production veritabanına yazma veya geri dönüşü zor işlem,
+  - arama motoruna açılış / noindex değişikliği,
+  - para harcatan her şey,
+  - görünür büyük tasarım değişikliği (önce mockup göster),
+  - haber onayı (AI hiçbir haberi onaylamaz).
+- Bütçe sıfır: ücretli hizmet ekleme veya önerme.
+- Yeni rapor/aşama/belge üretme; tamamlanmış testi tekrarlama.
+- Şifre/token hiçbir çıktıya yazılmaz. Destructive git komutu yok. Çalışma ayrı branch'te yapılır.
+- Her tur sonu Türkçe, kısa, jargonsuz:
+  1. Ne oldu (3-5 satır),
+  2. Mustafa'nın göreceği şey,
+  3. Canlı site etkilendi mi: evet/hayır,
+  4. Sıradaki tek adım.
+- Mustafa "devam" dediğinde AGENTS.md'ye ve repodaki duruma bakıp sıradaki işi kendin seç:
+  1. Önce production kurulumu (retract migration, production worker hesabı). Her production yazması için Mustafa'dan açık onay al; adres çubuğu / proje kimliği kontrolüyle doğrula.
+  2. Sonra ilk gerçek yayın.
+
 ## 1. Projenin amacı
 
 IVMOVA; enerji dönüşümü, elektrikli mobilite, yapay zekâ, robotik, teknoloji, spor ve önemli gündem gelişmelerine odaklanan güvenilir bir dijital yayın platformudur.
