@@ -7,8 +7,17 @@ import { sitePath } from "../../paths";
 import { ArticleBody } from "../../components/ArticleBody";
 import { LocalDateTime } from "../../components/LocalDateTime";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
 export const dynamicParams = false;
+
+// Per-article tab title and description; robots (noindex) is inherited from the root layout.
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const item = await getPublishedArticle(slug);
+  if (!item) return {};
+  return { title: `${item.title} | IVMOVA`, description: item.summary || undefined };
+}
 
 export async function generateStaticParams() {
   const items = await getAllRouteNews();
