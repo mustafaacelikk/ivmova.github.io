@@ -389,3 +389,9 @@ Başarı:
 - Canlı sistemi güvenli tutmak,
 - Tek kişinin sürdürebileceği bir yayın sistemi kurmak,
 - Sonraki kesin adıma doğrudan geçebilmektir.
+
+## 21. Normal yayın yolu: Simple batch Pages publish (2026-10-19 kararı)
+
+Normal yayın; editorial panelindeki tek "Yayına al" düğmesinin `yayin-verisi` dalına gönderdiği FULL export ile `.github/workflows/simple-publish.yml` üzerinden yapılır (yalnız main, `github-pages` ortam onayı, sınırlı HTTPS kontrolü).
+Editorial `data/state/panel-runtime.json` içinde `publicationEnabled` true değilken hiçbir veri gönderilmez ve hiçbir şey yayınlanmaz.
+Ledger/producer/`deploy-pages.yml` zinciri pasiftir ve silinmez; normal yayın için yeniden önerilmez veya geri dönülmez. §10-11 ile çelişki kullanıcı tarafından bilerek kabul edilmiştir.
