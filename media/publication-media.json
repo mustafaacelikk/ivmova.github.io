@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "storyId": "81950f02-de0e-44a0-9f6f-613fc67474c1",
+      "revisionId": "941610c1-14ad-47ae-8652-3915fb3b819a",
+      "contentHash": "1c68383a8f1e8a72c6c3a810ae79b234ac40bbb9f2bb0798eaed5dbdda8014c8",
+      "image": "/media/reviewed/44901c7f088ab5521d0fbc7d2602d1f7962664185a8c156ff0feaa5dde887646.jpg",
+      "imageSha256": "44901c7f088ab5521d0fbc7d2602d1f7962664185a8c156ff0feaa5dde887646",
+      "alt": "Türkiye’de şarj soketi sayısı eylülde 48.971’e çıktı",
+      "caption": "Ivmova tarafından Gemini AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
+    }
+  ]
+}
