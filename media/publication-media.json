@@ -48,6 +48,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "411b4d3b-4d69-4164-b066-b576f421399e",
+      "revisionId": "f092d5d8-361f-41e6-a107-f645c679dda6",
+      "contentHash": "f387201d8ef5d5f9e427004477bd7a4ef24b13f49c743767fae4b62e2612fff1",
+      "image": "/media/reviewed/126822a69c226a06c835e8425ddbcd445566d842a7f100e44e5b387df647f611.jpg",
+      "imageSha256": "126822a69c226a06c835e8425ddbcd445566d842a7f100e44e5b387df647f611",
+      "alt": "Petkim, yeni etilen, polipropilen ve polietilen tesisleri için lisans ve mühendislik çalışmalarını başlattı",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }
