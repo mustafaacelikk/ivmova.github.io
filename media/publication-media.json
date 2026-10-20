@@ -16,6 +16,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "e5acd1f8-0ffb-4afc-b6f3-7ce61c89db82",
+      "revisionId": "afcf55f0-d42a-4d39-a185-450ba059a728",
+      "contentHash": "482e7a5b54a5f8b44beb58d840871cc9bfd31838386e3a7cb22f0e7f4b970ee8",
+      "image": "/media/reviewed/307abb97ab41c8c798905b0094fee65544d4235a4789e86da26207b5e871d2ad.jpg",
+      "imageSha256": "307abb97ab41c8c798905b0094fee65544d4235a4789e86da26207b5e871d2ad",
+      "alt": "New England’da rüzgârdan elektrik üretimi arttı",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }
