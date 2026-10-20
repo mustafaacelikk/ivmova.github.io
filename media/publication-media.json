@@ -32,6 +32,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "bf0559af-22fa-42b3-a198-26d83e728e6f",
+      "revisionId": "9141a130-0c90-4d12-a040-6a377091952d",
+      "contentHash": "04398c0f747c014561333cae19ca62ea43d1d7344dbd98ac875269f2feb586fe",
+      "image": "/media/reviewed/5a909f978088cb24cb7825a3fc93e6142f215e149eb52aecaa2394935815d4c3.jpg",
+      "imageSha256": "5a909f978088cb24cb7825a3fc93e6142f215e149eb52aecaa2394935815d4c3",
+      "alt": "EPDK, 2027 YEKDEM başvuruları için 30 Kasım 2026 tarihine kadar süre tanıdı",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }
