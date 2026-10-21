@@ -15,7 +15,7 @@ function NewsCard({ item, large = false }: { item: (typeof news)[number]; large?
       <img src={item.image} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#061326] via-[#061326]/45 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-6">
-        <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[#59d8ca]">{categoryMeta[item.category].name} · {item.subcategory} · <span className="text-slate-300"><LocalDateTime value={item.time} /></span></div>
+        <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[#59d8ca]">{categoryMeta[item.category].name} · {item.subcategory ? <>{item.subcategory} · </> : null}<span className="text-slate-300"><LocalDateTime value={item.time} /></span></div>
         <h3 className={`${large ? "text-2xl sm:text-3xl" : "text-xl"} font-black leading-tight tracking-tight`}>{showcaseTitle(item)}</h3>
         <p className="mt-2 line-clamp-2 max-w-xl text-sm leading-5 text-slate-300">{showcaseSummary(item)}</p>
       </div>
