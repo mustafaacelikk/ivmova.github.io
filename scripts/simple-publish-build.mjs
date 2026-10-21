@@ -2,7 +2,7 @@
 // Ledger/producer/marker zinciri kullanılmaz ve değiştirilmez. Görsel kataloğu yalnız CI çalışma kopyasında genişletilir.
 import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import crypto from 'node:crypto';
 import {spawnSync} from 'node:child_process';import {fileURLToPath} from 'node:url';
-import {validateRelease,importRelease} from './publication-consumer.mjs';import {resolvePublicationMedia} from './publication-media.mjs';
+import {validateRelease,importRelease} from './publication-consumer.mjs';import {resolvePublicationMedia} from './publication-media.mjs';import {validateDetailsCatalog,resolvePublicationDetails} from './publication-details.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const fail=c=>{throw Error(c);};const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const plainDir=p=>{const s=fs.lstatSync(p);if(s.isSymbolicLink()||!s.isDirectory())fail('DATA_ENTRY_INVALID');};
@@ -30,11 +30,16 @@ export function mergeMedia(dataDir,{repo=root}={}){
  }
  fs.writeFileSync(file,JSON.stringify(catalog,null,2)+'\n');return added;
 }
+// Reader notes and subcategories (Editorial writes the complete list on every Yayına al); absent file keeps the committed empty catalog.
+export function mergeDetails(dataDir,{repo=root}={}){
+ const file=path.join(dataDir,'media','publication-details.json');if(!fs.existsSync(file))return 0;const s=fs.lstatSync(file);if(s.isSymbolicLink()||!s.isFile()||s.size>4*1024*1024)fail('PUBLICATION_DETAILS_INVALID');
+ const catalog=validateDetailsCatalog(JSON.parse(fs.readFileSync(file,'utf8')));fs.writeFileSync(path.join(repo,'app/publication-details.json'),JSON.stringify(catalog,null,2)+'\n');return catalog.items.length;
+}
 // Import + media checks before the build so a broken image or input never reaches Pages.
 export function prepareSimplePublication(dataDir,{repo=root,store}){
- const {dir,release}=latestFullInput(dataDir),added=mergeMedia(dataDir,{repo});
- for(const story of release.stories)resolvePublicationMedia(story,{repo});
- importRelease(dir,{store});return {runId:release.manifest.exportId,manifestSha256:release.receipt.manifestSha256,itemCount:release.manifest.itemCount,addedMedia:added};
+ const {dir,release}=latestFullInput(dataDir),added=mergeMedia(dataDir,{repo}),details=mergeDetails(dataDir,{repo});
+ for(const story of release.stories){resolvePublicationMedia(story,{repo});resolvePublicationDetails(story,{repo});}
+ importRelease(dir,{store});return {runId:release.manifest.exportId,manifestSha256:release.receipt.manifestSha256,itemCount:release.manifest.itemCount,addedMedia:added,details};
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  if(process.env.GITHUB_ACTIONS!=='true'||process.env.GITHUB_REF!=='refs/heads/main'||!/^[0-9a-f]{40}$/.test(process.env.DATA_COMMIT??''))fail('SIMPLE_PUBLISH_MAIN_ONLY');

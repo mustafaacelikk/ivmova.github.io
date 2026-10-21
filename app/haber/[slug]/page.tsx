@@ -38,6 +38,11 @@ function ShareLinks({ title, slug }: { title: string; slug: string }) {
   </div>;
 }
 
+// Reader note date: the edited revision's update day, fixed to Istanbul time in the static page.
+function noteDate(iso: string) {
+  return new Intl.DateTimeFormat("tr-TR", { timeZone: "Europe/Istanbul", day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(iso));
+}
+
 function publishedValue(value: string) {
   const months: Record<string, number> = { Ocak: 0, Şubat: 1, Mart: 2, Nisan: 3, Mayıs: 4, Haziran: 5, Temmuz: 6, Ağustos: 7, Eylül: 8, Ekim: 9, Kasım: 10, Aralık: 11 };
   const match = value.match(/(\d+)\s+(\S+)\s+(\d+),\s+(\d+):(\d+)/);
@@ -60,7 +65,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     <Header />
     <article>
       <header className="bg-white">
-        <nav className="bg-[#07172d] text-white" aria-label="İçerik yolu"><div className="mx-auto flex max-w-5xl flex-wrap items-center gap-2 px-4 py-3 text-xs font-bold"><Link prefetch={false} href="/" className="text-slate-300 hover:text-white">Ana Sayfa</Link><span className="text-slate-600">/</span><Link prefetch={false} href={`/kategori/${item.category}`} className="text-[#59d8ca] hover:text-white">{meta.name}</Link><span className="text-slate-600">/</span><Link prefetch={false} href={`/kategori/${item.category}?alt=${encodeURIComponent(item.subcategory)}`} className="text-[#59d8ca] hover:text-white">{item.subcategory}</Link></div></nav>
+        <nav className="bg-[#07172d] text-white" aria-label="İçerik yolu"><div className="mx-auto flex max-w-5xl flex-wrap items-center gap-2 px-4 py-3 text-xs font-bold"><Link prefetch={false} href="/" className="text-slate-300 hover:text-white">Ana Sayfa</Link><span className="text-slate-600">/</span><Link prefetch={false} href={`/kategori/${item.category}`} className="text-[#59d8ca] hover:text-white">{meta.name}</Link>{item.subcategory && <><span className="text-slate-600">/</span><Link prefetch={false} href={`/kategori/${item.category}?alt=${encodeURIComponent(item.subcategory)}`} className="text-[#59d8ca] hover:text-white">{item.subcategory}</Link></>}</div></nav>
         <div className="mx-auto max-w-5xl px-4 pb-8 pt-8 sm:pt-10">
           {!publicationMode && <p className="mb-4 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold leading-5 text-slate-500">Bu kayıt yerel önizleme için hazırlanmış demo haber içeriğidir; gerçek yayın onayı veya güncel haber niteliği taşımaz.</p>}
           {item.publicationStatus === "RETRACTED" && <aside className="mb-4 rounded-lg border border-amber-300 bg-amber-50 p-4 font-bold" role="status">Bu haber geri çekilmiştir. {item.retractedAt && <LocalDateTime value={item.retractedAt} />}</aside>}
@@ -68,6 +73,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <h1 className={`${item.breaking ? "mt-4" : ""} max-w-4xl [overflow-wrap:anywhere] text-[34px] font-black leading-[1.06] tracking-[-.04em] sm:text-5xl`}>{item.title}</h1>
           <p className="mt-5 max-w-4xl [overflow-wrap:anywhere] text-xl leading-8 text-slate-600 sm:text-2xl sm:leading-9">{item.summary}</p>
           <div className="mt-5 flex flex-col gap-4 border-y border-slate-200 py-4 sm:flex-row sm:items-center sm:justify-between"><div className="space-y-1 text-sm text-slate-500"><div><span className="font-semibold">Yayımlandı:</span> {item.publishedIso ? <LocalDateTime value={item.publishedIso} fallback={item.published} /> : <time>{item.published}</time>}</div>{item.updatedIso && item.publishedIso && Date.parse(item.updatedIso) > Date.parse(item.publishedIso) ? <div><span className="font-semibold">Güncellendi:</span> <LocalDateTime value={item.updatedIso} fallback={item.updated} /></div> : null}</div><ShareLinks title={item.title} slug={item.slug} /></div>
+          {item.readerNote && <aside role="note" className={`mt-4 rounded-lg border-l-4 px-4 py-3 text-sm leading-6 ${item.readerNote.kind === "CORRECTION" ? "border-amber-400 bg-amber-50 text-amber-950" : "border-sky-500 bg-sky-50 text-sky-950"}`}><strong className="font-black">{item.readerNote.kind === "CORRECTION" ? "Düzeltme" : "Güncelleme"}{item.updatedIso ? ` (${noteDate(item.updatedIso)})` : ""}:</strong> {item.readerNote.text}</aside>}
           {eventDossier && <aside className="mt-4 rounded-xl border border-[#0d9688]/30 bg-[#12b8a6]/5 px-4 py-3 text-sm"><div className="flex flex-wrap items-baseline gap-x-2 gap-y-1"><span className="text-[10px] font-black uppercase tracking-[.16em] text-[#087f73]">Konu dosyası</span><strong className="text-[10px] font-bold uppercase tracking-[.12em] text-[#07172d]">{eventDossier.title}</strong></div><p className="mt-2 text-xs leading-5 text-slate-600">Bu haber, <strong className="font-semibold text-slate-700">{eventDossier.title}</strong> konusuyla ilgili takip edilen gelişmelerden biridir.</p><Link prefetch={false} href={`/olay-dosyasi/${eventDossier.id}`} className="mt-2 inline-block text-xs font-black text-[#087f73] hover:text-[#07172d]">Bu konudaki tüm haberleri gör →</Link></aside>}
         </div>
       </header>

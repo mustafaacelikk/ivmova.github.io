@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import crypto from 'node:crypto';import {fileURLToPath} from 'node:url';import {execFileSync} from 'node:child_process';
-import {latestFullInput,mergeMedia,prepareSimplePublication} from './simple-publish-build.mjs';
+import {latestFullInput,mergeMedia,mergeDetails,prepareSimplePublication} from './simple-publish-build.mjs';import {resolvePublicationDetails,validateDetailsCatalog} from './publication-details.mjs';import {normalize} from './publication-consumer.mjs';
 const repo=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');let checks=0;const ok=v=>{assert.ok(v);checks++;};const eq=(a,b)=>{assert.deepEqual(a,b);checks++;};
 const throws=(fn,code)=>{assert.throws(fn,e=>e.message===code);checks++;};
 const temp=fs.mkdtempSync(path.join(os.tmpdir(),'ivmova-simple-test-'));
@@ -29,6 +29,19 @@ try{
  eq(mergeMedia(data,{repo:site}),1);ok(fs.readFileSync(path.join(site,'public/media/reviewed',sha+'.png')).equals(png));eq(mergeMedia(data,{repo:site}),0);
  fs.writeFileSync(path.join(data,'media','publication-media.json'),JSON.stringify({schemaVersion:1,items:[{...entry,caption:'Değişti'}]}));throws(()=>mergeMedia(data,{repo:site}),'PUBLICATION_MEDIA_CONFLICT');
  fs.writeFileSync(path.join(data,'media','publication-media.json'),JSON.stringify({schemaVersion:1,items:[{...entry,revisionId:'00000000-0000-4000-8000-000000000003',imageSha256:'b'.repeat(64)}]}));throws(()=>mergeMedia(data,{repo:site}),'PUBLICATION_MEDIA_INVALID');
+ // Reader note + subcategory: bound to the current revision, copied into the build copy; no file keeps the committed empty catalog.
+ eq(mergeDetails(data,{repo:site}),0);eq(JSON.parse(fs.readFileSync(path.join(repo,'app/publication-details.json'),'utf8')),{schemaVersion:1,runId:null,items:[]});
+ const story=latestFullInput(data).release.stories.find(x=>x.publicationStatus==='PUBLISHED'),runId='00000000-0000-4000-8000-0000000000aa';
+ const row={storyId:story.storyId,revisionId:story.revisionId,subcategory:'Sanayi ve Petrokimya',note:null};
+ fs.writeFileSync(path.join(data,'media','publication-details.json'),JSON.stringify({schemaVersion:1,runId,items:[row]}));eq(mergeDetails(data,{repo:site}),1);
+ eq(resolvePublicationDetails(story,{repo:site}),{subcategory:'Sanayi ve Petrokimya'});eq(resolvePublicationDetails({...story,revisionId:'00000000-0000-4000-8000-0000000000bb'},{repo:site}),{subcategory:''});
+ eq(normalize([story]).map(x=>[x.subcategory,x.readerNote]),[['',undefined]]);
+ const edited={...story,revisionType:'CORRECTION'},note={kind:'CORRECTION',text:'İlk sürümde tarih yanlıştı; düzeltildi.'};
+ eq(resolvePublicationDetails(edited,{catalog:{schemaVersion:1,runId,items:[{...row,note}]}}),{subcategory:'Sanayi ve Petrokimya',readerNote:note});
+ throws(()=>resolvePublicationDetails(story,{catalog:{schemaVersion:1,runId,items:[{...row,note}]}}),'PUBLICATION_DETAILS_INVALID');
+ for(const bad of [{...row,subcategory:null},{...row,note:{kind:'UPDATE',text:' boşluklu '}},{...row,extra:1},{...row,note:{kind:'RETRACTION',text:'Not'}}])throws(()=>validateDetailsCatalog({schemaVersion:1,runId,items:[bad]}),'PUBLICATION_DETAILS_INVALID');
+ throws(()=>validateDetailsCatalog({schemaVersion:1,runId,items:[row,row]}),'PUBLICATION_DETAILS_INVALID');
+ fs.writeFileSync(path.join(data,'media','publication-details.json'),'{"schemaVersion":2,"runId":null,"items":[]}');throws(()=>mergeDetails(data,{repo:site}),'PUBLICATION_DETAILS_INVALID');fs.rmSync(path.join(data,'media','publication-details.json'));
  // Non-FULL or unexpected entries are refused.
  fs.mkdirSync(path.join(data,'input','not-a-run'));throws(()=>latestFullInput(data),'DATA_ENTRY_INVALID');
  throws(()=>latestFullInput(path.join(temp,'empty')),'NO_PUBLICATION_INPUT');

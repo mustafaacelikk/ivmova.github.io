@@ -11,7 +11,7 @@ export type CategorySlug = keyof typeof categoryMeta;
 
 export const subcategoryMeta: Record<CategorySlug, string[]> = {
   enerji: ["Elektrik ve Şebeke", "Güneş", "Rüzgâr", "Depolama", "Hidrojen", "Nükleer"],
-  piyasalar: ["Petrol", "Doğalgaz", "LNG", "Elektrik Piyasası", "Karbon", "Kritik Mineraller"],
+  piyasalar: ["Petrol", "Doğalgaz", "LNG", "Elektrik Piyasası", "Karbon", "Kritik Mineraller", "Sanayi ve Petrokimya"],
   teknoloji: ["Yapay Zekâ", "Robotik", "Dijitalleşme", "Siber Güvenlik"],
   mobilite: ["Elektrikli Araçlar", "Şarj Ekosistemi", "Batarya", "Ticari Mobilite"],
   iklim: ["Sürdürülebilirlik", "Karbon Düzenlemeleri", "Enerji Verimliliği", "Döngüsel Ekonomi"],
@@ -29,6 +29,7 @@ export type NewsItem = {
   summary: string; heroTitle?: string; heroSummary?: string; image: string; imageSource?: string; time: string; published: string; updated?: string; publishedIso?: string; updatedIso?: string;
   imageAlt?: string; imageCaption?: string; imageMethod?: string; imageAiTool?: string; contentType?: string; tags?: string[];
   publicationStatus?: "PUBLISHED" | "RETRACTED"; retractedAt?: string | null; sources?: {sourceName: string; title: string; url: string; publishedAt: string | null; role: "PRIMARY" | "SUPPORTING" | "BACKGROUND"}[];
+  readerNote?: {kind: "UPDATE" | "CORRECTION"; text: string};
   breaking?: boolean; priority: number; author: string; source: string; body: string[];
 };
 
