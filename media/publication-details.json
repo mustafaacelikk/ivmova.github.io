@@ -1,7 +1,19 @@
 {
   "schemaVersion": 1,
-  "runId": "e846fbb6-f296-43b6-9b55-7292ad2a6cc9",
+  "runId": "fc2efbde-a916-492c-a4cb-1087181d33e0",
   "items": [
+    {
+      "storyId": "601dd296-1130-4ee7-bc05-d8c6c23684a4",
+      "revisionId": "255d0415-ef84-4fb7-af9b-50579503bf41",
+      "subcategory": "Karbon Düzenlemeleri",
+      "note": null
+    },
+    {
+      "storyId": "70ed99a0-b412-44e2-97ae-ef046b87a563",
+      "revisionId": "9f70c955-44d7-41ec-9e88-02ca208e00b2",
+      "subcategory": "Depolama",
+      "note": null
+    },
     {
       "storyId": "e342ed82-1fb9-43cd-8659-0f40c1426fcc",
       "revisionId": "c1f455f0-2c5e-4922-80ff-372e68a1c67f",
