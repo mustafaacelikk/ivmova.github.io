@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "runId": "fbc46fd6-bd50-4053-9872-3a8d7cb241cb",
+  "runId": "7249ad7c-52d1-436e-aa2e-5dd12251a00d",
   "items": [
     {
       "storyId": "601dd296-1130-4ee7-bc05-d8c6c23684a4",
@@ -10,9 +10,12 @@
     },
     {
       "storyId": "665ca7be-7326-4bb5-914a-a1e8524267cf",
-      "revisionId": "5030f72c-3a3c-483f-9cfa-30e08ad140c3",
+      "revisionId": "020d4041-1d4f-49fd-96cc-fca657c89615",
       "subcategory": "Elektrik ve Şebeke",
-      "note": null
+      "note": {
+        "kind": "CORRECTION",
+        "text": "Haber metninde düzeltme yapılmıştır."
+      }
     },
     {
       "storyId": "70ed99a0-b412-44e2-97ae-ef046b87a563",
