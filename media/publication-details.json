@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "runId": "bc5858f1-ea6b-447a-9680-97c1c42896b3",
+  "runId": "fbc46fd6-bd50-4053-9872-3a8d7cb241cb",
   "items": [
-    {
-      "storyId": "3731928e-c9ac-4d93-b1ab-1c7cd5410906",
-      "revisionId": "0fd112c7-a206-4cb1-8ee9-67dbdd63f2d3",
-      "subcategory": "Doğalgaz",
-      "note": null
-    },
     {
       "storyId": "601dd296-1130-4ee7-bc05-d8c6c23684a4",
       "revisionId": "255d0415-ef84-4fb7-af9b-50579503bf41",
       "subcategory": "Karbon Düzenlemeleri",
+      "note": null
+    },
+    {
+      "storyId": "665ca7be-7326-4bb5-914a-a1e8524267cf",
+      "revisionId": "5030f72c-3a3c-483f-9cfa-30e08ad140c3",
+      "subcategory": "Elektrik ve Şebeke",
       "note": null
     },
     {

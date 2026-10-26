@@ -112,6 +112,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "665ca7be-7326-4bb5-914a-a1e8524267cf",
+      "revisionId": "5030f72c-3a3c-483f-9cfa-30e08ad140c3",
+      "contentHash": "cc7d7e99ad30fbc29bc06411fbc516532f1288ba9761b1261e69b2e8ce9023c0",
+      "image": "/media/reviewed/1b73550b442dd12b5fa89211a72c77d9227c6edfb80a8cea16381806b05fcb3c.jpg",
+      "imageSha256": "1b73550b442dd12b5fa89211a72c77d9227c6edfb80a8cea16381806b05fcb3c",
+      "alt": "Türkiye'nin elektrik kurulu gücü Eylül sonunda 127.355 MW’a ulaştı",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }
