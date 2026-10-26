@@ -96,6 +96,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "3731928e-c9ac-4d93-b1ab-1c7cd5410906",
+      "revisionId": "0fd112c7-a206-4cb1-8ee9-67dbdd63f2d3",
+      "contentHash": "4c8787f692e7ee8d7603bd14e3043475e63ba63032704687ab117ef487ea8c7d",
+      "image": "/media/reviewed/87776ce8435d8a354fc11c3d74ce4143cc328f55faa7be52836e4b7b1b770cf5.jpg",
+      "imageSha256": "87776ce8435d8a354fc11c3d74ce4143cc328f55faa7be52836e4b7b1b770cf5",
+      "alt": "Osman Gazi Yüzer Üretim Platformu Karadeniz’de Görevine Başladı",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }
