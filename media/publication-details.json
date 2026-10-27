@@ -1,7 +1,13 @@
 {
   "schemaVersion": 1,
-  "runId": "8dfd400c-356f-4fda-989a-50ba4c5982ab",
+  "runId": "08b3eb1f-cb6a-4c2f-80eb-2454aad283b0",
   "items": [
+    {
+      "storyId": "1274efca-26ea-42b9-acbe-11802470388f",
+      "revisionId": "4e2689fe-ea36-4c07-84d7-88632d18799a",
+      "subcategory": "Doğalgaz",
+      "note": null
+    },
     {
       "storyId": "601dd296-1130-4ee7-bc05-d8c6c23684a4",
       "revisionId": "255d0415-ef84-4fb7-af9b-50579503bf41",

@@ -176,6 +176,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "1274efca-26ea-42b9-acbe-11802470388f",
+      "revisionId": "4e2689fe-ea36-4c07-84d7-88632d18799a",
+      "contentHash": "5d169103bef6a9b95c3ebdc32a55a0bdfd54a11fd93eae701bfab3ad1b8832a9",
+      "image": "/media/reviewed/ad7a18ed7d7b83afe29daa5fd1c904f7e714b1ff9a7960629d15df492212248d.jpg",
+      "imageSha256": "ad7a18ed7d7b83afe29daa5fd1c904f7e714b1ff9a7960629d15df492212248d",
+      "alt": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }
