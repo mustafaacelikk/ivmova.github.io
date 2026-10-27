@@ -144,6 +144,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "76226bd7-7196-4871-bd62-16389d3ef0b7",
+      "revisionId": "500cb788-e066-492f-8e95-8e7be0c4d7b4",
+      "contentHash": "dbb8cdbf4497f84ecdc5561094e17b6ea860e10ca9df78acb82d82df2d4c7419",
+      "image": "/media/reviewed/0aa21d805bc15c26fff1ddf5ae6fa4de45bd3c16c0e853406d130a4569d9b996.jpg",
+      "imageSha256": "0aa21d805bc15c26fff1ddf5ae6fa4de45bd3c16c0e853406d130a4569d9b996",
+      "alt": "COP31, 9-20 Kasım’da Antalya’da Gerçekleşecek",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }

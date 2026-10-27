@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "runId": "7249ad7c-52d1-436e-aa2e-5dd12251a00d",
+  "runId": "3a0e03ee-0c91-464a-92fd-9298d787b4b6",
   "items": [
     {
       "storyId": "601dd296-1130-4ee7-bc05-d8c6c23684a4",
@@ -21,6 +21,12 @@
       "storyId": "70ed99a0-b412-44e2-97ae-ef046b87a563",
       "revisionId": "9f70c955-44d7-41ec-9e88-02ca208e00b2",
       "subcategory": "Depolama",
+      "note": null
+    },
+    {
+      "storyId": "76226bd7-7196-4871-bd62-16389d3ef0b7",
+      "revisionId": "500cb788-e066-492f-8e95-8e7be0c4d7b4",
+      "subcategory": "Sürdürülebilirlik",
       "note": null
     },
     {
