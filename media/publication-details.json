@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "runId": "08b3eb1f-cb6a-4c2f-80eb-2454aad283b0",
+  "runId": "710adc4d-f0cd-43b9-aac8-16e712044066",
   "items": [
     {
       "storyId": "1274efca-26ea-42b9-acbe-11802470388f",
@@ -33,6 +33,12 @@
       "storyId": "76226bd7-7196-4871-bd62-16389d3ef0b7",
       "revisionId": "500cb788-e066-492f-8e95-8e7be0c4d7b4",
       "subcategory": "Sürdürülebilirlik",
+      "note": null
+    },
+    {
+      "storyId": "c2261b77-89d8-491d-87f5-70f94fb9e865",
+      "revisionId": "d221956c-87aa-4426-aa54-c578b5186893",
+      "subcategory": "Petrol",
       "note": null
     },
     {

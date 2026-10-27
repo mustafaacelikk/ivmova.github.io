@@ -192,6 +192,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "c2261b77-89d8-491d-87f5-70f94fb9e865",
+      "revisionId": "d221956c-87aa-4426-aa54-c578b5186893",
+      "contentHash": "78b81500e05ed2b7bcae5c7854013ed31a9d7bdcc2c0f11af36959eb283c8538",
+      "image": "/media/reviewed/674f68c9e5f615dbc11659921829ee519d411035ce88f460fcce1ecaa2740d1b.jpg",
+      "imageSha256": "674f68c9e5f615dbc11659921829ee519d411035ce88f460fcce1ecaa2740d1b",
+      "alt": "İstanbul Havalimanı’nın 4. pistinden 1 ayda 284 ton yakıt tasarrufu sağlandı",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }
