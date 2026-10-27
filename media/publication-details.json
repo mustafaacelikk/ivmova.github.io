@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "runId": "3a0e03ee-0c91-464a-92fd-9298d787b4b6",
+  "runId": "8dfd400c-356f-4fda-989a-50ba4c5982ab",
   "items": [
     {
       "storyId": "601dd296-1130-4ee7-bc05-d8c6c23684a4",
@@ -27,6 +27,12 @@
       "storyId": "76226bd7-7196-4871-bd62-16389d3ef0b7",
       "revisionId": "500cb788-e066-492f-8e95-8e7be0c4d7b4",
       "subcategory": "Sürdürülebilirlik",
+      "note": null
+    },
+    {
+      "storyId": "cc8c4289-a005-4702-82ab-20018e8f3048",
+      "revisionId": "e6bd042d-2cc9-4b2d-a098-0936deb8aa5e",
+      "subcategory": "LNG",
       "note": null
     },
     {

@@ -160,6 +160,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "cc8c4289-a005-4702-82ab-20018e8f3048",
+      "revisionId": "e6bd042d-2cc9-4b2d-a098-0936deb8aa5e",
+      "contentHash": "ee58ad19a19c8f4060356261897384b092c808f711cf76c39fcda27334478993",
+      "image": "/media/reviewed/c7de235f8989e82cd0d9da5a68a9601158862096efeba89394d1e4e767b96f0e.jpg",
+      "imageSha256": "c7de235f8989e82cd0d9da5a68a9601158862096efeba89394d1e4e767b96f0e",
+      "alt": "Kanada‑Türkiye Enerji İş Birliği Anlaşması İmzalandı",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }
