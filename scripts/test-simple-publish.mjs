@@ -41,6 +41,13 @@ try{
  throws(()=>resolvePublicationDetails(story,{catalog:{schemaVersion:1,runId,items:[{...row,note}]}}),'PUBLICATION_DETAILS_INVALID');
  for(const bad of [{...row,subcategory:null},{...row,note:{kind:'UPDATE',text:' boşluklu '}},{...row,extra:1},{...row,note:{kind:'RETRACTION',text:'Not'}}])throws(()=>validateDetailsCatalog({schemaVersion:1,runId,items:[bad]}),'PUBLICATION_DETAILS_INVALID');
  throws(()=>validateDetailsCatalog({schemaVersion:1,runId,items:[row,row]}),'PUBLICATION_DETAILS_INVALID');
+ // 2026-10-27 topic group ("Aynı konuya bağla"): optional {id,title}; a row may carry only a topic; bad topics are refused.
+ const topic={id:'00000000-0000-4000-8000-0000000000e1',title:'COP31 Antalya'};
+ eq(resolvePublicationDetails(story,{catalog:{schemaVersion:1,runId,items:[{...row,subcategory:null,topic}]}}),{subcategory:'',topic});
+ eq(resolvePublicationDetails(edited,{catalog:{schemaVersion:1,runId,items:[{...row,note,topic}]}}),{subcategory:'Sanayi ve Petrokimya',readerNote:note,topic});
+ for(const bad of [{...row,topic:null},{...row,topic:{id:'x',title:'COP31'}},{...row,topic:{id:topic.id,title:''}},{...row,topic:{...topic,extra:1}},{...row,subcategory:null,topic:undefined}])throws(()=>validateDetailsCatalog({schemaVersion:1,runId,items:[JSON.parse(JSON.stringify(bad))]}),'PUBLICATION_DETAILS_INVALID');
+ const page=fs.readFileSync(path.join(repo,'app/haber/[slug]/page.tsx'),'utf8');
+ eq(['aria-label="Bu konudaki gelişmeler"','entry.topic?.id === item.topic?.id && entry.id !== item.id','Temsilî görsel · Yapay zekâ ile üretildi'].every(x=>page.includes(x))&&!page.includes('AI ile üretilmiştir'),true);
  fs.writeFileSync(path.join(data,'media','publication-details.json'),'{"schemaVersion":2,"runId":null,"items":[]}');throws(()=>mergeDetails(data,{repo:site}),'PUBLICATION_DETAILS_INVALID');fs.rmSync(path.join(data,'media','publication-details.json'));
  // Non-FULL or unexpected entries are refused.
  fs.mkdirSync(path.join(data,'input','not-a-run'));throws(()=>latestFullInput(data),'DATA_ENTRY_INVALID');

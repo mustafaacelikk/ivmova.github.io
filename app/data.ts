@@ -30,6 +30,7 @@ export type NewsItem = {
   imageAlt?: string; imageCaption?: string; imageMethod?: string; imageAiTool?: string; contentType?: string; tags?: string[];
   publicationStatus?: "PUBLISHED" | "RETRACTED"; retractedAt?: string | null; sources?: {sourceName: string; title: string; url: string; publishedAt: string | null; role: "PRIMARY" | "SUPPORTING" | "BACKGROUND"}[];
   readerNote?: {kind: "UPDATE" | "CORRECTION"; text: string};
+  topic?: {id: string; title: string};
   breaking?: boolean; priority: number; author: string; source: string; body: string[];
 };
 

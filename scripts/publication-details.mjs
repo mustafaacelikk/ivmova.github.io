@@ -11,10 +11,13 @@ export function validateDetailsCatalog(c){
  if(!shape(c,['schemaVersion','runId','items'])||c.schemaVersion!==1||c.runId!==null&&!uuid(c.runId)||!Array.isArray(c.items)||c.items.length>10000)fail();
  const stories=new Set();
  for(const r of c.items){
-  if(!shape(r,['storyId','revisionId','subcategory','note'])||!uuid(r.storyId)||!uuid(r.revisionId)||stories.has(r.storyId))fail();stories.add(r.storyId);
+  // topic (2026-10-27, optional): editorial "Aynı konuya bağla" group {id: root event, title}; written only for stories sharing a group.
+  const keys=['storyId','revisionId','subcategory','note'];
+  if(!(shape(r,keys)||shape(r,[...keys,'topic']))||!uuid(r.storyId)||!uuid(r.revisionId)||stories.has(r.storyId))fail();stories.add(r.storyId);
   if(r.subcategory!==null&&!text(r.subcategory,80))fail();
   if(r.note!==null&&(!shape(r.note,['kind','text'])||!['UPDATE','CORRECTION'].includes(r.note.kind)||!text(r.note.text,500)))fail();
-  if(r.subcategory===null&&r.note===null)fail();
+  if('topic' in r&&(!shape(r.topic,['id','title'])||!uuid(r.topic.id)||!text(r.topic.title,200)))fail();
+  if(r.subcategory===null&&r.note===null&&!r.topic)fail();
  }
  return c;
 }
@@ -22,10 +25,11 @@ export function readDetailsCatalog(repo=root){
  const file=path.join(repo,'app/publication-details.json');if(!fs.existsSync(file))return {schemaVersion:1,runId:null,items:[]};
  return validateDetailsCatalog(JSON.parse(fs.readFileSync(file,'utf8')));
 }
-// NewsItem fields: subcategory is always present ('' when none); readerNote only for an edited revision that has one.
+// NewsItem fields: subcategory is always present ('' when none); readerNote only for an edited revision that has one;
+// topic only when the story shares a topic group with another published story.
 export function resolvePublicationDetails(story,{repo=root,catalog}={}){
  catalog=validateDetailsCatalog(catalog??readDetailsCatalog(repo));
  const r=catalog.items.find(x=>x.storyId===story.storyId&&x.revisionId===story.revisionId);if(!r)return {subcategory:''};
  if(r.note&&r.note.kind!==story.revisionType)fail();
- return r.note?{subcategory:r.subcategory??'',readerNote:{...r.note}}:{subcategory:r.subcategory??''};
+ return {subcategory:r.subcategory??'',...(r.note?{readerNote:{...r.note}}:{}),...(r.topic?{topic:{...r.topic}}:{})};
 }
