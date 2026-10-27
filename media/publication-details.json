@@ -1,10 +1,16 @@
 {
   "schemaVersion": 1,
-  "runId": "14810238-6830-4096-a35a-11ba99f2d978",
+  "runId": "c1a7b70b-1b09-46da-b6d9-e1881d5cdb5d",
   "items": [
     {
       "storyId": "1274efca-26ea-42b9-acbe-11802470388f",
       "revisionId": "4e2689fe-ea36-4c07-84d7-88632d18799a",
+      "subcategory": "Doğalgaz",
+      "note": null
+    },
+    {
+      "storyId": "4a3cae0c-c83e-4ba0-b420-73cfe94e6eda",
+      "revisionId": "33fb31c1-1ef9-45b6-a18f-c7b39d3204b9",
       "subcategory": "Doğalgaz",
       "note": null
     },

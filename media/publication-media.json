@@ -224,6 +224,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "4a3cae0c-c83e-4ba0-b420-73cfe94e6eda",
+      "revisionId": "33fb31c1-1ef9-45b6-a18f-c7b39d3204b9",
+      "contentHash": "04c9c81aea9833da4de52ce9de720eb779e927564460cecc2dbb036f24ca3c98",
+      "image": "/media/reviewed/ef7a9a705d27ea277e000a5adacca2f42e23416f18ceb4bb218f4e483c6d179a.jpg",
+      "imageSha256": "ef7a9a705d27ea277e000a5adacca2f42e23416f18ceb4bb218f4e483c6d179a",
+      "alt": "Türkiye, çeşitlendirme adımlarıyla büyük petrol ve gaz krizinde sıkıntı yaşamadı",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }
