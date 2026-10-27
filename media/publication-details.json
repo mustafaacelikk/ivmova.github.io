@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "runId": "710adc4d-f0cd-43b9-aac8-16e712044066",
+  "runId": "14810238-6830-4096-a35a-11ba99f2d978",
   "items": [
     {
       "storyId": "1274efca-26ea-42b9-acbe-11802470388f",
@@ -51,6 +51,12 @@
       "storyId": "e342ed82-1fb9-43cd-8659-0f40c1426fcc",
       "revisionId": "c1f455f0-2c5e-4922-80ff-372e68a1c67f",
       "subcategory": "Petrol",
+      "note": null
+    },
+    {
+      "storyId": "f58e5b56-8b90-46f1-91dd-7376fcbd1792",
+      "revisionId": "d7daf567-2885-4376-89dc-90c4ffd3a09c",
+      "subcategory": "Elektrik ve Şebeke",
       "note": null
     }
   ]

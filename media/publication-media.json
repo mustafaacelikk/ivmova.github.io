@@ -208,6 +208,22 @@
       "aiTool": "Gemini",
       "sourceArticleImage": false,
       "editorApproved": true
+    },
+    {
+      "storyId": "f58e5b56-8b90-46f1-91dd-7376fcbd1792",
+      "revisionId": "d7daf567-2885-4376-89dc-90c4ffd3a09c",
+      "contentHash": "63bf8485bece236fdb073b132290c60be3d236f3a57b8e8a2ed9570f21cbc12c",
+      "image": "/media/reviewed/224b070509bee1677a9426857788a685f830b674bdcb8a6d5ae24fa827c55c5e.jpg",
+      "imageSha256": "224b070509bee1677a9426857788a685f830b674bdcb8a6d5ae24fa827c55c5e",
+      "alt": "Milli Enerji 2040 kapsamında iletim ve dağıtım altyapısına yaklaşık 100 milyar dolar yatırım planlandı",
+      "caption": "IVMOVA tarafından AI ile tasarlanmıştır. Temsilidir.",
+      "credit": "IVMOVA",
+      "rights": "GENERATED",
+      "sourceUrl": null,
+      "licenseUrl": null,
+      "aiTool": "Gemini",
+      "sourceArticleImage": false,
+      "editorApproved": true
     }
   ]
 }
